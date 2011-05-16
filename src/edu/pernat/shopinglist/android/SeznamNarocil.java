@@ -35,41 +35,31 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 
 	  protected Dialog onCreateDialog(int id) {
 	    	
-	        switch(id) {
-	        case 1:
+	       /* switch(id) {
+	       /* case 1:
 	        	
 	        	//setContentView(R.layout.vpis);
-	        	Context mContext = this;
-	        	Dialog dialog = new Dialog(mContext);
+	        	/*Context mContext = this;
+	        	//Dialog dialog = new Dialog(mContext);
 
 	        	dialog.setContentView(R.layout.spremeni_izdelek);
 	        	dialog.setTitle("Spremeni izdelek!");
-
+	        	*/
 	        	/*TextView text = (TextView) dialog.findViewById(R.id.text);
 	        	text.setText("Hello, this is a custom dialog!");
 	        	ImageView image = (ImageView) dialog.findViewById(R.id.image);
-	        	image.setImageResource(R.drawable.android);*/
+	        	image.setImageResource(R.drawable.android);
 	        	
 	        	
 				return dialog;
-				
+			
 				
 	        default:
 	            break;
-	        }
+	        }*/
 	        
 	        return null;
 	    }
-
-	public boolean spremeniIzdelek(View v)
-	{
-
-	    	  showDialog(1);
-	    	  return true;
-
-
-	 }
-	    /*Konec menija*/
 }
 
     

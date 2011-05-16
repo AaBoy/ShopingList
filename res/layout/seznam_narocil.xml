@@ -10,6 +10,6 @@
         <TextView android:layout_width="wrap_content" android:id="@+id/stZaporedja" android:text="TextView" android:layout_height="wrap_content" android:layout_weight="1"></TextView>
         <TextView android:layout_width="wrap_content" android:id="@+id/imeArtikla" android:text="TextView" android:layout_height="wrap_content" android:layout_weight="1"></TextView>
         <TextView android:layout_width="wrap_content" android:id="@+id/Cena" android:text="TextView" android:layout_height="wrap_content" android:layout_weight="1"></TextView>
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/spremeniArtikel" android:text="@string/spremniArtikelTekst" android:onClick="spremeniIzdelek"></Button>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/spremeniArtikel" android:text="@string/spremniArtikelTekst"></Button>
     </LinearLayout>
 </LinearLayout>

@@ -98,17 +98,10 @@ public class MyPositionOverlay extends Overlay {
 
          RectF oval1 = new RectF(point1.x - mRadius, point1.y - mRadius, 
                                 point1.x + mRadius, point1.y + mRadius);
-         
-      
 
-         
-         paint.setARGB(250,0 , 255, 0);
-        
-         // Draw the marker    
+         paint.setARGB(250,0 , 255, 0);    
          canvas.drawOval(oval1, paint);
-    	  
-    	  
-    	  
+
 
     	  Double lat2 = locations.get(i+1).getLatitude()*1E6;
     	  Double lon2 = locations.get(i+1).getLongitude()*1E6;

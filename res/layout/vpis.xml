@@ -14,8 +14,8 @@
         <EditText android:id="@+id/editText2" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"></EditText>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_gravity="center" android:orientation="horizontal">
-        <Button android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1" android:id="@+id/potrdiPrijavo" android:text="Vpiši" android:onClick="odlocitevKlik"></Button>
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:layout_weight="1" android:id="@+id/zavrniPrijavo" android:text="Prekliči" android:onClick="odlocitevKlik"></Button>
+        <Button android:layout_gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1" android:id="@+id/potrdiPrijavo" android:text="Vpiši"></Button>
+        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_vertical" android:layout_weight="1" android:id="@+id/zavrniPrijavo" android:text="Prekliči"></Button>
     </LinearLayout>
     
 </LinearLayout>

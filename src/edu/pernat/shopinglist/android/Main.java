@@ -166,10 +166,8 @@ public class Main extends Activity {
         	
         	//setContentView(R.layout.vpis);
         	Context mContext = this;
-        	Dialog dialog = new Dialog(mContext);
+        	Vpis dialog = new Vpis(mContext);
 
-        	dialog.setContentView(R.layout.vpis);
-        	dialog.setTitle("Vpisite uporabniško in geslo!");
 
         	/*TextView text = (TextView) dialog.findViewById(R.id.text);
         	text.setText("Hello, this is a custom dialog!");

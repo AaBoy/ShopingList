@@ -18,7 +18,7 @@ public class GlobalneVrednosti extends Application {
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
         lista=new ArrayList<RazredBaza>();
-        //init();
+        init();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,lista); //Step 4.10 Globalna lista
         
 	}

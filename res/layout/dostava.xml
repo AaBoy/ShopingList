@@ -18,8 +18,7 @@
     <TextView
         android:id="@+id/txtViewEmailTo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="lblEmailTo"/>
+        android:layout_height="wrap_content" android:text="Naslov naslovnika"/>
        
     <EditText
         android:id="@+id/editTxtTo"
@@ -29,8 +28,7 @@
     <TextView
         android:id="@+id/txtViewEmailSubject"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="lblEmailSubject"/>
+        android:layout_height="wrap_content" android:text="Tema"/>
        
     <EditText
         android:id="@+id/editTxtSubject"
@@ -39,18 +37,15 @@
     <TextView
         android:id="@+id/txtViewEmailBody"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="lblEmailBody"/>
+        android:layout_height="wrap_content" android:text="Telo sporočila"/>
     <EditText
         android:id="@+id/editTxtBody"
         android:layout_column="0"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="fill_parent" android:layout_height="120dip"/>
     <Button android:id="@+id/btnEmailSend"
         android:layout_column="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="btnEmailSend"
-        android:onClick="sedEmail"/>
+        android:text="Pošlji"/>
 </LinearLayout>
 </ScrollView>

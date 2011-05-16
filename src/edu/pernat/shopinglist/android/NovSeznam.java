@@ -9,11 +9,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class NovSeznam extends Activity {
     /** Called when the activity is first created. */
 	/*Globalne*/
+
 	private Menu mMenu;  //ni nujno
 	public static final int DIALOG_VPIS=0;
 	public static final int DIALOG_POSLJI=1;
@@ -42,6 +45,7 @@ public class NovSeznam extends Activity {
       switch (item.getItemId()) {
       case R.id.Shrani:
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
+    	  
     	  return true;
     	  
       case R.id.Clear:
@@ -82,11 +86,10 @@ public class NovSeznam extends Activity {
 		
         case DIALOG_POSLJI:
         	Context mContext1 = this;
-        	Dialog dialog1 = new Dialog(mContext1);
+        	Dostava dialog1 = new Dostava(mContext1);      	
+        	//dialog1.setContentView(R.layout.dostava);      	
+        	//dialog1.setTitle("Spremeni izdelek!");
 
-        	dialog1.setContentView(R.layout.dostava);
-        	dialog1.setTitle("Spremeni izdelek!");
-        	
         	return dialog1;
 			
         default:
@@ -111,6 +114,5 @@ public class NovSeznam extends Activity {
         }
 
     }
-    /*Konec menija*/
     
 }
