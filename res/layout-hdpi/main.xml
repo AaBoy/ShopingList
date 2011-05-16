@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/main"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:padding="10dp" android:orientation="vertical" android:layout_gravity="center">
+    <LinearLayout android:id="@+id/linearLayout1" android:orientation="horizontal" android:layout_width="match_parent" android:layout_weight="0" android:layout_height="240dip">
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom" android:id="@+id/novSeznam" android:text="Nov seznam" android:onClick="odpriOkno" android:layout_weight="1"></Button>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom" android:id="@+id/zgodovinaSeznamov" android:text="Zgodovina nakupov" android:onClick="odpriOkno" android:layout_weight="1"></Button>
+       
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_gravity="right">
+        <Button android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content" android:id="@+id/googleMaps" android:text="Zemljevid" android:onClick="odpriOkno" android:layout_weight="1"></Button>
+        <Button android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content" android:onClick="odpriOkno" android:layout_weight="1" android:text="Kamera" android:id="@+id/gumbKamera"></Button>
+       
+    </LinearLayout>
+
+    
+</LinearLayout>

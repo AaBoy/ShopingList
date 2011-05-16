@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   >
+<TextView  
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:text="@string/hello"
+   />
+   
+    <TextView
+        android:id="@+id/txtViewEmailTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lblEmailTo"/>
+       
+    <EditText
+        android:id="@+id/editTxtTo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+ 
+    <TextView
+        android:id="@+id/txtViewEmailSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lblEmailSubject"/>
+       
+    <EditText
+        android:id="@+id/editTxtSubject"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txtViewEmailBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lblEmailBody"/>
+    <EditText
+        android:id="@+id/editTxtBody"
+        android:layout_column="0"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    <Button android:id="@+id/btnEmailSend"
+        android:layout_column="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="btnEmailSend"
+        android:onClick="sedEmail"/>
+</LinearLayout>
+</ScrollView>
