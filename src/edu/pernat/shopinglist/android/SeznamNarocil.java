@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -35,6 +36,23 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 		this.startActivity(moj);
 	}
 
+	@Override
+	public void onBackPressed() {
+		Toast.makeText(this, "Stisno si back", Toast.LENGTH_LONG).show();
+    	
+	   
+	}
+
+	
+	/*@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+	    	Toast.makeText(this, "Stisno si back", Toast.LENGTH_LONG).show();
+	    	
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+*/
 	  protected Dialog onCreateDialog(int id) {
 	    	
 	       /* switch(id) {

@@ -10,7 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class DodajIzdelek extends Dialog implements OnClickListener {
-
+	GlobalneVrednosti app;
 	Button potdi,zavrni;
 	Spinner prvi;
 	private ArrayAdapter<CharSequence> m_adapterForSpinner;
@@ -18,9 +18,9 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		super(context);
 		// TODO Auto-generated constructor stub
 		setContentView(R.layout.dodaj_izdelek);
-		
+		this.setTitle("Dodajte nov izdelek na seznam!");
 		prvi=(Spinner)findViewById(R.id.spinner1);
-
+		
 		potdi=(Button)findViewById(R.id.dodajPotrdi);
 		zavrni=(Button)findViewById(R.id.dodajZavrni);
 		potdi.setOnClickListener(this);
@@ -33,8 +33,8 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		{
 		case R.id.dodajPotrdi:
 			//dodaj na seznam
-			Toast.makeText(getContext(), "Potrdi", Toast.LENGTH_SHORT).show();
-
+			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
+			
 			break;
 			
 		case R.id.dodajZavrni:

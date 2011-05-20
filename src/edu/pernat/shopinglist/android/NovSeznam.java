@@ -35,7 +35,10 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         app=(GlobalneVrednosti) getApplication();
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
-    	//app.dodaj(new RazredBaza("Kuku","lele"));
+        
+        /*for(int i=0;i<10;i++)
+    	app.dodaj(new RazredBaza("Kuku","lele"));*/
+        
         setListAdapter(app.novSeznamList);
 		this.getListView().setOnItemClickListener(this);
 		setResult(RESULT_OK);
@@ -87,7 +90,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       return false;
 
     }
-    
+
     
   protected Dialog onCreateDialog(int id) {
     	
@@ -111,6 +114,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         case DIALOG_DODAJ_IZDELEK:
         	Context mContext2=this;
         	DodajIzdelek dialog2=new DodajIzdelek(mContext2);
+        	
         	return dialog2;
         	
         default:
