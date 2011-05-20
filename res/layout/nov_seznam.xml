@@ -2,9 +2,10 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
-    <TextView android:text="TextView" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <TextView android:text="TextView" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <TextView android:text="TextView" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-    <Button android:layout_height="wrap_content" android:text="@string/novSeznamGumb1" android:layout_width="wrap_content" android:onClick="odpriArtikel" android:id="@+id/spremeniIzdelek"></Button>
+  android:layout_height="match_parent" android:orientation="vertical">
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:layout_height="wrap_content" android:text="TextView" android:id="@+id/novaCena" android:layout_width="wrap_content" android:layout_weight="1" android:textSize="25dip"></TextView>
+        <TextView android:layout_height="wrap_content" android:text="TextView" android:id="@+id/novaIme" android:layout_width="wrap_content" android:layout_weight="1" android:textSize="25dip"></TextView>
+        <TextView android:layout_height="wrap_content" android:text="TextView" android:id="@+id/novaKolicina" android:layout_width="wrap_content" android:layout_weight="1" android:textSize="25dip"></TextView>
+    </LinearLayout>
 </LinearLayout>

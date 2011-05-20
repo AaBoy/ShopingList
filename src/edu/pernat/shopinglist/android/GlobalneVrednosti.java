@@ -9,6 +9,7 @@ import android.database.Cursor;
 public class GlobalneVrednosti extends Application {
 	public ArrayList<RazredBaza> lista;
 	SeznamArrayAdapter seznamList;
+	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterTrgovine db;
 	String uporabnisko,geslo;
 	
@@ -20,13 +21,19 @@ public class GlobalneVrednosti extends Application {
         lista=new ArrayList<RazredBaza>();
         init();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,lista); //Step 4.10 Globalna lista
-        
+        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam,lista);
 	}
 	
 	public void init()
 	{
 		lista.add(new RazredBaza("uporabniško", "Geslo"));
 		
+		
+	}
+	
+	public String getUser()
+	{
+		return uporabnisko;
 		
 	}
 	

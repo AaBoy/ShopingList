@@ -9,11 +9,6 @@
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
    >
-<TextView  
-   android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
-   android:text="@string/hello"
-   />
    
     <TextView
         android:id="@+id/txtViewEmailTo"
@@ -22,8 +17,7 @@
        
     <EditText
         android:id="@+id/editTxtTo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" android:layout_width="250dip"/>
  
     <TextView
         android:id="@+id/txtViewEmailSubject"
@@ -32,8 +26,7 @@
        
     <EditText
         android:id="@+id/editTxtSubject"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" android:layout_width="250dip"/>
     <TextView
         android:id="@+id/txtViewEmailBody"
         android:layout_width="wrap_content"
@@ -41,7 +34,7 @@
     <EditText
         android:id="@+id/editTxtBody"
         android:layout_column="0"
-        android:layout_width="fill_parent" android:layout_height="120dip"/>
+        android:layout_height="120dip" android:layout_width="250dip"/>
     <Button android:id="@+id/btnEmailSend"
         android:layout_column="0"
         android:layout_width="wrap_content"

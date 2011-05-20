@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +31,8 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	}
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
-		
+		Intent moj=new Intent(this, NovSeznam.class);
+		this.startActivity(moj);
 	}
 
 	  protected Dialog onCreateDialog(int id) {
