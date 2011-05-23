@@ -45,6 +45,8 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<RazredBaza>{
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		return convertView;
 	}
+	
+	
 	static class ViewHolder {
 		TextView one; //Step 4.8 POPRAVI
 		TextView two; //Step 4.8 POPRAVI

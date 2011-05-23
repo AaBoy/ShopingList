@@ -36,13 +36,18 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 		this.startActivity(moj);
 	}
 
-	@Override
+	/*@Override
 	public void onBackPressed() {
 		Toast.makeText(this, "Stisno si back", Toast.LENGTH_LONG).show();
     	
 	   
-	}
+	}*/
 
+	@Override
+    public void onResume() {
+		super.onResume();
+        app.seznamList.notifyDataSetChanged();
+    }
 	
 	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

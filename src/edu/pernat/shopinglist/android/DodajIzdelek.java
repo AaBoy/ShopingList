@@ -14,13 +14,13 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 	Button potdi,zavrni;
 	Spinner prvi;
 	private ArrayAdapter<CharSequence> m_adapterForSpinner;
-	public DodajIzdelek(Context context) {
+	public DodajIzdelek(Context context,GlobalneVrednosti temp) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		setContentView(R.layout.dodaj_izdelek);
 		this.setTitle("Dodajte nov izdelek na seznam!");
 		prvi=(Spinner)findViewById(R.id.spinner1);
-		
+		app=temp;
 		potdi=(Button)findViewById(R.id.dodajPotrdi);
 		zavrni=(Button)findViewById(R.id.dodajZavrni);
 		potdi.setOnClickListener(this);
@@ -33,14 +33,15 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		{
 		case R.id.dodajPotrdi:
 			//dodaj na seznam
+			app.init();
 			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
-			
+			this.cancel();
 			break;
 			
 		case R.id.dodajZavrni:
 			
 			Toast.makeText(getContext(), "Si zaprl", Toast.LENGTH_SHORT).show();
-			this.dismiss();
+			this.cancel();
 			break;
 		
 		
@@ -49,5 +50,11 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+    public void dismiss() {
+		super.dismiss();
+        app.novSeznamList.notifyDataSetChanged();
+    }
+ 
 	
 }

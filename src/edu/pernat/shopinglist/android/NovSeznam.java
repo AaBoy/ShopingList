@@ -20,10 +20,11 @@ import android.widget.AdapterView.OnItemClickListener;
 public class NovSeznam extends ListActivity implements OnItemClickListener,OnClickListener{
     /** Called when the activity is first created. */
 	/*Globalne*/
+	
 	GlobalneVrednosti app;
 	Button spreIzde,dodajIzdelek;
 	private Menu mMenu;  //ni nujno
-	public static final int DIALOG_VPIS=0;
+	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
 	/*Konec globalnih*/
@@ -48,7 +49,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		Toast.makeText(this, "Pritisnili ste:"+position, Toast.LENGTH_LONG).show();
-		showDialog(DIALOG_VPIS);
+		showDialog(DIALOG_SPREMENI);
 	}
     
 
@@ -61,6 +62,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       return true;
 
     }
+
+    
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -95,14 +98,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
   protected Dialog onCreateDialog(int id) {
     	
         switch(id) {
-        case DIALOG_VPIS:
-        	
-        	//setContentView(R.layout.vpis);
+        case DIALOG_SPREMENI:
         	Context mContext = this;
         	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,new RazredBaza("Nkeaj", "Smrdi"));
-
-        	/*dialog.setContentView(R.layout.spremeni_izdelek);
-        	dialog.setTitle("Spremeni izdelek!");*/
         	
 			return dialog;
 		
@@ -113,7 +111,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 			
         case DIALOG_DODAJ_IZDELEK:
         	Context mContext2=this;
-        	DodajIzdelek dialog2=new DodajIzdelek(mContext2);
+        	DodajIzdelek dialog2=new DodajIzdelek(mContext2,app);
         	
         	return dialog2;
         	
