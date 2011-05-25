@@ -2,12 +2,23 @@ package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
 import edu.pernat.shopinglist.android.data.DBAdapterTrgovine;
+import edu.pernat.shopinglist.android.razredi.Artikli;
+import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.Seznami;
+import edu.pernat.shopinglist.android.razredi.Trgovina;
 
 import android.app.Application;
 import android.database.Cursor;
+import android.opengl.Visibility;
 
 public class GlobalneVrednosti extends Application {
 	public ArrayList<RazredBaza> lista;
+	public ArrayList<Artikli> seznamArtiklov;
+	public ArrayList<Trgovina> seznamTrgovin;
+	public ArrayList<Seznami>  vsiSeznami;
+	public ArrayList<Seznam> novSeznam;
+	
+	
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterTrgovine db;
@@ -19,16 +30,30 @@ public class GlobalneVrednosti extends Application {
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
         lista=new ArrayList<RazredBaza>();
+        seznamArtiklov=new ArrayList<Artikli>();
+        seznamArtiklov=new ArrayList<Artikli>();
+        vsiSeznami=new ArrayList<Seznami>();
+        
         init();
-        seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,lista); //Step 4.10 Globalna lista
-        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam,lista);
+        seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
+        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam);
 	}
 	
 	public void init()
 	{
 		lista.add(new RazredBaza("uporabniško", "Geslo"));
+		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1 liter"));
+		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5 liter"));
+		seznamArtiklov.add(new Artikli(1, 0.25, "Lizika", "16g"));
 		
 		
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
+		
+		vsiSeznami.add(new Seznami(novSeznam));
+		
+		
+		novSeznam=new ArrayList<Seznam>();
 	}
 	
 	public String getUser()
@@ -43,6 +68,14 @@ public class GlobalneVrednosti extends Application {
 		lista.add(temp);
 		
 	}
+	
+	
+	public void dodajIzdelek(Artikli temp)
+	{
+		novSeznam.add(new Seznam(uporabnisko, temp));
+		
+	}
+	
 	
 	//DB dodano
 	public void fillFromDB() {
