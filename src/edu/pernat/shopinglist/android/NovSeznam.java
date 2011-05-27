@@ -79,7 +79,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     		
     	}
     	
-    	app.novSeznam.get(0).imeSeznama="Janez kaj";
+    	
+    	if(app.novSeznam.size()!=0) app.novSeznam.get(0).imeSeznama="Janez kaj";
+    	
     	app.novSeznamList.notifyDataSetChanged();
     }
     

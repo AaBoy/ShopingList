@@ -63,8 +63,11 @@ public class GlobalneVrednosti extends Application {
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.get(0).imeSeznama="Janez kaj";
 		vsiSeznami.add(new Seznami(novSeznam));
-		//novSeznam=new ArrayList<Seznam>();
+		novSeznam=new ArrayList<Seznam>();
 		
+		
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
 		
 		
 		

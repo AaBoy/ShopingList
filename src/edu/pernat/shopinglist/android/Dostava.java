@@ -1,6 +1,8 @@
 package edu.pernat.shopinglist.android;
 
 
+
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -8,17 +10,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class Dostava extends Dialog implements OnClickListener {
-	private EditText emailTo;
+	private AutoCompleteTextView emailTo;
 	private EditText emailSubject;
 	private EditText emailBody;
 	private Button btnSend;
 	
 	private String teloEmaila;
-	
+    static final String[] COUNTRIES = new String[] {"aaboyxx@gmail.com","matej.crepinsek@gmail.com","dejan.hrncic@uni-mb.si"
+        };
 	GlobalneVrednosti app;
 	public Dostava(Context context,GlobalneVrednosti temp) {
 		super(context);
@@ -26,12 +31,17 @@ public class Dostava extends Dialog implements OnClickListener {
 		setContentView(R.layout.dostava);
 		// TODO Auto-generated constructor stub
 		// Get handle to the text edit and button widgets
-		emailTo = (EditText) findViewById(R.id.editTxtTo);
+		emailTo = (AutoCompleteTextView) findViewById(R.id.editTxtTo);
 		emailSubject = (EditText) findViewById(R.id.editTxtSubject);
 		emailBody = (EditText) findViewById(R.id.editTxtBody);
 		btnSend = (Button) findViewById(R.id.btnEmailSend);
 		btnSend.setOnClickListener(this);
 		app=temp;
+		
+		ArrayAdapter adapter = new ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+       
+        emailTo.setAdapter(adapter);
+		
 		gnerirajTelo();
 		emailBody.setText(teloEmaila);
 	}
