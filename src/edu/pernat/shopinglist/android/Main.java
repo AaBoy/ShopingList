@@ -5,15 +5,19 @@ package edu.pernat.shopinglist.android;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+
 import edu.pernat.shopinglist.android.maps.KjeSemActivity;
+import edu.pernat.shopinglist.android.razredi.Seznam;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.AlteredCharSequence;
 import android.util.Log;
@@ -30,7 +34,7 @@ import android.widget.Toast;
 
 
 public class Main extends Activity {
-	
+	ProgressDialog dialogWait;
 
 	GlobalneVrednosti global=new GlobalneVrednosti();
 	/** Called when the activity is first created. */
@@ -50,7 +54,33 @@ public class Main extends Activity {
 
     	
     }
-    
+	private class MojTask extends AsyncTask<Integer, Void, Long> {
+		@Override
+		protected void onPreExecute() {
+			dialogWait = 
+				ProgressDialog.show(Main.this, "", "Delam! Počakajte prosim...", true);
+		}
+		protected Long doInBackground(Integer... prviArgument) {
+			long totalSize = 0;
+			int t1=prviArgument[0];
+			try {    //umetno čakamo!!!
+				Thread.sleep(t1);
+			} catch (InterruptedException e) {
+				Log.e("ERROR", "Thread Interrupted");
+			}
+			totalSize = 43; //namišljeni rezultat 
+			global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
+
+			return totalSize;
+		}
+
+		protected void onPostExecute(Long tretjiArgument) {
+			
+			global.novSeznamList.notifyDataSetChanged();
+			Toast.makeText(Main.this,"Rezultat:"+tretjiArgument,Toast.LENGTH_LONG).show();
+			dialogWait.cancel();
+		}
+	}
     
     
     public void odpriVpis(View v)
@@ -89,6 +119,8 @@ public class Main extends Activity {
     		
     		case R.id.novSeznam:
     		{
+    			MojTask mt = new MojTask();
+    			mt.execute(5000);
     			Intent moj=new Intent(this, NovSeznam.class);
     			this.startActivity(moj);
     			break;
