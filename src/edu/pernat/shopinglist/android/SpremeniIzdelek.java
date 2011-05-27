@@ -14,23 +14,24 @@ import android.widget.Toast;
 
 public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	
-	
+	GlobalneVrednosti app;
+	int globalnoIzbran;
 	Button potSpre,zavSpre;
 	EditText spreIme,spreCena;
-	public SpremeniIzdelek(Context context,RazredBaza temp) {
+	public SpremeniIzdelek(Context context,GlobalneVrednosti temp,int izbrani) {
 		super(context);
 	    setContentView(R.layout.spremeni_izdelek);
 	    potSpre=(Button)findViewById(R.id.potrdiSpremembo);
 	    zavSpre=(Button)findViewById(R.id.zavrniSpremembo);
 	    spreIme=(EditText)findViewById(R.id.spremeniIme);
 	    spreCena=(EditText)findViewById(R.id.spremeniCena);
-	    
+	    app=temp;
 	    setTitle("Spremeni informacije o izdelku");
 	    potSpre.setOnClickListener(this);
 	    zavSpre.setOnClickListener(this);
-	    
-	    spreIme.setText(temp.geslo);
-	    spreCena.setText(temp.getUpo());
+	    globalnoIzbran=izbrani;
+	    spreIme.setText(app.novSeznam.get(izbrani).getArtikelIme());
+	    spreCena.setText(""+app.novSeznam.get(izbrani).getArtikelCena());
 	    
 	}
 	
@@ -40,19 +41,38 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 			case R.id.potrdiSpremembo: 
 			{
 				
-				// this.cancel();
+				
+				app.novSeznam.get(globalnoIzbran).setArtikelIme(spreIme.getText().toString());
+				//app.novSeznam.get(globalnoIzbran).setArtikelCena(spreCena.getText().)
+				
+				
+				
+				this.cancel();
 				break;
 			}
 			
 			case R.id.zavrniSpremembo:
 			{
-				SpremeniIzdelek.this.dismiss();
+				
+				this.cancel();
 				break;
 			}
 		}	
 		
 	}
 
-
+	@Override
+    public void dismiss() {
+		super.dismiss();
+        app.novSeznamList.notifyDataSetChanged();
+    }
+	
+	@Override
+	public void onStop()
+	{
+		
+	    spreIme.setText("");
+	    spreCena.setText("");
+	}
 	
 }

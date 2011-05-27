@@ -1,5 +1,6 @@
 package edu.pernat.shopinglist.android;
 
+import edu.pernat.shopinglist.android.razredi.Seznam;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -13,6 +14,8 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 	GlobalneVrednosti app;
 	Button potdi,zavrni;
 	Spinner prvi;
+	private String array_spinner[];
+	String en;
 	private ArrayAdapter<CharSequence> m_adapterForSpinner;
 	public DodajIzdelek(Context context,GlobalneVrednosti temp) {
 		super(context);
@@ -25,22 +28,40 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		zavrni=(Button)findViewById(R.id.dodajZavrni);
 		potdi.setOnClickListener(this);
 		zavrni.setOnClickListener(this);
+		en="Nkeaj";
+		
+
+		napolniSeznamArtiklov();
+		
+		
+		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, array_spinner);
+		prvi.setAdapter(pinnerArrayAdapter);
+
 	}
 
+	public void napolniSeznamArtiklov()
+	{
+		array_spinner=new String[app.seznamArtiklov.size()];
+		for(int i=0;i<app.seznamArtiklov.size();i++)
+		{
+			array_spinner[i]=app.seznamArtiklov.get(i).getIme();
+		}
+	}
+	
 	public void onClick(View v) {
 		
 		switch (v.getId())
 		{
 		case R.id.dodajPotrdi:
 			//dodaj na seznam
-			app.init();
+			
 			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
+			app.novSeznam.add(new Seznam(app.getUser(), app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
 			this.cancel();
 			break;
 			
 		case R.id.dodajZavrni:
 			
-			Toast.makeText(getContext(), "Si zaprl", Toast.LENGTH_SHORT).show();
 			this.cancel();
 			break;
 		

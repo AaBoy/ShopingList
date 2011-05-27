@@ -27,11 +27,12 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     	//app.dodaj(new RazredBaza("Kuku","lele"));
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
-		Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-		Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Pritisnili ste: "+, Toast.LENGTH_LONG).show();
+		app.stSeznama=position;
 		Intent moj=new Intent(this, NovSeznam.class);
 		this.startActivity(moj);
 	}
@@ -49,42 +50,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         app.seznamList.notifyDataSetChanged();
     }
 	
-	/*@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-	    	Toast.makeText(this, "Stisno si back", Toast.LENGTH_LONG).show();
-	    	
-	    }
-	    return super.onKeyDown(keyCode, event);
-	}
-*/
-	  protected Dialog onCreateDialog(int id) {
-	    	
-	       /* switch(id) {
-	       /* case 1:
-	        	
-	        	//setContentView(R.layout.vpis);
-	        	/*Context mContext = this;
-	        	//Dialog dialog = new Dialog(mContext);
 
-	        	dialog.setContentView(R.layout.spremeni_izdelek);
-	        	dialog.setTitle("Spremeni izdelek!");
-	        	*/
-	        	/*TextView text = (TextView) dialog.findViewById(R.id.text);
-	        	text.setText("Hello, this is a custom dialog!");
-	        	ImageView image = (ImageView) dialog.findViewById(R.id.image);
-	        	image.setImageResource(R.drawable.android);
-	        	
-	        	
-				return dialog;
-			
-				
-	        default:
-	            break;
-	        }*/
-	        
-	        return null;
-	    }
 }
 
     

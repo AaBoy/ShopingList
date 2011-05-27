@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class Seznami {
 
-	ArrayList<	ArrayList<Seznam>> posamezniSeznam;
+	ArrayList<	ArrayList<Seznam>> posamezniSeznam=new ArrayList<ArrayList<Seznam>>();
 	
 	public Seznami()
 	{
-		posamezniSeznam=new ArrayList<ArrayList<Seznam>>();
+		
 		
 	}
 	public Seznami(ArrayList<Seznam> temp)
 	{
+		
 		posamezniSeznam.add(temp);
 	}
 	
@@ -30,6 +31,16 @@ public class Seznami {
 	public int getSkupnaCena()
 	{
 		return 190;
+	}
+	
+	public int getSize(int i)
+	{
+		return posamezniSeznam.get(i).size();
+	}
+	
+	public Seznam vrsniSeznam(int i)
+	{
+		return new Seznam( posamezniSeznam.get(0).get(i).uporabnik, posamezniSeznam.get(0).get(i).artikel);
 	}
 	
 }

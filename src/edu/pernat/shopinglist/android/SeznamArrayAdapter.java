@@ -24,6 +24,7 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 	public SeznamArrayAdapter(Context context, int textViewResourceId, List<Seznami> objects) { //Step 4.8 POPRAVI Stevec ->Rezultati
 		super(context, textViewResourceId,objects);
 	    mInflater = LayoutInflater.from(context);
+	    i=0;
 	}
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,9 +49,9 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// Bind the data efficiently with the holder.
-		holder.naslovSeznama.setText(""+tmp.getImeSeznama(i)); //Step 4.8 POPRAVI
+		holder.naslovSeznama.setText(""+tmp.getImeSeznama(0)); //Step 4.8 POPRAVI
 		holder.skupnaCena.setText(""+tmp.getSkupnaCena()); //Step 4.8 POPRAVI
-		holder.skupnaCena.setText(""+(i+1));
+		holder.zapovrstniID.setText(""+(i));
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		i++;
 		return convertView;

@@ -17,7 +17,7 @@ public class GlobalneVrednosti extends Application {
 	public ArrayList<Trgovina> seznamTrgovin;
 	public ArrayList<Seznami>  vsiSeznami;
 	public ArrayList<Seznam> novSeznam;
-	
+	public int stSeznama;
 	
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
@@ -31,9 +31,9 @@ public class GlobalneVrednosti extends Application {
          fillFromDB();*/
         lista=new ArrayList<RazredBaza>();
         seznamArtiklov=new ArrayList<Artikli>();
-        seznamArtiklov=new ArrayList<Artikli>();
+        stSeznama=-1;
         vsiSeznami=new ArrayList<Seznami>();
-        
+        novSeznam=new ArrayList<Seznam>();
         init();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam);
@@ -49,11 +49,30 @@ public class GlobalneVrednosti extends Application {
 		
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
+		novSeznam.get(0).imeSeznama="Miha kovačev";
+		novSeznam.get(1).imeSeznama="Miha kovačev";
+		
 		
 		vsiSeznami.add(new Seznami(novSeznam));
-		
-		
 		novSeznam=new ArrayList<Seznam>();
+		
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(0)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
+		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		novSeznam.get(0).imeSeznama="Janez kaj";
+		vsiSeznami.add(new Seznami(novSeznam));
+		//novSeznam=new ArrayList<Seznam>();
+		
+		
+		
+		
+	}
+	
+	public void pobrisiNovSeznam()
+	{
+		novSeznam.clear();
 	}
 	
 	public String getUser()
@@ -66,7 +85,7 @@ public class GlobalneVrednosti extends Application {
 	public void dodaj(RazredBaza temp)
 	{
 		lista.add(temp);
-		
+		novSeznam.add(new Seznam(uporabnisko, seznamArtiklov.get(1)));
 	}
 	
 	

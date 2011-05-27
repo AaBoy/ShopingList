@@ -45,6 +45,7 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        global.uporabnisko="Nekdo";
     	global=(GlobalneVrednosti) getApplication();
 
     	
@@ -54,6 +55,7 @@ public class Main extends Activity {
     
     public void odpriVpis(View v)
     {
+    	
     	if(v.getId()==R.id.button1)
     	{	
     		Intent moj=new Intent(this, NovSeznam.class);
@@ -64,8 +66,11 @@ public class Main extends Activity {
     
     public void odpriOkno(View v)
     {
+    	//Toast.makeText(this, "Sem stisnil gumb", Toast.LENGTH_SHORT)
+        //.show();
     	switch(v.getId())
     	{
+    		
     		case R.id.googleMaps:
     		{
     			Intent moj=new Intent(this, KjeSemActivity.class);
@@ -75,6 +80,7 @@ public class Main extends Activity {
     	
     		case R.id.zgodovinaSeznamov:
     		{
+    			
     			Intent moj=new Intent(this, SeznamNarocil.class);
     			this.startActivity(moj);
     			
@@ -98,7 +104,7 @@ public class Main extends Activity {
     		}
     		
     	}
-    	
+    	//Toast.makeText(this, "Sem v seznam narocil", Toast.LENGTH_SHORT).show();
     	
     }
     

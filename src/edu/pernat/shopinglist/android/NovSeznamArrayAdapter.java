@@ -33,7 +33,8 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			holder = new ViewHolder();
 			holder.cena = (TextView) convertView.findViewById(R.id.novaCena); //Step 4.8 POPRAVI
 			// holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI		
+			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI
+			holder.kolicina=(TextView)convertView.findViewById(R.id.novaKolicina);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView
@@ -43,12 +44,14 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 		// Bind the data efficiently with the holder.
 		holder.cena.setText(""+tmp.getArtikelCena()); //Step 4.8 POPRAVI
 		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
+		holder.kolicina.setText(tmp.getArtikliKolicina());
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		return convertView;
 	}
 	static class ViewHolder {
 		TextView cena; //Step 4.8 POPRAVI
 		TextView naziv; //Step 4.8 POPRAVI
+		TextView kolicina;
 	}
 
 }

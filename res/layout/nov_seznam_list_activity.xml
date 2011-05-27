@@ -5,6 +5,7 @@
          android:layout_height="match_parent"
          android:paddingLeft="8dp"
          android:paddingRight="8dp">
+    <Button android:text="Button" android:layout_width="50dip" android:layout_height="50dip" android:id="@+id/dodajIzdelek"></Button>
      <ListView android:id="@id/android:list"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"

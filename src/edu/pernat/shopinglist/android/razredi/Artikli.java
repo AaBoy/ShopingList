@@ -27,5 +27,7 @@ public class Artikli {
 	{
 		return ime;
 	}
+	public String getKolicina()
+	{return kolicina;}
 	
 }

@@ -25,4 +25,18 @@ public class Seznam {
 			return artikel.getIme();
 		}
 		
+		public void setArtikelIme(String i)
+		{
+			artikel.ime=i;
+		}
+		
+		public void setArtikelCena(Double c)
+		{
+			artikel.cena=c;
+			
+		}
+		public String getArtikliKolicina()
+		{
+			return artikel.getKolicina();
+		}
 }

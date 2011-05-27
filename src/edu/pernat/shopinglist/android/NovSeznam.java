@@ -1,5 +1,10 @@
 package edu.pernat.shopinglist.android;
 
+import java.util.ArrayList;
+
+import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.Seznami;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -27,6 +32,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
+	int izbranIzdelek;
 	/*Konec globalnih*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,43 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         setListAdapter(app.novSeznamList);
 		this.getListView().setOnItemClickListener(this);
 		setResult(RESULT_OK);
-
+		
+		
+		
+		
+		if(app.stSeznama!=-1)
+			{
+				app.pobrisiNovSeznam();
+				napolniSeznam();
+				
+			}
+		
+	
     }
     
     
+    public void napolniSeznam()
+    {
+    	//app.pobrisiNovSeznam();	
+    	
+    	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
+    	for(int x=0;x<meja;x++)
+    	{
+    		
+    		
+    		//Toast.makeText(this, "Število elementov: "+app.vsiSeznami.get(app.stSeznama).getSize(0), Toast.LENGTH_LONG).show();
+    		app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x));
+    		//app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(1));
+    		
+    	}
+    	
+    	app.novSeznam.get(0).imeSeznama="Janez kaj";
+    	app.novSeznamList.notifyDataSetChanged();
+    }
+    
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		Toast.makeText(this, "Pritisnili ste:"+position, Toast.LENGTH_LONG).show();
+		izbranIzdelek=position;
 		showDialog(DIALOG_SPREMENI);
 	}
     
@@ -70,7 +107,13 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       switch (item.getItemId()) {
       case R.id.Shrani:
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
+    	  if(app.stSeznama!=-1)
+    	  app.vsiSeznami.remove(app.stSeznama);
     	  
+    	  
+    	  app.vsiSeznami.add(new Seznami( app.novSeznam));
+    	  
+    	  //this.finish();
     	  return true;
     	  
       case R.id.Clear:
@@ -100,13 +143,13 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         switch(id) {
         case DIALOG_SPREMENI:
         	Context mContext = this;
-        	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,new RazredBaza("Nkeaj", "Smrdi"));
+        	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,app,izbranIzdelek );
         	
 			return dialog;
 		
         case DIALOG_POSLJI:
         	Context mContext1 = this;
-        	Dostava dialog1 = new Dostava(mContext1);      	
+        	Dostava dialog1 = new Dostava(mContext1,app);      	
         	return dialog1;
 			
         case DIALOG_DODAJ_IZDELEK:
@@ -123,19 +166,29 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     }
 
 
-public void onClick(View v) {
-	
-	switch (v.getId())
-	{
-		case R.id.dodajIzdelek:
-			showDialog(DIALOG_DODAJ_IZDELEK);
-	
+	public void onClick(View v) {
+		
+		switch (v.getId())
+		{
+			case R.id.dodajIzdelek:
+				showDialog(DIALOG_DODAJ_IZDELEK);
+		
+		}
+		
+		// TODO Auto-generated method stub
+		
+		
 	}
 	
-	// TODO Auto-generated method stub
-	
-}
-
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		app.stSeznama=-1;
+		
+		//app.novSeznamList.notifyDataSetChanged();
+		//app.seznamList.notifyDataSetChanged();
+	}
 
 
 

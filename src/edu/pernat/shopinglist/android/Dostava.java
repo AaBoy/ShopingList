@@ -16,9 +16,11 @@ public class Dostava extends Dialog implements OnClickListener {
 	private EditText emailSubject;
 	private EditText emailBody;
 	private Button btnSend;
-
 	
-	public Dostava(Context context) {
+	private String teloEmaila;
+	
+	GlobalneVrednosti app;
+	public Dostava(Context context,GlobalneVrednosti temp) {
 		super(context);
 	
 		setContentView(R.layout.dostava);
@@ -29,6 +31,9 @@ public class Dostava extends Dialog implements OnClickListener {
 		emailBody = (EditText) findViewById(R.id.editTxtBody);
 		btnSend = (Button) findViewById(R.id.btnEmailSend);
 		btnSend.setOnClickListener(this);
+		app=temp;
+		gnerirajTelo();
+		emailBody.setText(teloEmaila);
 	}
 
 
@@ -45,14 +50,25 @@ public class Dostava extends Dialog implements OnClickListener {
 		// Add attributes to the intent
 		sendIntent.putExtra(Intent.EXTRA_EMAIL, mailto);
 		//sendIntent.putExtra(Intent.EXTRA_CC, ccto);
+		
+		
 		sendIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject.getText().toString());
-		sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody.getText().toString());
+		
+		sendIntent.putExtra(Intent.EXTRA_TEXT, teloEmaila);
 		// sendIntent.setType("message/rfc822");
 		sendIntent.setType("text/plain");
 		getContext().startActivity(Intent.createChooser(sendIntent, "email"));
 	}
 
-
+	public void gnerirajTelo()
+	{
+		teloEmaila="";
+		for(int i=0;i<app.novSeznam.size();i++)
+		{
+			teloEmaila+=app.novSeznam.get(i).getArtikelIme()+"   "+app.novSeznam.get(i).getArtikelCena()+"€   \n";
+			
+		}
+	}
 
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
