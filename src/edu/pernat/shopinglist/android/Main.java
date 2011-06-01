@@ -4,10 +4,18 @@ package edu.pernat.shopinglist.android;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.net.URL;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 
 import edu.pernat.shopinglist.android.maps.KjeSemActivity;
 import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.Uporabniki;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,8 +59,7 @@ public class Main extends Activity {
         setContentView(R.layout.main);
         global.uporabnisko="Nekdo";
     	global=(GlobalneVrednosti) getApplication();
-
-    	
+    	XMLParsingExample();
     }
 	private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
@@ -119,8 +126,8 @@ public class Main extends Activity {
     		
     		case R.id.novSeznam:
     		{
-    			MojTask mt = new MojTask();
-    			mt.execute(5000);
+    			/*MojTask mt = new MojTask();
+    			mt.execute(50);*/
     			Intent moj=new Intent(this, NovSeznam.class);
     			this.startActivity(moj);
     			break;
@@ -142,29 +149,41 @@ public class Main extends Activity {
     
     
     @Override
+    
+    public void onStart()
+    {
+    	super.onStart();
+    	SharedPreferences settings = getSharedPreferences(FILE_NAME_USER,0); //pref odprem preferences
+		global.uporabnisko = settings.getString(PIME, ""); //pref preberem staro vrednost
+
+		settings = getSharedPreferences(FILE_NAME_PASS,0); //pref odprem preferences
+		global.geslo = settings.getString(PPASS, ""); //pref preberem staro vrednost
+    }
+    
+    @Override
 	public void onResume() { //pref predno user vidi nastavim prave vrednosti
 		super.onResume();
 		SharedPreferences settings = getSharedPreferences(FILE_NAME_USER,0); //pref odprem preferences
-		String tmp = settings.getString(PIME, ""); //pref preberem staro vrednost
+		global.uporabnisko = settings.getString(PIME, ""); //pref preberem staro vrednost
 
 		settings = getSharedPreferences(FILE_NAME_PASS,0); //pref odprem preferences
-		String tmp1 = settings.getString(PPASS, ""); //pref preberem staro vrednost
+		global.geslo = settings.getString(PPASS, ""); //pref preberem staro vrednost
 		
 		//app.stInc.setStanje(tmp); //pref nastavim staro vrednost (od tod naprej šteje)
 		
-
+		
 	}
 	@Override
 	public void onPause() { //pref uporabnik ali OS zapusti pogled, potrebno shranit
 		super.onPause();
     	SharedPreferences settings =getSharedPreferences(FILE_NAME_USER, 0);
     	SharedPreferences.Editor editor = settings.edit();
-		editor.putString(PIME, "Janez");
+		editor.putString(PIME, global.uporabnisko);
 		editor.commit();
 		
 		settings =getSharedPreferences(FILE_NAME_PASS, 0);
     	editor = settings.edit();
-		editor.putString(PPASS, "Miha");
+		editor.putString(PPASS, global.geslo);
 		editor.commit();
 	}
     
@@ -175,12 +194,12 @@ public class Main extends Activity {
 
     	SharedPreferences settings =getSharedPreferences(FILE_NAME_USER, 0);
     	SharedPreferences.Editor editor = settings.edit();
-		editor.putString(PIME, "Janez");
+		editor.putString(PIME, global.uporabnisko);
 		editor.commit();
 		
 		settings =getSharedPreferences(FILE_NAME_PASS, 0);
     	editor = settings.edit();
-		editor.putString(PPASS, "Miha");
+		editor.putString(PPASS, global.geslo);
 		editor.commit();
 
     	//myName.println(app.ime);
@@ -204,7 +223,7 @@ public class Main extends Activity {
         	
         	//setContentView(R.layout.vpis);
         	Context mContext = this;
-        	Vpis dialog = new Vpis(mContext);
+        	Vpis dialog = new Vpis(mContext,global);
 
 
         	/*TextView text = (TextView) dialog.findViewById(R.id.text);
@@ -253,4 +272,51 @@ public class Main extends Activity {
       return false;
     }
     /*Konec menija*/
+    
+    
+    
+    
+    
+    
+    //Parser
+    public void XMLParsingExample(){
+
+		/** Create a new layout to display the view */
+
+		
+		/** Create a new textview array to display the results */
+
+
+		try {
+			
+			/** Handling XML */
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+			XMLReader xr = sp.getXMLReader();
+
+			/** Send URL to parse XML Tags */
+			URL sourceUrl = new URL(
+					"http://solaposkusno.azuli.org/knjige.xml");
+
+			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+			MyXMLHandler myXMLHandler = new MyXMLHandler(global);
+			xr.setContentHandler(myXMLHandler);
+			xr.parse(new InputSource(sourceUrl.openStream()));
+			
+		} catch (Exception e) {
+			System.out.println("XML Pasing Excpetion = " + e);
+		}
+
+		/** Get result from MyXMLHandler SitlesList Object */
+		//sitesList = MyXMLHandler.sitesList;
+
+		/** Assign textview array lenght by arraylist size */
+
+	}
+    
+    
+    
+    
+    
+    
 }

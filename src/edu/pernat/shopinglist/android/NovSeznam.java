@@ -109,13 +109,19 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       switch (item.getItemId()) {
       case R.id.Shrani:
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
-    	  if(app.stSeznama!=-1)
-    	  app.vsiSeznami.remove(app.stSeznama);
+    	  if( app.novSeznam.size()>0)
+    	  {
+    		  if(app.stSeznama!=-1)
+    		  app.vsiSeznami.remove(app.stSeznama);
+    		  
+    		  
+    		  app.novSeznam.get(0).imeSeznama="Novi seznam";
+    		  app.vsiSeznami.add(new Seznami( app.novSeznam));
+    	  }
     	  
     	  
-    	  app.vsiSeznami.add(new Seznami( app.novSeznam));
     	  
-    	  //this.finish();
+    	  this.finish();
     	  return true;
     	  
       case R.id.Clear:

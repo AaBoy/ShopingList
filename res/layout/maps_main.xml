@@ -6,7 +6,7 @@
   android:layout_height="fill_parent">
       <LinearLayout android:id="@+id/linearLayout3" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
         <LinearLayout android:id="@+id/linearLayout1" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_gravity="center" android:layout_weight="1" android:text="Ime trgovine:      "></TextView>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_weight="1" android:text="Ime trgovine:      " android:id="@+id/nekajTrgovina"></TextView>
             <Spinner android:layout_height="wrap_content" android:layout_width="200dip" android:layout_weight="1" android:id="@+id/spinerNazivTrgovine"></Spinner>
         </LinearLayout>
         <LinearLayout android:id="@+id/linearLayout2" android:layout_weight="1" android:layout_height="wrap_content" android:layout_width="wrap_content">

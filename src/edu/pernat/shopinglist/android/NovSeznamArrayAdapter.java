@@ -42,7 +42,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// Bind the data efficiently with the holder.
-		holder.cena.setText(""+tmp.getArtikelCena()); //Step 4.8 POPRAVI
+		holder.cena.setText(""+tmp.getArtikelCena()+" €"); //Step 4.8 POPRAVI
 		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
 		holder.kolicina.setText(tmp.getArtikliKolicina());
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);

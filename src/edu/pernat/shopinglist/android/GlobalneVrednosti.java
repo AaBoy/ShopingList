@@ -1,8 +1,11 @@
 package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
+
+import edu.pernat.shopinglist.android.data.DBAdapterEmail;
 import edu.pernat.shopinglist.android.data.DBAdapterTrgovine;
 import edu.pernat.shopinglist.android.razredi.Artikli;
+import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import edu.pernat.shopinglist.android.razredi.Seznam;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
@@ -12,7 +15,7 @@ import android.database.Cursor;
 import android.opengl.Visibility;
 
 public class GlobalneVrednosti extends Application {
-	public ArrayList<RazredBaza> lista;
+	public ArrayList<EmailNaslovi> lista;
 	public ArrayList<Artikli> seznamArtiklov;
 	public ArrayList<Trgovina> seznamTrgovin;
 	public ArrayList<Seznami>  vsiSeznami;
@@ -21,29 +24,33 @@ public class GlobalneVrednosti extends Application {
 	
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
-	DBAdapterTrgovine db;
+	DBAdapterEmail db;
 	String uporabnisko,geslo;
 	
 	public void onCreate() {
         super.onCreate(); //ne pozabi
-        db=new DBAdapterTrgovine(this);
+        db=new DBAdapterEmail(this);
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
-        lista=new ArrayList<RazredBaza>();
+        lista=new ArrayList<EmailNaslovi>();
         seznamArtiklov=new ArrayList<Artikli>();
         stSeznama=-1;
         vsiSeznami=new ArrayList<Seznami>();
         novSeznam=new ArrayList<Seznam>();
         init();
+        fillFromDB();
+        napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam);
+        
+        
 	}
 	
 	public void init()
 	{
-		lista.add(new RazredBaza("uporabniško", "Geslo"));
-		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1 liter"));
-		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5 liter"));
+		//lista.add(new RazredBaza("uporabniško", "Geslo"));
+		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1l"));
+		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5l"));
 		seznamArtiklov.add(new Artikli(1, 0.25, "Lizika", "16g"));
 		
 		
@@ -84,17 +91,29 @@ public class GlobalneVrednosti extends Application {
 		
 	}
 	
-	//dodajNoviElement
-	public void dodaj(RazredBaza temp)
+	public void napolniNaslov()
 	{
+		if(lista.size()==0)
+		{
+			lista.add(new EmailNaslovi("aaboyxx@gmail.com"));
+			lista.add(new EmailNaslovi("matej.crepinsek@gmail.com"));
+			lista.add(new EmailNaslovi("dejan.hrncic@uni-mb.si"));
+		}
+		
+	}
+	
+	//dodajNoviElement
+	public void dodajNaslov(EmailNaslovi temp)
+	{
+		
 		lista.add(temp);
-		novSeznam.add(new Seznam(uporabnisko, seznamArtiklov.get(1)));
+		//novSeznam.add(new Seznam(uporabnisko, seznamArtiklov.get(1)));
 	}
 	
 	
 	public void dodajIzdelek(Artikli temp)
 	{
-		novSeznam.add(new Seznam(uporabnisko, temp));
+		//novSeznam.add(new Seznam(uporabnisko, temp));
 		
 	}
 	
@@ -103,23 +122,25 @@ public class GlobalneVrednosti extends Application {
 	public void fillFromDB() {
 		db.open();
 		Cursor c = db.getAll();
-		RazredBaza tmp;
+		EmailNaslovi tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			tmp = new RazredBaza();
-			tmp.setID(c.getLong(DBAdapterTrgovine.UPO_ID));
-			tmp.setUpo(c.getString(DBAdapterTrgovine.UPO_UPO));
-			tmp.setGeslo(c.getString(DBAdapterTrgovine.UPO_GES));
-			
-			
+			tmp = new EmailNaslovi();
+			tmp.setID(c.getLong( DBAdapterEmail.POS__ID));
+			tmp.setEmail(c.getString(DBAdapterEmail.POS_EAMIL));
+
 			lista.add(tmp); 
 		}
 		c.close();
 		db.close();
 	}
-	public void addDB(RazredBaza s) {
+	public void addDB(EmailNaslovi s) {
 		db.open();
-		s.setID(db.insertUporabnik(s));
+		s.setID(db.insertEmail(s));
 		db.close();	
+	}
+	public void remove(EmailNaslovi a) {
+		if (a!=null)
+		lista.remove(a);  //Step 4.10 Globalna lista
 	}
 	//DB konec
 }

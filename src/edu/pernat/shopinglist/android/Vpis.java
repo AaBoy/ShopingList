@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
@@ -15,9 +16,10 @@ import android.content.DialogInterface.OnClickListener;
 
 public class Vpis  extends Dialog implements OnClickListener, android.view.View.OnClickListener {
 	//GlobalneVrednosti app;
-	TextView en;
+	EditText geslo,uporab;;
 	Button potPri,zavPri;
-	public Vpis(Context context) {
+	GlobalneVrednosti app;
+	public Vpis(Context context,GlobalneVrednosti tmp) {
 		super(context);
 		setContentView(R.layout.vpis);
 		
@@ -26,8 +28,11 @@ public class Vpis  extends Dialog implements OnClickListener, android.view.View.
 		zavPri.setOnClickListener(this);
 		potPri.setOnClickListener(this);
 		this.setTitle("Vpisite uporabniško in geslo!");
-		
-		en=(TextView)findViewById(R.id.textView1);
+		app=tmp;
+		geslo=(EditText)findViewById(R.id.gesloEditText);
+		uporab=(EditText)findViewById(R.id.uporabniskoEditText);
+		uporab.setText(app.uporabnisko);
+		geslo.setText(app.geslo);
         //app=(GlobalneVrednosti) context.getApplicationContext();///// getApplication();
 	}
 
@@ -44,12 +49,13 @@ public class Vpis  extends Dialog implements OnClickListener, android.view.View.
 			
 			
 			this.cancel();
-			en.setText("Daj hlače dol");
-			/*app.uporabnisko=(String) en.getText();
-			en=(TextView)findViewById(R.id.textView2);
-			app.geslo=(String) en.getText();*/
-			Toast.makeText(getContext(), "Potrdi", Toast.LENGTH_SHORT).show();
 			
+			app.uporabnisko=uporab.getText().toString();
+			
+			app.geslo=geslo.getText().toString();
+			
+			Toast.makeText(getContext(), "Potrdi", Toast.LENGTH_SHORT).show();
+			this.cancel();
 			break;
 		
 		case R.id.zavrniPrijavo:

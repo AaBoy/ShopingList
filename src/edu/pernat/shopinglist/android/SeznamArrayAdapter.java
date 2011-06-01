@@ -50,7 +50,7 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 		}
 		// Bind the data efficiently with the holder.
 		holder.naslovSeznama.setText(""+tmp.getImeSeznama(0)); //Step 4.8 POPRAVI
-		holder.skupnaCena.setText(""+tmp.getSkupnaCena()); //Step 4.8 POPRAVI
+		holder.skupnaCena.setText(""+tmp.getSkupnaCena()+"€"); //Step 4.8 POPRAVI
 		holder.zapovrstniID.setText(""+(i));
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		i++;

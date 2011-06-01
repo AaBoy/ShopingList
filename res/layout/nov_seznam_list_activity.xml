@@ -5,18 +5,13 @@
          android:layout_height="match_parent"
          android:paddingLeft="8dp"
          android:paddingRight="8dp">
-    <Button android:text="Button" android:layout_width="50dip" android:layout_height="50dip" android:id="@+id/dodajIzdelek"></Button>
-     <ListView android:id="@id/android:list"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_weight="1"
-               android:drawSelectorOnTop="false"/>
+     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
+         <Button android:text="Dodaj izdelek" android:id="@+id/dodajIzdelek" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+     </LinearLayout>
 
      <TextView android:id="@id/android:empty"
                android:layout_width="match_parent"
                android:background="#FF0000"
-               android:text="No data" android:layout_height="match_parent"/>
-     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="match_parent">
-         <Button android:layout_height="wrap_content" android:id="@+id/dodajIzdelek" android:text="Dodaj izdelek" android:layout_width="wrap_content"></Button>
-     </LinearLayout>
+               android:layout_height="100dip" android:text="Ni podatkov, prosim, dodajte izdelek"/>
+     <ListView android:id="@id/android:list" android:drawSelectorOnTop="false" android:layout_width="match_parent" android:layout_weight="1" android:layout_height="wrap_content"></ListView>
  </LinearLayout>

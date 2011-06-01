@@ -3,6 +3,7 @@ package edu.pernat.shopinglist.android;
 
 
 
+import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Dostava extends Dialog implements OnClickListener {
 	private AutoCompleteTextView emailTo;
@@ -22,9 +24,11 @@ public class Dostava extends Dialog implements OnClickListener {
 	private Button btnSend;
 	
 	private String teloEmaila;
-    static final String[] COUNTRIES = new String[] {"aaboyxx@gmail.com","matej.crepinsek@gmail.com","dejan.hrncic@uni-mb.si"
-        };
+//    static final String[] COUNTRIES = new String[] {"aaboyxx@gmail.com","matej.crepinsek@gmail.com","dejan.hrncic@uni-mb.si"
+//        };
 	GlobalneVrednosti app;
+	Context javni;
+	String[] emaili;
 	public Dostava(Context context,GlobalneVrednosti temp) {
 		super(context);
 	
@@ -37,8 +41,25 @@ public class Dostava extends Dialog implements OnClickListener {
 		btnSend = (Button) findViewById(R.id.btnEmailSend);
 		btnSend.setOnClickListener(this);
 		app=temp;
+		javni=context;
 		
-		ArrayAdapter adapter = new ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+		if(app.lista.size()>0)
+		{
+			emaili=new String[app.lista.size()];
+			
+			for(int i=0;i<app.lista.size();i++)
+			{
+				emaili[i]=app.lista.get(i).getEmail();
+			}
+			
+		}
+		if(emaili==null)
+		{
+			emaili=new String[1];
+			emaili[0]="Naslovi";
+		}
+		
+		ArrayAdapter adapter = new ArrayAdapter(context,android.R.layout.simple_dropdown_item_1line, emaili);
        
         emailTo.setAdapter(adapter);
 		
@@ -85,10 +106,36 @@ public class Dostava extends Dialog implements OnClickListener {
 
 		if(v.getId()==R.id.btnEmailSend)
 		{
+			if(app.lista.size()>0)
+			{
+				
+				int i=0;
+				for(;i<app.lista.size();i++)
+				{
+					if(emaili[i]==app.lista.get(i).getEmail())
+					break;
+				}
+				
+				if(i==app.lista.size())
+					app.lista.add(new EmailNaslovi(emailTo.getText().toString()));
+			}
+			
+			
 			sendEmail();
 		}
 	}
 	
+	
+	public void onStop()
+	{
+		super.onStop();
+		
+		emailTo.setText("");
+		emailSubject.setText("");
+		emailBody.setText("");
+		Toast.makeText(javni, "Sem pobriso",Toast.LENGTH_SHORT);
+		
+	}
 }
 
 

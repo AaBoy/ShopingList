@@ -12,7 +12,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import edu.pernat.shopinglist.android.R;
-
+import edu.pernat.shopinglist.android.maps.MyPositionOverlay;
 import android.content.Context;
 import android.location.Address;
 import android.location.Criteria;
@@ -38,6 +38,9 @@ public class KjeSemActivity extends MapActivity {
 	MyPositionOverlay positionOverlay;
 	Spinner imeTrgovin, naslovTrgovin;
 	String array_spinner[];
+	TextView novi ;
+	double LATITUDE = 37.42233;
+	double LONGITUDE = -122.083;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,8 +78,6 @@ public class KjeSemActivity extends MapActivity {
 
 		locationManager.requestLocationUpdates(provider, 2000, 10,   
 				locationListener);
-		
-		
 		//*Dodaj spinerje*/
 		
 		imeTrgovin=(Spinner)findViewById(R.id.spinerNazivTrgovine);
@@ -104,10 +105,8 @@ public class KjeSemActivity extends MapActivity {
 		ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, array_spinner);
 		naslovTrgovin.setAdapter(spinnerArrayAdapter);
 
-
-
+		
 	/*Konec dodajanja*/
-
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
@@ -145,6 +144,30 @@ public class KjeSemActivity extends MapActivity {
 
 			myLocationText.setText("Trenutni položaj je:" + 
 					latLongString); 
+			
+			novi=(TextView)findViewById(R.id.nekajTrgovina);
+			 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
+			 
+
+		       try {
+		  List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+		 
+		  if(addresses != null) {
+		   Address returnedAddress = addresses.get(0);
+		   StringBuilder strReturnedAddress = new StringBuilder("Address:\n");
+		   for(int i=0; i<returnedAddress.getMaxAddressLineIndex(); i++) {
+		    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+		   }
+		   novi.setText(strReturnedAddress.toString());
+		  }
+		  else{
+		 
+		  }
+		 } catch (IOException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+		
+		 }
 		}
 	}
 }
