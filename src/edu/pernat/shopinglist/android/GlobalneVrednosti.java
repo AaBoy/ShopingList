@@ -98,6 +98,9 @@ public class GlobalneVrednosti extends Application {
 			lista.add(new EmailNaslovi("aaboyxx@gmail.com"));
 			lista.add(new EmailNaslovi("matej.crepinsek@gmail.com"));
 			lista.add(new EmailNaslovi("dejan.hrncic@uni-mb.si"));
+			addDB(new EmailNaslovi("aaboyxx@gmail.com"));
+			addDB(new EmailNaslovi("matej.crepinsek@gmail.com"));
+			addDB(new EmailNaslovi("dejan.hrncic@uni-mb.si"));
 		}
 		
 	}
@@ -107,6 +110,7 @@ public class GlobalneVrednosti extends Application {
 	{
 		
 		lista.add(temp);
+		addDB(temp);
 		//novSeznam.add(new Seznam(uporabnisko, seznamArtiklov.get(1)));
 	}
 	
@@ -127,7 +131,6 @@ public class GlobalneVrednosti extends Application {
 			tmp = new EmailNaslovi();
 			tmp.setID(c.getLong( DBAdapterEmail.POS__ID));
 			tmp.setEmail(c.getString(DBAdapterEmail.POS_EAMIL));
-
 			lista.add(tmp); 
 		}
 		c.close();

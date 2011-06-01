@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *******************************************************************************/
 package edu.pernat.shopinglist.android;
 
 
@@ -112,12 +122,12 @@ public class Dostava extends Dialog implements OnClickListener {
 				int i=0;
 				for(;i<app.lista.size();i++)
 				{
-					if(emaili[i]==app.lista.get(i).getEmail())
+					if(emailTo.getText().toString()==app.lista.get(i).getEmail())
 					break;
 				}
 				
 				if(i==app.lista.size())
-					app.lista.add(new EmailNaslovi(emailTo.getText().toString()));
+					app.dodajNaslov(new EmailNaslovi(emailTo.getText().toString()));
 			}
 			
 			

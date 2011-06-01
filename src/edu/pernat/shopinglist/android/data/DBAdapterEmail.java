@@ -55,7 +55,6 @@ public class DBAdapterEmail implements BaseColumns {
 	{
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(EMAIL_NASLOVI, tmp.getEmail()); 
-		
 		return db.insert(TABELA_EMAIL, null, initialValues);
 		//return 1;
 	}
