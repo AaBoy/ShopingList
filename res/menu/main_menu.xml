@@ -2,4 +2,5 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/Vpis" android:title="Vpis" android:icon="@android:drawable/ic_menu_save"></item>
+    <item android:id="@+id/ShraniSpremembeNaStreznik" android:title="Shrani strežnik" android:icon="@android:drawable/ic_menu_save"></item>
 </menu>

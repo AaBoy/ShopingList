@@ -80,7 +80,7 @@ public class Main extends Activity {
 
 				/** Send URL to parse XML Tags */
 				URL sourceUrl = new URL(
-						"http://solaposkusno.azuli.org/knjige.xml");
+						"http://solaposkusno.azuli.org/izdelki.xml");
 
 				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
 				MyXMLHandler myXMLHandler = new MyXMLHandler(global);
@@ -274,8 +274,13 @@ public class Main extends Activity {
     	  
     	  showDialog(DIALOG_VPIS);
     	  return true;
-
-
+      case R.id.ShraniSpremembeNaStreznik:
+    	  
+    	  Intent moj=new Intent(this, MakingXMLFIle.class);
+			this.startActivity(moj);
+    	  return true;
+    
+    
       default:// Generic catch all for all the other menu resources
         if (!item.hasSubMenu()) {
           Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT)
