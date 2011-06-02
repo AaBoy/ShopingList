@@ -55,7 +55,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		if(app.stSeznama!=-1)
 			{
-				app.pobrisiNovSeznam();
+				app.newNovSeznam();
 				napolniSeznam();
 				
 			}
@@ -66,7 +66,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     
     public void napolniSeznam()
     {
-    	//app.pobrisiNovSeznam();	
+    	app.newNovSeznam();	
     	
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
     	for(int x=0;x<meja;x++)
@@ -74,7 +74,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     		
     		
     		//Toast.makeText(this, "Število elementov: "+app.vsiSeznami.get(app.stSeznama).getSize(0), Toast.LENGTH_LONG).show();
-    		app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x));
+    		app.dodajIzdelek(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
     		//app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(1));
     		
     	}
@@ -109,6 +109,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       switch (item.getItemId()) {
       case R.id.Shrani:
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
+    	  
     	  if( app.novSeznam.size()>0)
     	  {
     		  if(app.stSeznama!=-1)
@@ -117,6 +118,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     		  
     		  app.novSeznam.get(0).imeSeznama="Novi seznam";
     		  app.vsiSeznami.add(new Seznami( app.novSeznam));
+    		  //app.novSeznam.clear();
     	  }
     	  
     	  
@@ -183,8 +185,16 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		}
 		
-		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public void finish()
+	{
+		super.finish();
+		app.stSeznama=-1;
+		app.newNovSeznam();
+		app.novSeznamList.notifyDataSetChanged();
+		app.seznamList.notifyDataSetChanged();
 		
 	}
 	
@@ -193,10 +203,23 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	{
 		super.onPause();
 		app.stSeznama=-1;
-		
-		//app.novSeznamList.notifyDataSetChanged();
-		//app.seznamList.notifyDataSetChanged();
+		app.newNovSeznam();
+		app.novSeznamList.notifyDataSetChanged();
+		app.seznamList.notifyDataSetChanged();
 	}
+	
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		app.stSeznama=-1;
+		
+		
+		app.newNovSeznam();
+		app.novSeznamList.notifyDataSetChanged();
+		app.seznamList.notifyDataSetChanged();
+	}
+
 
 
 

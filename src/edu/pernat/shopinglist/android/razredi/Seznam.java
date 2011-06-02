@@ -39,4 +39,8 @@ public class Seznam {
 		{
 			return artikel.getKolicina();
 		}
+		public Artikli getArtikel()
+		{
+			return new Artikli(artikel.id_trgovina, artikel.cena, artikel.ime, artikel.kolicina);
+		}
 }

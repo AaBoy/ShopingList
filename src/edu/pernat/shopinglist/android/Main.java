@@ -59,21 +59,36 @@ public class Main extends Activity {
         setContentView(R.layout.main);
         global.uporabnisko="Nekdo";
     	global=(GlobalneVrednosti) getApplication();
-    	XMLParsingExample();
+    	MojTask mt = new MojTask();
+		mt.execute(5000);
     }
 	private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
 		protected void onPreExecute() {
 			dialogWait = 
-				ProgressDialog.show(Main.this, "", "Delam! Počakajte prosim...", true);
+				ProgressDialog.show(Main.this, "", "Delam! Pridobivam cenik...", true);
 		}
 		protected Long doInBackground(Integer... prviArgument) {
 			long totalSize = 0;
 			int t1=prviArgument[0];
-			try {    //umetno čakamo!!!
-				Thread.sleep(t1);
-			} catch (InterruptedException e) {
-				Log.e("ERROR", "Thread Interrupted");
+			try {
+				
+				/** Handling XML */
+				SAXParserFactory spf = SAXParserFactory.newInstance();
+				SAXParser sp = spf.newSAXParser();
+				XMLReader xr = sp.getXMLReader();
+
+				/** Send URL to parse XML Tags */
+				URL sourceUrl = new URL(
+						"http://solaposkusno.azuli.org/knjige.xml");
+
+				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+				MyXMLHandler myXMLHandler = new MyXMLHandler(global);
+				xr.setContentHandler(myXMLHandler);
+				xr.parse(new InputSource(sourceUrl.openStream()));
+				
+			} catch (Exception e) {
+				System.out.println("XML Pasing Excpetion = " + e);
 			}
 			totalSize = 43; //namišljeni rezultat 
 			global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
@@ -83,8 +98,8 @@ public class Main extends Activity {
 
 		protected void onPostExecute(Long tretjiArgument) {
 			
-			global.novSeznamList.notifyDataSetChanged();
-			Toast.makeText(Main.this,"Rezultat:"+tretjiArgument,Toast.LENGTH_LONG).show();
+			//global.novSeznamList.notifyDataSetChanged();
+			//Toast.makeText(Main.this,"Rezultat:"+tretjiArgument,Toast.LENGTH_LONG).show();
 			dialogWait.cancel();
 		}
 	}
@@ -279,40 +294,7 @@ public class Main extends Activity {
     
     
     //Parser
-    public void XMLParsingExample(){
 
-		/** Create a new layout to display the view */
-
-		
-		/** Create a new textview array to display the results */
-
-
-		try {
-			
-			/** Handling XML */
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			SAXParser sp = spf.newSAXParser();
-			XMLReader xr = sp.getXMLReader();
-
-			/** Send URL to parse XML Tags */
-			URL sourceUrl = new URL(
-					"http://solaposkusno.azuli.org/knjige.xml");
-
-			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-			MyXMLHandler myXMLHandler = new MyXMLHandler(global);
-			xr.setContentHandler(myXMLHandler);
-			xr.parse(new InputSource(sourceUrl.openStream()));
-			
-		} catch (Exception e) {
-			System.out.println("XML Pasing Excpetion = " + e);
-		}
-
-		/** Get result from MyXMLHandler SitlesList Object */
-		//sitesList = MyXMLHandler.sitesList;
-
-		/** Assign textview array lenght by arraylist size */
-
-	}
     
     
     

@@ -57,7 +57,7 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 			
 			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
 			app.novSeznam.add(new Seznam(app.getUser(), app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
-			this.cancel();
+			this.dismiss();
 			break;
 			
 		case R.id.dodajZavrni:

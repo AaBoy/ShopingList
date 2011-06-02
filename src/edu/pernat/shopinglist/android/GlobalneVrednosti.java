@@ -73,8 +73,8 @@ public class GlobalneVrednosti extends Application {
 		novSeznam=new ArrayList<Seznam>();
 		
 		
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
+		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
+		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
 		
 		
 		
@@ -83,6 +83,11 @@ public class GlobalneVrednosti extends Application {
 	public void pobrisiNovSeznam()
 	{
 		novSeznam.clear();
+	}
+	public void newNovSeznam()
+	{
+		novSeznam=new ArrayList<Seznam>();
+		
 	}
 	
 	public String getUser()
@@ -117,7 +122,7 @@ public class GlobalneVrednosti extends Application {
 	
 	public void dodajIzdelek(Artikli temp)
 	{
-		//novSeznam.add(new Seznam(uporabnisko, temp));
+		novSeznam.add(new Seznam(uporabnisko, temp));
 		
 	}
 	
