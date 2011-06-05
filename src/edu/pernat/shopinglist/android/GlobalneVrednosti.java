@@ -37,7 +37,7 @@ public class GlobalneVrednosti extends Application {
         stSeznama=-1;
         vsiSeznami=new ArrayList<Seznami>();
         novSeznam=new ArrayList<Seznam>();
-        init();
+        //init();
         fillFromDB();
         //napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
@@ -55,10 +55,10 @@ public class GlobalneVrednosti extends Application {
 	public void init()
 	{
 		//lista.add(new RazredBaza("uporabniško", "Geslo"));
-		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1l"));
+		/*seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1l"));
 		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5l"));
 		seznamArtiklov.add(new Artikli(1, 0.25, "Lizika", "16g"));
-		
+		*/
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
 		novSeznam.get(0).imeSeznama="Miha kovačev";

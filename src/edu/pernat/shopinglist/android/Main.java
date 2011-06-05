@@ -60,12 +60,43 @@ public class Main extends Activity {
         setContentView(R.layout.main);
         global.uporabnisko="Nekdo";
     	global=(GlobalneVrednosti) getApplication();
-    	MojTask mt = new MojTask();
-		mt.execute(5000);
+    	
+    	Nekaj();
+//    	MojTask mt = new MojTask();
+//		mt.execute(1);
+		
 		
 		
     }
-	private class MojTask extends AsyncTask<Integer, Void, Long> {
+    
+    
+    public void Nekaj()
+    {
+    	
+    	//global.newVsiArtikli();
+		try {
+			
+			/** Handling XML */
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+			XMLReader xr = sp.getXMLReader();
+
+			/** Send URL to parse XML Tags */
+			URL sourceUrl = new URL(
+					"http://shoppinglistandroid.netii.net/izdelki.xml");
+
+			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+			MyXMLHandler myXMLHandler = new MyXMLHandler(global);
+			xr.setContentHandler(myXMLHandler);
+			xr.parse(new InputSource(sourceUrl.openStream()));
+			
+		} catch (Exception e) {
+			System.out.println("XML Pasing Excpetion = " + e);
+		}
+    	
+    }
+    
+	/*private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
 		protected void onPreExecute() {
 			dialogWait = 
@@ -74,26 +105,7 @@ public class Main extends Activity {
 		protected Long doInBackground(Integer... prviArgument) {
 			long totalSize = 0;
 			int t1=prviArgument[0];
-			//global.newVsiArtikli();
-			try {
-				
-				/** Handling XML */
-				SAXParserFactory spf = SAXParserFactory.newInstance();
-				SAXParser sp = spf.newSAXParser();
-				XMLReader xr = sp.getXMLReader();
-
-				/** Send URL to parse XML Tags */
-				URL sourceUrl = new URL(
-						"http://shoppinglistandroid.netii.net/izdelki.xml");
-
-				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-				MyXMLHandler myXMLHandler = new MyXMLHandler(global);
-				xr.setContentHandler(myXMLHandler);
-				xr.parse(new InputSource(sourceUrl.openStream()));
-				
-			} catch (Exception e) {
-				System.out.println("XML Pasing Excpetion = " + e);
-			}
+			
 			totalSize = 43; //namišljeni rezultat 
 			//global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
 			
@@ -106,7 +118,7 @@ public class Main extends Activity {
 			//Toast.makeText(Main.this,"Rezultat:"+tretjiArgument,Toast.LENGTH_LONG).show();
 			dialogWait.cancel();
 		}
-	}
+	}*/
     
     
     public void odpriVpis(View v)

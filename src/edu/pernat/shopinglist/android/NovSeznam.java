@@ -43,25 +43,19 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         app=(GlobalneVrednosti) getApplication();
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
-        
-       
-        
+
         /*for(int i=0;i<10;i++)
     	app.dodaj(new RazredBaza("Kuku","lele"));*/
         
         setListAdapter(app.novSeznamList);
 		this.getListView().setOnItemClickListener(this);
 		setResult(RESULT_OK);
-		
-		
+
 		
 		
 		if(app.stSeznama!=-1)
 			{
-				//app.novSeznam.clear();
-				//app.novSeznamList.clear();
 				napolniSeznam();
-				
 			}
 		
 	
@@ -70,20 +64,16 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     
     public void napolniSeznam()
     {
-    	//app.pobrisiNovSeznam();
-    	//app.newNovSeznam();
+    	//app.novSeznam.clear();
+    	app.newNovSeznam();
 
     	
     	
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
     	for(int x=0;x<meja;x++)
     	{
-    		
-    		
-    		//Toast.makeText(this, "Število elementov: "+app.vsiSeznami.get(app.stSeznama).getSize(0), Toast.LENGTH_LONG).show();
+    	
     		app.dodajArtikelNaSeznam(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
-    		//app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(1));
-    		
     	}
     	
     	app.novSeznam.get(0).imeSeznama="Janez kaj";
@@ -158,9 +148,11 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	
         switch(id) {
         case DIALOG_SPREMENI:
+        	app.stSeznama=-1;
+        	
         	Context mContext = this;
         	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,app,izbranIzdelek );
-        	
+        	//app.novSeznamList.notifyDataSetChanged();
 			return dialog;
 		
         case DIALOG_POSLJI:

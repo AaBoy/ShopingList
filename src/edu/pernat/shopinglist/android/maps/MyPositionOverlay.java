@@ -80,11 +80,11 @@ public class MyPositionOverlay extends Overlay {
       canvas.drawRoundRect(backRect, 5, 5, backPaint);
 
      
-      canvas.drawText("TUKAJ"+locations.size(), 
+      canvas.drawText("Tukaj je trgovina"+locations.size(), 
               point.x + 2*mRadius+2, point.y, 
               paint);
       
-      for(int i=0;i<locations.size()-1;i++)
+      /*for(int i=0;i<locations.size()-1;i++)
       {
     	  
     	 Double lat= locations.get(i).getLatitude()*1E6;
@@ -121,7 +121,7 @@ public class MyPositionOverlay extends Overlay {
     	  crta.setARGB(250, 0, 0, 255);
     	  canvas.drawLine(p1.x, p1.y, p2.x, p2.y, crta);
       }
-
+*/
       
     }
     super.draw(canvas, mapView, shadow);

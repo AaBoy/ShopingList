@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.http.util.LangUtils;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -85,10 +87,10 @@ public class KjeSemActivity extends MapActivity {
 		
 		array_spinner=new String [5];
 		array_spinner[0]="Merkator";
-		array_spinner[1]="Spar";
+		/*array_spinner[1]="Spar";
 		array_spinner[2]="Tuš";
 		array_spinner[3]="Žerak";
-		array_spinner[4]="Eurospin";
+		array_spinner[4]="Eurospin";*/
 		
 		
 		
@@ -96,11 +98,11 @@ public class KjeSemActivity extends MapActivity {
 		imeTrgovin.setAdapter(pinnerArrayAdapter);
 		
 		array_spinner=new String [5];
-		array_spinner[0]="Ptujska 33";
-		array_spinner[1]="Miheličeva 55";
+		array_spinner[0]="TRŽAŠKA 65";
+		/*array_spinner[1]="Miheličeva 55";
 		array_spinner[2]="Nova Gorica 5b";
 		array_spinner[3]="Tezno 12";
-		array_spinner[4]="Žirovnik ul. 5";
+		array_spinner[4]="Žirovnik ul. 5";*/
 		
 		ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, array_spinner);
 		naslovTrgovin.setAdapter(spinnerArrayAdapter);
@@ -133,10 +135,7 @@ public class KjeSemActivity extends MapActivity {
 
 			Double geoLat = location.getLatitude()*1E6;
 			Double geoLng = location.getLongitude()*1E6;
-			GeoPoint point = new GeoPoint(geoLat.intValue(), 
-					geoLng.intValue());
 
-			mapController.animateTo(point);
 
 			double lat = location.getLatitude();
 			double lng = location.getLongitude();
@@ -148,17 +147,28 @@ public class KjeSemActivity extends MapActivity {
 			novi=(TextView)findViewById(R.id.nekajTrgovina);
 			 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
 			 
-
+			 
+			 
 		       try {
-		  List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+		  List<Address> addresses =
+			  geocoder.getFromLocationName("TRŽAŠKA 65 2000 Maribor", 1, 46.44896008877663, 15.4852294921875, 46.629384155883876, 15.835418701171875); 
+			  
 		 
 		  if(addresses != null) {
 		   Address returnedAddress = addresses.get(0);
+		   
 		   StringBuilder strReturnedAddress = new StringBuilder("Address:\n");
 		   for(int i=0; i<returnedAddress.getMaxAddressLineIndex(); i++) {
 		    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
 		   }
-		   novi.setText(strReturnedAddress.toString());
+		   Double lat1=returnedAddress.getLatitude()*1E6;
+		   Double log1=returnedAddress.getLongitude()*1E6;
+		   
+			GeoPoint point = new GeoPoint(lat1.intValue(), log1.intValue());
+
+			mapController.animateTo(point);
+		   
+		   novi.setText(lat1.toString()+"  "+log1.toString());
 		  }
 		  else{
 		 

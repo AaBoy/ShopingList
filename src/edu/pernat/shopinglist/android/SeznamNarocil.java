@@ -28,6 +28,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
 		
+
 		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}

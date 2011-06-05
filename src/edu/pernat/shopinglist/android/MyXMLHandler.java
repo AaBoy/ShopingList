@@ -1,5 +1,7 @@
 package edu.pernat.shopinglist.android;
 
+import java.util.ArrayList;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -26,6 +28,7 @@ public class MyXMLHandler extends DefaultHandler {
 	{
 		
 		app=tmp;
+		app.seznamArtiklov.clear();
 	}
 	
 	/*public static void setSitesList(SitesList sitesList, GlobalneVrednosti tmp) {
