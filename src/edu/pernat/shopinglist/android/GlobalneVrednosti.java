@@ -23,7 +23,7 @@ public class GlobalneVrednosti extends Application {
 	public int stSeznama;
 	
 	SeznamArrayAdapter seznamList;
-	public NovSeznamArrayAdapter novSeznamList;
+	NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
 	String uporabnisko,geslo;
 	
@@ -39,11 +39,17 @@ public class GlobalneVrednosti extends Application {
         novSeznam=new ArrayList<Seznam>();
         init();
         fillFromDB();
-        napolniNaslov();
+        //napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam);
         
         
+	}
+	
+	public void dodajArtikelNaSeznam(Artikli tmp)
+	{
+		novSeznam.add(new Seznam("Nekdo", tmp));
+		
 	}
 	
 	public void init()
@@ -52,7 +58,6 @@ public class GlobalneVrednosti extends Application {
 		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1l"));
 		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5l"));
 		seznamArtiklov.add(new Artikli(1, 0.25, "Lizika", "16g"));
-		
 		
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
@@ -79,17 +84,17 @@ public class GlobalneVrednosti extends Application {
 		
 		
 	}
-	
-	public void pobrisiNovSeznam()
-	{
-		novSeznam.clear();
-	}
+
 	public void newNovSeznam()
 	{
 		novSeznam=new ArrayList<Seznam>();
 		
 	}
 	
+	public void newVsiArtikli()
+	{
+		seznamArtiklov=new ArrayList<Artikli>();
+	}
 	public String getUser()
 	{
 		return uporabnisko;

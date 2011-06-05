@@ -27,6 +27,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     	//app.dodaj(new RazredBaza("Kuku","lele"));
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
+		
 		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}
@@ -47,7 +48,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	@Override
     public void onResume() {
 		super.onResume();
-        app.seznamList.notifyDataSetChanged();
+        //app.seznamList.notifyDataSetChanged();
     }
 	
 

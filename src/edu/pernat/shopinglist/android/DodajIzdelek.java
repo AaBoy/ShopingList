@@ -41,6 +41,8 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 
 	public void napolniSeznamArtiklov()
 	{
+
+		
 		array_spinner=new String[app.seznamArtiklov.size()];
 		for(int i=0;i<app.seznamArtiklov.size();i++)
 		{

@@ -5,6 +5,7 @@ package edu.pernat.shopinglist.android;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -61,6 +62,8 @@ public class Main extends Activity {
     	global=(GlobalneVrednosti) getApplication();
     	MojTask mt = new MojTask();
 		mt.execute(5000);
+		
+		
     }
 	private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
@@ -71,6 +74,7 @@ public class Main extends Activity {
 		protected Long doInBackground(Integer... prviArgument) {
 			long totalSize = 0;
 			int t1=prviArgument[0];
+			//global.newVsiArtikli();
 			try {
 				
 				/** Handling XML */
@@ -80,7 +84,7 @@ public class Main extends Activity {
 
 				/** Send URL to parse XML Tags */
 				URL sourceUrl = new URL(
-						"http://solaposkusno.azuli.org/izdelki.xml");
+						"http://shoppinglistandroid.netii.net/izdelki.xml");
 
 				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
 				MyXMLHandler myXMLHandler = new MyXMLHandler(global);
@@ -91,8 +95,8 @@ public class Main extends Activity {
 				System.out.println("XML Pasing Excpetion = " + e);
 			}
 			totalSize = 43; //namišljeni rezultat 
-			global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
-
+			//global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
+			
 			return totalSize;
 		}
 

@@ -14,7 +14,7 @@ public class MyXMLHandler extends DefaultHandler {
 	double cena=0;
 	String ime="";
 	String kolicina="";
-	
+	int id=0;
 	
 	//public static SitesList sitesList = null;
 

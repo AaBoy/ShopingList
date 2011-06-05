@@ -47,7 +47,7 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 				
 				
 				
-				this.cancel();
+				this.dismiss();
 				break;
 			}
 			
@@ -64,7 +64,7 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	@Override
     public void dismiss() {
 		super.dismiss();
-        app.novSeznamList.notifyDataSetChanged();
+        //app.novSeznamList.notifyDataSetChanged();
     }
 	
 	@Override
@@ -75,4 +75,10 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	    spreCena.setText("");
 	}
 	
+	@Override
+	public void  onBackPressed()
+	{
+		super.onBackPressed();
+		
+	}
 }

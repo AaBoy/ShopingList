@@ -32,6 +32,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
+	public static final int DIALOG_USTVARI_NOV_IZDELEK=3;
 	int izbranIzdelek;
 	/*Konec globalnih*/
     @Override
@@ -42,6 +43,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         app=(GlobalneVrednosti) getApplication();
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
+        
+       
         
         /*for(int i=0;i<10;i++)
     	app.dodaj(new RazredBaza("Kuku","lele"));*/
@@ -55,7 +58,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		if(app.stSeznama!=-1)
 			{
-				app.newNovSeznam();
+				//app.novSeznam.clear();
+				//app.novSeznamList.clear();
 				napolniSeznam();
 				
 			}
@@ -66,7 +70,10 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     
     public void napolniSeznam()
     {
-    	app.newNovSeznam();	
+    	//app.pobrisiNovSeznam();
+    	//app.newNovSeznam();
+
+    	
     	
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
     	for(int x=0;x<meja;x++)
@@ -74,15 +81,13 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     		
     		
     		//Toast.makeText(this, "Število elementov: "+app.vsiSeznami.get(app.stSeznama).getSize(0), Toast.LENGTH_LONG).show();
-    		app.dodajIzdelek(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
+    		app.dodajArtikelNaSeznam(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
     		//app.novSeznam.add(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(1));
     		
     	}
     	
-    	
-    	if(app.novSeznam.size()!=0) app.novSeznam.get(0).imeSeznama="Janez kaj";
-    	
-    	app.novSeznamList.notifyDataSetChanged();
+    	app.novSeznam.get(0).imeSeznama="Janez kaj";
+    	app.novSeznamList.notifyDataSetInvalidated();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -109,24 +114,21 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       switch (item.getItemId()) {
       case R.id.Shrani:
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
+    	  if(app.stSeznama!=-1)
+    	  app.vsiSeznami.remove(app.stSeznama);  
+    	  app.vsiSeznami.add(new Seznami( app.novSeznam));
     	  
-    	  if( app.novSeznam.size()>0)
-    	  {
-    		  if(app.stSeznama!=-1)
-    		  app.vsiSeznami.remove(app.stSeznama);
-    		  
-    		  
-    		  app.novSeznam.get(0).imeSeznama="Novi seznam";
-    		  app.vsiSeznami.add(new Seznami( app.novSeznam));
-    		  //app.novSeznam.clear();
-    	  }
-    	  
-    	  
-    	  
+    	  //app.newNovSeznam();
     	  this.finish();
     	  return true;
     	  
       case R.id.Clear:
+    	  
+    	  if(app.stSeznama!=-1)
+        	  app.vsiSeznami.remove(app.stSeznama);
+
+    	  //app.
+    	  this.finish();
     	  Toast.makeText(this,"Izbrisano!", Toast.LENGTH_SHORT)
           .show();
     	  return true;
@@ -135,6 +137,10 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       
     	  showDialog(DIALOG_POSLJI);
       return true;
+      
+      case R.id.ustvariIzdelek:
+    	  showDialog(DIALOG_USTVARI_NOV_IZDELEK);
+    	  return true;
     	  
       default:// Generic catch all for all the other menu resources
         if (!item.hasSubMenu()) {
@@ -168,6 +174,12 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         	
         	return dialog2;
         	
+        case DIALOG_USTVARI_NOV_IZDELEK:
+        	Context mContext3=this;
+        	UstvariNovIzdelek dialog3=new UstvariNovIzdelek(mContext3, app);
+        	
+        	return dialog3;
+        
         default:
             break;
         }
@@ -185,41 +197,26 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		}
 		
-	}
-	
-	@Override
-	public void finish()
-	{
-		super.finish();
-		app.stSeznama=-1;
-		app.newNovSeznam();
-		app.novSeznamList.notifyDataSetChanged();
-		app.seznamList.notifyDataSetChanged();
+		// TODO Auto-generated method stub
+		
 		
 	}
 	
-	@Override
-	public void onPause()
+	public void onFinish()
 	{
-		super.onPause();
-		app.stSeznama=-1;
-		app.newNovSeznam();
-		app.novSeznamList.notifyDataSetChanged();
-		app.seznamList.notifyDataSetChanged();
+		super.finish();
+		
 	}
 	
 	@Override
 	public void onStop()
 	{
 		super.onStop();
+		
 		app.stSeznama=-1;
-		
-		
-		app.newNovSeznam();
+		//app.novSeznamList.clear();
 		app.novSeznamList.notifyDataSetChanged();
-		app.seznamList.notifyDataSetChanged();
 	}
-
 
 
 
