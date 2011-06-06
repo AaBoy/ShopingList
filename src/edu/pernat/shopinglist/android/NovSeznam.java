@@ -64,8 +64,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     
     public void napolniSeznam()
     {
-    	//app.novSeznam.clear();
-    	app.newNovSeznam();
+    	app.novSeznam.clear();
+    	//app.newNovSeznam();
 
     	
     	
@@ -77,7 +77,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	}
     	
     	app.novSeznam.get(0).imeSeznama="Janez kaj";
-    	app.novSeznamList.notifyDataSetInvalidated();
+    	app.novSeznamList.notifyDataSetChanged();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {

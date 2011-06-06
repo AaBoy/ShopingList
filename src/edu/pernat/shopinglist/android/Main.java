@@ -61,42 +61,16 @@ public class Main extends Activity {
         global.uporabnisko="Nekdo";
     	global=(GlobalneVrednosti) getApplication();
     	
-    	Nekaj();
-//    	MojTask mt = new MojTask();
-//		mt.execute(1);
+    	
+    	MojTask mt = new MojTask();
+		mt.execute(1);
 		
 		
 		
     }
     
     
-    public void Nekaj()
-    {
-    	
-    	//global.newVsiArtikli();
-		try {
-			
-			/** Handling XML */
-			SAXParserFactory spf = SAXParserFactory.newInstance();
-			SAXParser sp = spf.newSAXParser();
-			XMLReader xr = sp.getXMLReader();
-
-			/** Send URL to parse XML Tags */
-			URL sourceUrl = new URL(
-					"http://shoppinglistandroid.netii.net/izdelki.xml");
-
-			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-			MyXMLHandler myXMLHandler = new MyXMLHandler(global);
-			xr.setContentHandler(myXMLHandler);
-			xr.parse(new InputSource(sourceUrl.openStream()));
-			
-		} catch (Exception e) {
-			System.out.println("XML Pasing Excpetion = " + e);
-		}
-    	
-    }
-    
-	/*private class MojTask extends AsyncTask<Integer, Void, Long> {
+	private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
 		protected void onPreExecute() {
 			dialogWait = 
@@ -108,6 +82,26 @@ public class Main extends Activity {
 			
 			totalSize = 43; //namišljeni rezultat 
 			//global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
+			try {
+				
+				/** Handling XML */
+				SAXParserFactory spf = SAXParserFactory.newInstance();
+				SAXParser sp = spf.newSAXParser();
+				XMLReader xr = sp.getXMLReader();
+
+				/** Send URL to parse XML Tags */
+				URL sourceUrl = new URL(
+						"http://shoppinglistandroid.netii.net/izdelki.xml");
+
+				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+				MyXMLHandler myXMLHandler = new MyXMLHandler(global);
+				xr.setContentHandler(myXMLHandler);
+				xr.parse(new InputSource(sourceUrl.openStream()));
+				
+			} catch (Exception e) {
+				System.out.println("XML Pasing Excpetion = " + e);
+			}
+	    	
 			
 			return totalSize;
 		}
@@ -118,7 +112,7 @@ public class Main extends Activity {
 			//Toast.makeText(Main.this,"Rezultat:"+tretjiArgument,Toast.LENGTH_LONG).show();
 			dialogWait.cancel();
 		}
-	}*/
+	}
     
     
     public void odpriVpis(View v)
