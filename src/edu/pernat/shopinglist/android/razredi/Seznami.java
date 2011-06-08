@@ -28,9 +28,9 @@ public class Seznami {
 		
 	}
 	
-	public int getSkupnaCena()
+	public double getSkupnaCena()
 	{
-		return 190;
+		return 15.3;
 	}
 	
 	public int getSize(int i)

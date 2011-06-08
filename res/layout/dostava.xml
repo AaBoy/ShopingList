@@ -13,7 +13,7 @@
         android:id="@+id/txtViewEmailTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:text="Naslov naslovnika"/>
-    <AutoCompleteTextView android:layout_height="wrap_content" android:layout_width="250dip" android:id="@+id/editTxtTo"></AutoCompleteTextView>
+    <AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/editTxtTo" android:layout_width="match_parent"></AutoCompleteTextView>
  
     <TextView
         android:id="@+id/txtViewEmailSubject"
@@ -22,7 +22,7 @@
        
     <EditText
         android:id="@+id/editTxtSubject"
-        android:layout_height="wrap_content" android:layout_width="250dip"/>
+        android:layout_height="wrap_content" android:layout_width="match_parent"/>
     <TextView
         android:id="@+id/txtViewEmailBody"
         android:layout_width="wrap_content"
@@ -30,10 +30,10 @@
     <EditText
         android:id="@+id/editTxtBody"
         android:layout_column="0"
-        android:layout_height="120dip" android:layout_width="250dip"/>
+        android:layout_height="120dip" android:layout_width="match_parent"/>
     <Button android:id="@+id/btnEmailSend"
         android:layout_column="0"
         android:layout_height="wrap_content"
-        android:text="Pošlji" android:layout_width="100dip" android:layout_gravity="center"/>
+        android:text="Pošlji" android:layout_gravity="center" android:layout_width="match_parent"/>
 </LinearLayout>
 </ScrollView>

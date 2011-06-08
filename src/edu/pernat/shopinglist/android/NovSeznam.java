@@ -44,8 +44,6 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
 
-        /*for(int i=0;i<10;i++)
-    	app.dodaj(new RazredBaza("Kuku","lele"));*/
         
         setListAdapter(app.novSeznamList);
 		this.getListView().setOnItemClickListener(this);
@@ -58,26 +56,27 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 				napolniSeznam();
 			}
 		
+		
 	
     }
     
     
     public void napolniSeznam()
     {
-    	app.novSeznam.clear();
+    	
+    	/** Tukaj se zalomi  ali pa v SeznamNaročil**/
     	//app.newNovSeznam();
-
-    	
-    	
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
+    	app.novSeznam.clear();
     	for(int x=0;x<meja;x++)
     	{
-    	
     		app.dodajArtikelNaSeznam(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
     	}
     	
+    
     	app.novSeznam.get(0).imeSeznama="Janez kaj";
-    	app.novSeznamList.notifyDataSetChanged();
+    	//app.novSeznamList.notifyDataSetChanged();
+    
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -207,7 +206,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		app.stSeznama=-1;
 		//app.novSeznamList.clear();
-		app.novSeznamList.notifyDataSetChanged();
+		//app.novSeznamList.notifyDataSetChanged();
 	}
 
 

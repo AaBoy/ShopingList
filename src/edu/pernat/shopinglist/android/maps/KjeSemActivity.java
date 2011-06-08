@@ -13,8 +13,15 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import edu.pernat.shopinglist.android.DodajIzdelek;
+import edu.pernat.shopinglist.android.Dostava;
+import edu.pernat.shopinglist.android.IzberiTrgovino;
 import edu.pernat.shopinglist.android.R;
+import edu.pernat.shopinglist.android.SpremeniIzdelek;
+import edu.pernat.shopinglist.android.UstvariNovIzdelek;
 import edu.pernat.shopinglist.android.maps.MyPositionOverlay;
+import edu.pernat.shopinglist.android.razredi.Seznami;
+import android.app.Dialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Criteria;
@@ -23,9 +30,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class KjeSemActivity extends MapActivity {
 	@Override
@@ -38,17 +49,18 @@ public class KjeSemActivity extends MapActivity {
 	//http://code.google.com/android/maps-api-signup.html
 	MapController mapController;
 	MyPositionOverlay positionOverlay;
-	Spinner imeTrgovin, naslovTrgovin;
-	String array_spinner[];
+
 	TextView novi ;
 	double LATITUDE = 37.42233;
 	double LONGITUDE = -122.083;
+	private Menu mMenu;  //ni nujno
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		System.out.println("Delo!");
 		setContentView(R.layout.maps_main);
-
+		
+		
 		MapView myMapView = (MapView)findViewById(R.id.myMapView);
 		mapController = myMapView.getController();
 
@@ -80,37 +92,59 @@ public class KjeSemActivity extends MapActivity {
 
 		locationManager.requestLocationUpdates(provider, 2000, 10,   
 				locationListener);
-		//*Dodaj spinerje*/
+		showDialog(1);
 		
-		imeTrgovin=(Spinner)findViewById(R.id.spinerNazivTrgovine);
-		naslovTrgovin=(Spinner)findViewById(R.id.spinerNasloTrgovine);
-		
-		array_spinner=new String [5];
-		array_spinner[0]="Merkator";
-		/*array_spinner[1]="Spar";
-		array_spinner[2]="Tuš";
-		array_spinner[3]="Žerak";
-		array_spinner[4]="Eurospin";*/
-		
-		
-		
-		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, array_spinner);
-		imeTrgovin.setAdapter(pinnerArrayAdapter);
-		
-		array_spinner=new String [5];
-		array_spinner[0]="TRŽAŠKA 65";
-		/*array_spinner[1]="Miheličeva 55";
-		array_spinner[2]="Nova Gorica 5b";
-		array_spinner[3]="Tezno 12";
-		array_spinner[4]="Žirovnik ul. 5";*/
-		
-		ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, array_spinner);
-		naslovTrgovin.setAdapter(spinnerArrayAdapter);
 
-		
-	/*Konec dodajanja*/
 	}
 
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+	      mMenu = menu; //ni nujno
+	      MenuInflater inflater = getMenuInflater();
+	      inflater.inflate(R.menu.maps_menu, mMenu);
+	      return true;
+	    }
+
+	    
+	    
+	    @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	      switch (item.getItemId()) {
+	      case R.id.novaTrgovina:
+	    	  showDialog(1);
+	    	  return true;
+	    	  
+	      case R.id.Clear:
+	    	  
+	      default:// Generic catch all for all the other menu resources
+	        if (!item.hasSubMenu()) {
+	          Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+	          return true;
+	        }
+	        break;
+	      }
+	      return false;
+
+	    }
+	
+	  protected Dialog onCreateDialog(int id) {
+	    	
+	        switch(id) {
+	        case 1:
+	        	Context mContext1 = this;
+	        	IzberiTrgovino dialog1 = new IzberiTrgovino(mContext1);      	
+				return dialog1;
+
+	        
+	        default:
+	            break;
+	        }
+	        
+	        return null;
+	    }
+
+	
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			my_updateWithNewLocation(location);
@@ -144,7 +178,7 @@ public class KjeSemActivity extends MapActivity {
 			myLocationText.setText("Trenutni položaj je:" + 
 					latLongString); 
 			
-			novi=(TextView)findViewById(R.id.nekajTrgovina);
+			/*novi=(TextView)findViewById(R.id.nekajTrgovina);*/
 			 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
 			 
 			 
@@ -168,7 +202,7 @@ public class KjeSemActivity extends MapActivity {
 
 			mapController.animateTo(point);
 		   
-		   novi.setText(lat1.toString()+"  "+log1.toString());
+		   //novi.setText(lat1.toString()+"  "+log1.toString());
 		  }
 		  else{
 		 
