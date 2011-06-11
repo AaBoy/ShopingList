@@ -64,7 +64,7 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	@Override
     public void dismiss() {
 		super.dismiss();
-        //app.novSeznamList.notifyDataSetChanged();
+       
     }
 	
 	@Override
@@ -78,7 +78,8 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	@Override
 	public void  onBackPressed()
 	{
-		super.onBackPressed();
+		//super.onBackPressed();
+		Toast.makeText(getContext(), "Potrdite ali zavrnite spremembo na izdelku.", Toast.LENGTH_SHORT).show();
 		
 	}
 }

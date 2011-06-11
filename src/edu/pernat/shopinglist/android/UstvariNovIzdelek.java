@@ -24,7 +24,7 @@ public class UstvariNovIzdelek extends Dialog implements OnClickListener  {
 		potPri=(Button)findViewById(R.id.potrdiNovIzdelek);
 		zavPri.setOnClickListener(this);
 		potPri.setOnClickListener(this);
-		this.setTitle("Vpišite ime, cena in kolicino\nizdelka!");
+		this.setTitle("Vpišite ime, cena in kolicino izdelka!");
 		app=tmp;
 		cena=(EditText)findViewById(R.id.cenaNovegaIzdelkaEditText);
 		ime=(EditText)findViewById(R.id.imeNovegaIzdelkaEditText);
@@ -43,7 +43,7 @@ public class UstvariNovIzdelek extends Dialog implements OnClickListener  {
 		
 		case R.id.potrdiNovIzdelek:
 			
-			app.seznamArtiklov.add(new Artikli(app.seznamArtiklov.size(), Double.parseDouble(cena.getText().toString()), ime.getText().toString(), kolicina.getText().toString()));			
+			app.artikelNaSeznam(new Artikli(app.seznamArtiklov.size(), Double.parseDouble(cena.getText().toString()), ime.getText().toString(), kolicina.getText().toString()));			
 			Toast.makeText(getContext(), "Potrdi", Toast.LENGTH_SHORT).show();
 			this.cancel();
 			

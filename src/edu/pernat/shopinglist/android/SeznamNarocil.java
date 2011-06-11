@@ -22,9 +22,8 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stevec_list_activity);
-       
+        this.setRequestedOrientation(1);
         app=(GlobalneVrednosti) getApplication();
-    	//app.dodaj(new RazredBaza("Kuku","lele"));
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
 		
@@ -39,17 +38,11 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 		this.startActivity(moj);
 	}
 
-	/*@Override
-	public void onBackPressed() {
-		Toast.makeText(this, "Stisno si back", Toast.LENGTH_LONG).show();
-    	
-	   
-	}*/
 
 	@Override
     public void onResume() {
 		super.onResume();
-        //app.seznamList.notifyDataSetChanged();
+        app.seznamList.notifyDataSetChanged();
     }
 	
 

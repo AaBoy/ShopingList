@@ -15,6 +15,7 @@ import com.google.android.maps.Overlay;
 
 import edu.pernat.shopinglist.android.DodajIzdelek;
 import edu.pernat.shopinglist.android.Dostava;
+import edu.pernat.shopinglist.android.GlobalneVrednosti;
 import edu.pernat.shopinglist.android.IzberiTrgovino;
 import edu.pernat.shopinglist.android.R;
 import edu.pernat.shopinglist.android.SpremeniIzdelek;
@@ -29,6 +30,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -90,14 +93,12 @@ public class KjeSemActivity extends MapActivity {
 		Location location = locationManager.getLastKnownLocation(provider);
 		my_updateWithNewLocation(location);
 
+
 		locationManager.requestLocationUpdates(provider, 2000, 10,   
 				locationListener);
 		showDialog(1);
-		
+		}
 
-	}
-
-	
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 	      mMenu = menu; //ni nujno

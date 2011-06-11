@@ -3,6 +3,7 @@ package edu.pernat.shopinglist.android;
 import java.util.ArrayList;
 
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
+import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
 import edu.pernat.shopinglist.android.data.DBAdapterTrgovine;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
@@ -25,11 +26,13 @@ public class GlobalneVrednosti extends Application {
 	SeznamArrayAdapter seznamList;
 	NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
+	DBAdapterIzdelki db1;
 	String uporabnisko,geslo;
 	
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
+        db1=new DBAdapterIzdelki(this);
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
         lista=new ArrayList<EmailNaslovi>();
@@ -52,12 +55,19 @@ public class GlobalneVrednosti extends Application {
 		
 	}
 	
+	public void artikelNaSeznam(Artikli tmp)
+	{
+		seznamArtiklov.add(tmp);
+		addDBArtikel(tmp);
+		
+	}
+	
 	public void init()
 	{
 		//lista.add(new RazredBaza("uporabniško", "Geslo"));
-		seznamArtiklov.add(new Artikli(1, 2, "Mleko", "1l"));
-		seznamArtiklov.add(new Artikli(1, 2.4, "Pivo", "0,5l"));
-		seznamArtiklov.add(new Artikli(1, 0.25, "Lizika", "16g"));
+		artikelNaSeznam(new Artikli(1, 2, "Mleko", "1l"));
+		artikelNaSeznam(new Artikli(1, 2.4, "Pivo", "0,5l"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Lizika", "16g"));
 		
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
@@ -132,6 +142,36 @@ public class GlobalneVrednosti extends Application {
 	}
 	
 	
+	//DB izdelki
+	public void fillFromDBIzdelki() {
+		db1.open();
+		Cursor c = db1.getAll();
+		Artikli tmp;
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			tmp = new Artikli();
+			tmp.setID(c.getLong( DBAdapterIzdelki.AR_ID));
+			tmp.setIme(c.getString(DBAdapterIzdelki.AR_I));
+			tmp.setCena(c.getDouble(DBAdapterIzdelki.AR_C));
+			tmp.setKolicina(c.getString(DBAdapterIzdelki.AR_K));
+			
+			seznamArtiklov.add(tmp); 
+		}
+		c.close();
+		db1.close();
+	}
+	public void addDBArtikel(Artikli s) {
+		db1.open();
+		s.setID(db1.insertArtikel(s));
+		db1.close();	
+	}
+	public void remove(Artikli a) {
+		if (a!=null)
+		seznamArtiklov.remove(a);  //Step 4.10 Globalna lista
+	}
+	
+	
+	
+	// konec db izdelki
 	//DB dodano
 	public void fillFromDB() {
 		db.open();

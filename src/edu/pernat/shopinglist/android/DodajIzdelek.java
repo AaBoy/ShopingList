@@ -59,6 +59,7 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 			
 			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
 			app.novSeznam.add(new Seznam(app.getUser(), app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
+			app.novSeznamList.add(new Seznam("", app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
 			this.dismiss();
 			break;
 			
@@ -78,6 +79,16 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		super.dismiss();
         app.novSeznamList.notifyDataSetChanged();
     }
+	
+	@Override
+	public void onBackPressed()
+	{
+		
+		Toast.makeText(getContext(), "Potrdite ali zavrnite dodan izdelek.", Toast.LENGTH_SHORT).show();
+		
+	}
+	
+	
  
 	
 }

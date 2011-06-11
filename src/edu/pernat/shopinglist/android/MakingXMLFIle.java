@@ -128,7 +128,7 @@ public class MakingXMLFIle extends Activity {
             try
             {
                 con.connect("ftp.shoppinglistandroid.netii.net");
-                if (con.login("a6432387", "federer90"))
+                if (con.login("a6432387", "nekajNekdo90"))
                 {
                     con.enterLocalPassiveMode(); // important!
                     String data = "test data";

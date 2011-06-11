@@ -64,11 +64,14 @@ public class MyXMLHandler extends DefaultHandler {
 		currentElement = false;
 
 		
+
 		
 		
 		/** set value */ 
 		if (localName.equalsIgnoreCase("ime"))
 			ime=currentValue;
+		else if((localName.equalsIgnoreCase("id")))
+			id=Integer.parseInt(currentValue);
 		else if (localName.equalsIgnoreCase("cena"))
 			cena=Double.parseDouble(currentValue);
 		else if(localName.equalsIgnoreCase("kolicina"))
@@ -76,7 +79,7 @@ public class MyXMLHandler extends DefaultHandler {
 
 		if(cena!=0 && ime!="" && kolicina!="")
 		{
-			app.seznamArtiklov.add(new Artikli(ID, cena, ime, kolicina));
+			app.artikelNaSeznam(new Artikli(id, cena, ime, kolicina));
 			
 			cena=0;
 			ime="";

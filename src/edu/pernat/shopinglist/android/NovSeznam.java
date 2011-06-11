@@ -33,6 +33,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
 	public static final int DIALOG_USTVARI_NOV_IZDELEK=3;
+	public static final int DIALOG_IME_SEZNAMA=4;
 	int izbranIzdelek;
 	/*Konec globalnih*/
     @Override
@@ -41,22 +42,19 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         setContentView(R.layout.nov_seznam_list_activity);
         //spreIzde=(Button)findViewById(R.id.spremeniIzdelek);
         app=(GlobalneVrednosti) getApplication();
+        
+        setListAdapter(app.novSeznamList);
+        app.novSeznamList.clear();
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
 
-        
-        setListAdapter(app.novSeznamList);
+        this.setRequestedOrientation(1);
 		this.getListView().setOnItemClickListener(this);
-		setResult(RESULT_OK);
-
-		
 		
 		if(app.stSeznama!=-1)
-			{
+		{
 				napolniSeznam();
-			}
-		
-		
+		}
 	
     }
     
@@ -65,18 +63,18 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     {
     	
     	/** Tukaj se zalomi  ali pa v SeznamNaročil**/
-    	//app.newNovSeznam();
+    	app.novSeznam=new ArrayList<Seznam>();
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
-    	app.novSeznam.clear();
+    	//app.novSeznam.clear();
     	for(int x=0;x<meja;x++)
     	{
     		app.dodajArtikelNaSeznam(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
+    		app.novSeznamList.add(new Seznam("", app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel()));
     	}
     	
-    
-    	app.novSeznam.get(0).imeSeznama="Janez kaj";
-    	//app.novSeznamList.notifyDataSetChanged();
-    
+    	app.novSeznam.get(0).imeSeznama="";
+    	app.novSeznamList.setNotifyOnChange(true);
+    	 app.novSeznamList.notifyDataSetChanged();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -105,9 +103,16 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
     	  if(app.stSeznama!=-1)
     	  app.vsiSeznami.remove(app.stSeznama);  
-    	  app.vsiSeznami.add(new Seznami( app.novSeznam));
+    	  ArrayList<Seznam>ns= app.novSeznam;
     	  
-    	  //app.newNovSeznam();
+    	  if(app.novSeznam.get(0).imeSeznama==null)
+    		  app.novSeznam.get(0).imeSeznama="";
+    	  
+    	  showDialog(DIALOG_IME_SEZNAMA);
+    	  
+    	  app.novSeznam=new ArrayList<Seznam>();
+    	  app.vsiSeznami.add(new Seznami(ns));
+
     	  this.finish();
     	  return true;
     	  
@@ -116,7 +121,6 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	  if(app.stSeznama!=-1)
         	  app.vsiSeznami.remove(app.stSeznama);
 
-    	  //app.
     	  this.finish();
     	  Toast.makeText(this,"Izbrisano!", Toast.LENGTH_SHORT)
           .show();
@@ -151,7 +155,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         	
         	Context mContext = this;
         	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,app,izbranIzdelek );
-        	//app.novSeznamList.notifyDataSetChanged();
+        	
 			return dialog;
 		
         case DIALOG_POSLJI:
@@ -170,6 +174,12 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         	UstvariNovIzdelek dialog3=new UstvariNovIzdelek(mContext3, app);
         	
         	return dialog3;
+        	
+        case DIALOG_IME_SEZNAMA:
+        	Context mContext4=this;
+        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app);
+        	
+        	return dialog4;
         
         default:
             break;
@@ -196,18 +206,22 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	public void onFinish()
 	{
 		super.finish();
+		app.stSeznama=-1;
+	}
+	@Override
+	public void onBackPressed()
+	{
+		
+		super.onBackPressed();
+		
 		
 	}
 	
 	@Override
-	public void onStop()
-	{
-		super.onStop();
-		
-		app.stSeznama=-1;
-		//app.novSeznamList.clear();
-		//app.novSeznamList.notifyDataSetChanged();
-	}
+    public void onResume() {
+		super.onResume();
+    }
+	
 
 
 

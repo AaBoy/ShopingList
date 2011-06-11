@@ -2,11 +2,11 @@ package edu.pernat.shopinglist.android.razredi;
 
 public class Artikli {
 	
-	int id_trgovina;
+	long id_trgovina;
 	double cena;
 	String ime,kolicina;
 	
-	public Artikli(int iD,double c,String i,String k )
+	public Artikli(long iD,double c,String i,String k )
 	{
 		id_trgovina=iD;
 		cena=c;
@@ -14,7 +14,27 @@ public class Artikli {
 		kolicina=k;
 	}
 	
-	public int getId_trgovina()
+	public Artikli()
+	{}
+	
+	
+	public void setIme(String i)
+	{
+		ime=i;
+	}
+	public void setKolicina(String k)
+	{kolicina=k;}
+	public void setCena(double c)
+	{
+		cena=c;;
+	}
+	public void setID(long i)
+	{
+		id_trgovina=i;
+	}
+	
+	
+	public long getId_trgovina()
 	{
 		return id_trgovina;
 	}

@@ -6,7 +6,7 @@
          android:paddingLeft="8dp"
          android:paddingRight="8dp">
      <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
-         <Button android:text="Dodaj izdelek" android:id="@+id/dodajIzdelek" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+         <Button android:text="Dodaj izdelek" android:id="@+id/dodajIzdelek" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
      </LinearLayout>
 
      <TextView android:id="@id/android:empty"

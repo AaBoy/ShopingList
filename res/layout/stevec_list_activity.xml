@@ -5,7 +5,7 @@
          android:layout_height="match_parent"
          android:paddingLeft="8dp"
          android:paddingRight="8dp">
-     <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seznam vseh shranjenih seznamov."></TextView>
+     <TextView android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Seznam vseh shranjenih nakupov."></TextView>
      <ListView android:layout_height="wrap_content" android:id="@id/android:list" android:layout_width="match_parent" android:drawSelectorOnTop="false" android:layout_weight="1"></ListView>
 
      <TextView android:id="@id/android:empty"

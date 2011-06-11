@@ -26,6 +26,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.AlteredCharSequence;
@@ -42,7 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 	ProgressDialog dialogWait;
 
 	GlobalneVrednosti global=new GlobalneVrednosti();
@@ -58,23 +60,34 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+        this.setRequestedOrientation(1);
     	global=(GlobalneVrednosti) getApplication();
     	
-    	
-    	MojTask mt = new MojTask();
-		mt.execute(1);
-		
-		
-		
+    	if(isNetworkAvailable())
+    	{
+    		Toast.makeText(MainActivity.this,"Je internet",Toast.LENGTH_LONG).show();
+    		MojTask mt = new MojTask();
+    		mt.execute(1);
+    	}else
+    	{
+    		global.fillFromDBIzdelki();
+    		global.init();
+    	}
+
     }
-    
+
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null;
+	}
     
 	private class MojTask extends AsyncTask<Integer, Void, Long> {
 		@Override
 		protected void onPreExecute() {
 			dialogWait = 
-				ProgressDialog.show(Main.this, "", "Delam! Pridobivam cenik...", true);
+				ProgressDialog.show(MainActivity.this, "", "Delam! Pridobivam cenik...", true);
 		}
 		protected Long doInBackground(Integer... prviArgument) {
 			long totalSize = 0;
@@ -102,7 +115,7 @@ public class Main extends Activity {
 				System.out.println("XML Pasing Excpetion = " + e);
 			}
 	    	
-			
+			//global.init();
 			return totalSize;
 		}
 
