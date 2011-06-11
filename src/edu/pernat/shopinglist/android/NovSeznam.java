@@ -44,15 +44,17 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         app=(GlobalneVrednosti) getApplication();
         
         setListAdapter(app.novSeznamList);
-        app.novSeznamList.clear();
+       
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
 
         this.setRequestedOrientation(1);
 		this.getListView().setOnItemClickListener(this);
 		
+			
 		if(app.stSeznama!=-1)
 		{
+			
 				napolniSeznam();
 		}
 	
@@ -64,7 +66,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	
     	/** Tukaj se zalomi  ali pa v SeznamNaročil**/
     	app.novSeznam=new ArrayList<Seznam>();
+    	
     	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
+    	
     	//app.novSeznam.clear();
     	for(int x=0;x<meja;x++)
     	{
@@ -72,9 +76,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     		app.novSeznamList.add(new Seznam("", app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel()));
     	}
     	
-    	app.novSeznam.get(0).imeSeznama="";
-    	app.novSeznamList.setNotifyOnChange(true);
-    	 app.novSeznamList.notifyDataSetChanged();
+    	app.novSeznam.get(0).imeSeznama=app.vsiSeznami.get(app.stSeznama).getImeSeznama(0);
+    	//app.novSeznamList.setNotifyOnChange(true);
+    	// app.novSeznamList.notifyDataSetChanged();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -113,6 +117,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	  app.novSeznam=new ArrayList<Seznam>();
     	  app.vsiSeznami.add(new Seznami(ns));
 
+    	  if(!app.novSeznamList.isEmpty())
+  			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam);
+    	  
     	  this.finish();
     	  return true;
     	  
@@ -213,8 +220,10 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	{
 		
 		super.onBackPressed();
+  	  if(!app.novSeznamList.isEmpty())
+			app.novSeznamList.clear();
 		
-		
+  	  app.stSeznama=-1;
 	}
 	
 	@Override

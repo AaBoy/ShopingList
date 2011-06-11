@@ -24,7 +24,7 @@ public class GlobalneVrednosti extends Application {
 	public int stSeznama;
 	
 	SeznamArrayAdapter seznamList;
-	NovSeznamArrayAdapter novSeznamList;
+	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
 	DBAdapterIzdelki db1;
 	String uporabnisko,geslo;

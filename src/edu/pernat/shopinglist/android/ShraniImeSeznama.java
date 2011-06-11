@@ -4,9 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ShraniImeSeznama extends Dialog implements OnClickListener {
@@ -22,19 +20,23 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		app=temp;
 		
 		ime=(TextView)findViewById(R.id.imeSeznamaTextView);	
-		ime.setText("");
+		ime.setText(app.novSeznam.get(0).imeSeznama);
 		potrdi=(Button)findViewById(R.id.potrdniImeSeznama);
 		potrdi.setOnClickListener(this);
 	}
 	
 	
 	public void onClick(View v) {
-		if(v.getId()==R.id.potrdniImeSeznama)
+		switch(v.getId())
 		{
-			
+		case R.id.potrdniImeSeznama:
 			app.novSeznam.get(0).imeSeznama=ime.getText().toString();
 			this.dismiss();
+			break;
+		
 		}
+		
+		
 	}
 
 }

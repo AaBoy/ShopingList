@@ -77,7 +77,7 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 	@Override
     public void dismiss() {
 		super.dismiss();
-        app.novSeznamList.notifyDataSetChanged();
+        //app.novSeznamList.notifyDataSetChanged();
     }
 	
 	@Override
