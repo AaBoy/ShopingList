@@ -22,6 +22,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		
 		
 		
+		
 		potrdi=(Button)findViewById(R.id.potrdiTrgovino);
 		zavrni=(Button)findViewById(R.id.zavrniTrgovino);
 		potrdi.setOnClickListener(this);
@@ -32,7 +33,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		naslovTrgovin=(Spinner)findViewById(R.id.spinerNasloTrgovine);
 		
 		array_spinner=new String [1];
-		array_spinner[0]="Merkator";
+		array_spinner[0]="Mercator";
 		/*array_spinner[1]="Spar";
 		array_spinner[2]="Tuš";
 		array_spinner[3]="Žerak";

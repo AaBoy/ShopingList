@@ -15,6 +15,17 @@ public class Seznam {
 			
 		}
 		
+		public void setUporabnik(String s)
+		{
+			uporabnik=s;
+			
+			
+		}
+		public String getUporabnik()
+		{
+			return uporabnik;
+		}
+		
 		public double getArtikelCena()
 		{
 			return artikel.getCena();

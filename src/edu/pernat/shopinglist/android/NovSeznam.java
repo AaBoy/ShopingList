@@ -67,7 +67,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	/** Tukaj se zalomi  ali pa v SeznamNaročil**/
     	app.novSeznam=new ArrayList<Seznam>();
     	
-    	int meja=app.vsiSeznami.get(app.stSeznama).getSize(0);
+    	int meja=(int) app.vsiSeznami.get(app.stSeznama).getSize(0);
     	
     	//app.novSeznam.clear();
     	for(int x=0;x<meja;x++)
@@ -77,12 +77,13 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	}
     	
     	app.novSeznam.get(0).imeSeznama=app.vsiSeznami.get(app.stSeznama).getImeSeznama(0);
+    	app.novSeznam.get(0).imeSeznama="Nov seznam";
     	//app.novSeznamList.setNotifyOnChange(true);
     	// app.novSeznamList.notifyDataSetChanged();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-		Toast.makeText(this, "Pritisnili ste:"+position, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Pritisnili ste:"+position, Toast.LENGTH_LONG).show();
 		izbranIzdelek=position;
 		showDialog(DIALOG_SPREMENI);
 	}
@@ -112,8 +113,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	  if(app.novSeznam.get(0).imeSeznama==null)
     		  app.novSeznam.get(0).imeSeznama="";
     	  
-    	  showDialog(DIALOG_IME_SEZNAMA);
+    	  //showDialog(DIALOG_IME_SEZNAMA);
     	  
+    	  //app.novSeznam.get(0).imeSeznama=app.uporabnisko;
     	  app.novSeznam=new ArrayList<Seznam>();
     	  app.vsiSeznami.add(new Seznami(ns));
 
@@ -139,7 +141,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
       return true;
       
       case R.id.ustvariIzdelek:
-    	  showDialog(DIALOG_USTVARI_NOV_IZDELEK);
+    	   showDialog(DIALOG_USTVARI_NOV_IZDELEK);
+    	  
     	  return true;
     	  
       default:// Generic catch all for all the other menu resources

@@ -30,7 +30,7 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		switch(v.getId())
 		{
 		case R.id.potrdniImeSeznama:
-			app.novSeznam.get(0).imeSeznama=ime.getText().toString();
+			app.uporabnisko=ime.getText().toString();
 			this.dismiss();
 			break;
 		

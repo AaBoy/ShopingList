@@ -6,19 +6,18 @@
     android:layout_height="fill_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:orientation="vertical"
-   android:layout_height="fill_parent"
-   android:layout_width="250dip">
+   android:layout_height="fill_parent" android:layout_width="290dip">
    
     <TextView
         android:id="@+id/txtViewEmailTo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Naslov naslovnika"/>
+        android:layout_height="wrap_content" android:text="Elektronski naslov prejemnika:"/>
     <AutoCompleteTextView android:layout_height="wrap_content" android:id="@+id/editTxtTo" android:layout_width="match_parent"></AutoCompleteTextView>
  
     <TextView
         android:id="@+id/txtViewEmailSubject"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Tema"/>
+        android:layout_height="wrap_content" android:text="Tema elektronskega naslova:"/>
        
     <EditText
         android:id="@+id/editTxtSubject"
@@ -26,7 +25,7 @@
     <TextView
         android:id="@+id/txtViewEmailBody"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:text="Telo sporočila"/>
+        android:layout_height="wrap_content" android:text="Telo sporočila:"/>
     <EditText
         android:id="@+id/editTxtBody"
         android:layout_column="0"

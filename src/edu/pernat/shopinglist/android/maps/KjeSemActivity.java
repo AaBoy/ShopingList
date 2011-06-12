@@ -63,7 +63,7 @@ public class KjeSemActivity extends MapActivity {
 		System.out.println("Delo!");
 		setContentView(R.layout.maps_main);
 		
-		
+		this.setRequestedOrientation(1);
 		MapView myMapView = (MapView)findViewById(R.id.myMapView);
 		mapController = myMapView.getController();
 
@@ -162,8 +162,6 @@ public class KjeSemActivity extends MapActivity {
 
 	private void my_updateWithNewLocation(Location location) {
 		String latLongString;
-		TextView myLocationText;
-		myLocationText = (TextView)findViewById(R.id.myLocationText);
 
 		if (location != null) {
 			positionOverlay.setLocation(location);
@@ -176,8 +174,6 @@ public class KjeSemActivity extends MapActivity {
 			double lng = location.getLongitude();
 			latLongString = "Lat:" + lat + "\nLong:" + lng;
 
-			myLocationText.setText("Trenutni položaj je:" + 
-					latLongString); 
 			
 			/*novi=(TextView)findViewById(R.id.nekajTrgovina);*/
 			 Geocoder geocoder = new Geocoder(this, Locale.ENGLISH);
