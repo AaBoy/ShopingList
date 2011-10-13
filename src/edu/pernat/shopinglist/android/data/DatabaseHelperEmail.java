@@ -1,6 +1,7 @@
 package edu.pernat.shopinglist.android.data;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -28,7 +29,15 @@ public class DatabaseHelperEmail extends SQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db) 
 	{
+		try
+		{
 		db.execSQL(DATABASE_CREATE);
+	
+		}
+		catch(SQLException bb)
+		{
+			Log.e("nekaj",  bb.getMessage().toString());
+		}
 	}
 
 	@Override

@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -28,6 +30,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	
 	GlobalneVrednosti app;
 	Button spreIzde,dodajIzdelek;
+	CheckBox oznaceno;
 	private Menu mMenu;  //ni nujno
 	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
@@ -41,13 +44,9 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nov_seznam_list_activity);
         //spreIzde=(Button)findViewById(R.id.spremeniIzdelek);
-        app=(GlobalneVrednosti) getApplication();
-        
+        app=(GlobalneVrednosti) getApplication();       
+        //oznaceno=(CheckBox)findViewById(R.id.checkBox1);
         setListAdapter(app.novSeznamList);
-       
-        dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
-        dodajIzdelek.setOnClickListener(this);
-
         this.setRequestedOrientation(1);
 		this.getListView().setOnItemClickListener(this);
 		
@@ -58,7 +57,13 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 				napolniSeznam();
 		}
 	
+		dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
+        dodajIzdelek.setOnClickListener(this);
+		
     }
+    
+
+
     
     
     public void napolniSeznam()
@@ -79,13 +84,14 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	app.novSeznam.get(0).imeSeznama=app.vsiSeznami.get(app.stSeznama).getImeSeznama(0);
     	app.novSeznam.get(0).imeSeznama="Nov seznam";
     	//app.novSeznamList.setNotifyOnChange(true);
-    	// app.novSeznamList.notifyDataSetChanged();
+       /// app.novSeznamList.notifyDataSetChanged();
     }
     
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-		//Toast.makeText(this, "Pritisnili ste:"+position, Toast.LENGTH_LONG).show();
+		
 		izbranIzdelek=position;
-		showDialog(DIALOG_SPREMENI);
+		
+		//showDialog(DIALOG_SPREMENI);
 	}
     
 
@@ -113,16 +119,16 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     	  if(app.novSeznam.get(0).imeSeznama==null)
     		  app.novSeznam.get(0).imeSeznama="";
     	  
-    	  //showDialog(DIALOG_IME_SEZNAMA);
+    	  showDialog(DIALOG_IME_SEZNAMA);
     	  
-    	  //app.novSeznam.get(0).imeSeznama=app.uporabnisko;
+    	  app.novSeznam.get(0).imeSeznama=app.uporabnisko;
     	  app.novSeznam=new ArrayList<Seznam>();
     	  app.vsiSeznami.add(new Seznami(ns));
 
     	  if(!app.novSeznamList.isEmpty())
   			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam);
     	  
-    	  this.finish();
+    	  
     	  return true;
     	  
       case R.id.Clear:
@@ -217,6 +223,8 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 	{
 		super.finish();
 		app.stSeznama=-1;
+		
+		
 	}
 	@Override
 	public void onBackPressed()
@@ -225,8 +233,6 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		super.onBackPressed();
   	  if(!app.novSeznamList.isEmpty())
 			app.novSeznamList.clear();
-		
-  	  app.stSeznama=-1;
 	}
 	
 	@Override

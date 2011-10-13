@@ -63,16 +63,19 @@ public class MainActivity extends Activity {
         this.setRequestedOrientation(1);
     	global=(GlobalneVrednosti) getApplication();
     	
-    	if(isNetworkAvailable())
-    	{
-    		Toast.makeText(MainActivity.this,"Je internet",Toast.LENGTH_LONG).show();
-    		MojTask mt = new MojTask();
-    		mt.execute(1);
-    	}else
-    	{
-    		global.fillFromDBIzdelki();
-    		global.init();
-    	}
+    	global.fillFromDBIzdelki();
+		//global.init();
+    	
+//    	if(isNetworkAvailable())
+//    	{
+//    		Toast.makeText(MainActivity.this,"Je internet",Toast.LENGTH_LONG).show();
+//    		MojTask mt = new MojTask();
+//    		mt.execute(1);
+//    	}else
+//    	{
+//    		global.fillFromDBIzdelki();
+//    		global.init();
+//    	}
 
     }
 

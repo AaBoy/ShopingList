@@ -7,8 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
-import edu.pernat.shopinglist.android.SeznamArrayAdapter.ViewHolder;
+import edu.pernat.shopinglist.android.R;
+import edu.pernat.shopinglist.android.R.id;
+import edu.pernat.shopinglist.android.R.layout;
 import edu.pernat.shopinglist.android.razredi.Seznam;
 
 public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
@@ -35,6 +38,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			// holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI
 			holder.kolicina=(TextView)convertView.findViewById(R.id.novaKolicina);
+			//holder.kupljeno=(CheckBox)convertView.findViewById(R.id.checkBox1);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView
@@ -44,7 +48,11 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 		// Bind the data efficiently with the holder.
 		holder.cena.setText(""+tmp.getArtikelCena()+" €"); //Step 4.8 POPRAVI
 		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
-		holder.kolicina.setText(tmp.getArtikliKolicina());
+		//holder.kolicina.setText(tmp.getArtikliKolicina());
+		//holder.kupljeno.setChecked(true);
+		
+		//holder.kupljeno.setClickable(true);
+		
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		return convertView;
 	}
@@ -52,6 +60,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 		TextView cena; //Step 4.8 POPRAVI
 		TextView naziv; //Step 4.8 POPRAVI
 		TextView kolicina;
+		//CheckBox kupljeno;
 	}
 
 }

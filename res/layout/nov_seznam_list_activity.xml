@@ -12,6 +12,6 @@
      <TextView android:id="@id/android:empty"
                android:layout_width="match_parent"
                android:background="#FF0000"
-               android:layout_height="100dip" android:text="Ni podatkov, prosim, dodajte izdelek"/>
-     <ListView android:id="@id/android:list" android:drawSelectorOnTop="false" android:layout_width="match_parent" android:layout_weight="1" android:layout_height="wrap_content"></ListView>
+               android:text="Ni podatkov, prosim, dodajte izdelek" android:layout_height="wrap_content"/>
+     <ListView android:drawSelectorOnTop="false" android:layout_width="match_parent" android:layout_weight="1" android:layout_height="wrap_content" android:id="@id/android:list" ></ListView>
  </LinearLayout>

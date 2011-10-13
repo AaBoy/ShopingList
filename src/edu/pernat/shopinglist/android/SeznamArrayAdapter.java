@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 			// holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.skupnaCena = (TextView) convertView.findViewById(R.id.SkupnaCena); //Step 4.8 POPRAVI
 			holder.zapovrstniID=(TextView)convertView.findViewById(R.id.stZaporedja);
+			holder.stNakupov=(ProgressBar)convertView.findViewById(R.id.progressBar1);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView
@@ -51,7 +53,9 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 		// Bind the data efficiently with the holder.
 		holder.naslovSeznama.setText(""+tmp.getImeSeznama(0)); //Step 4.8 POPRAVI
 		holder.skupnaCena.setText(""+tmp.getSkupnaCena()+"€"); //Step 4.8 POPRAVI
-		holder.zapovrstniID.setText(""+(i));
+		holder.zapovrstniID.setText(""+i);
+		holder.stNakupov.setMax(15);
+		holder.stNakupov.setProgress(i);
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		i++;
 		return convertView;
@@ -62,6 +66,7 @@ public class SeznamArrayAdapter extends ArrayAdapter<Seznami>{
 		TextView naslovSeznama; //Step 4.8 POPRAVI
 		TextView skupnaCena; //Step 4.8 POPRAVI
 		TextView zapovrstniID;
+		ProgressBar stNakupov;
 	}
 
 
