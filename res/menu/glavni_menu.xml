@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Glavni meni" android:id="@+id/glavni_meni"></item>
+    <item android:title="Nov seznam" android:id="@+id/nov_seznam2"></item>
+    
+</menu>
