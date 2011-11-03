@@ -7,12 +7,13 @@ public class Seznam {
 		String uporabnik;
 		Artikli artikel;
 		public String imeSeznama;
+		public boolean oznacen;
 		
 		public Seznam(String u, Artikli a)
 		{
 			uporabnik=u;
 			artikel=a;
-			
+			oznacen=false;
 		}
 		
 		public void setUporabnik(String s)
@@ -53,5 +54,12 @@ public class Seznam {
 		public Artikli getArtikel()
 		{
 			return new Artikli(artikel.id_trgovina, artikel.cena, artikel.ime, artikel.kolicina);
+		}
+		public void setSelected(Boolean selected) {
+			
+			if(selected=true)
+				
+			
+			this.oznacen = selected;
 		}
 }

@@ -6,6 +6,7 @@ import edu.pernat.shopinglist.android.razredi.Seznam;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,7 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class NovSeznam extends ListActivity implements OnItemClickListener,OnClickListener{
+public class NovSeznam extends ListActivity implements OnClickListener,OnLongClickListener{
     /** Called when the activity is first created. */
 	/*Globalne*/
 	
@@ -48,7 +50,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
         //oznaceno=(CheckBox)findViewById(R.id.checkBox1);
         setListAdapter(app.novSeznamList);
         this.setRequestedOrientation(1);
-		this.getListView().setOnItemClickListener(this);
+		//this.getListView().setOnItemClickListener(this);
 		
 			
 		if(app.stSeznama!=-1)
@@ -91,7 +93,7 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
 		
 		izbranIzdelek=position;
 		
-		//showDialog(DIALOG_SPREMENI);
+		showDialog(DIALOG_SPREMENI);
 	}
     
 
@@ -239,6 +241,23 @@ public class NovSeznam extends ListActivity implements OnItemClickListener,OnCli
     public void onResume() {
 		super.onResume();
     }
+
+
+
+
+
+	public boolean onLongClick(View v) {
+		// TODO Auto-generated method stub
+		AlertDialog alertDialog = new AlertDialog.Builder(
+                NovSeznam.this).create();
+alertDialog.setTitle("Confirmation");
+alertDialog
+                .setMessage("Do you want to set this image as wallaper?");
+
+               
+		
+		return false;
+	}
 	
 
 

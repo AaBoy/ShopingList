@@ -32,9 +32,11 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	/** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.stevec_list_activity);
         this.setRequestedOrientation(1);
         app=(GlobalneVrednosti) getApplication();
+        prestej();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
 		
@@ -42,6 +44,18 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}
+    
+    public void prestej()
+    {
+    	
+//    	for(int j=0;j<app.vsiSeznami.size();j++)
+//    	{
+//	    	
+//	    		app.vsiSeznami.get(j).steviloIzbranih=app.vsiSeznami.get(j).oznacen(j);
+//
+//    	}
+    }
+    
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		//Toast.makeText(this, "Pritisnili ste: "+, Toast.LENGTH_LONG).show();
 		app.stSeznama=position;

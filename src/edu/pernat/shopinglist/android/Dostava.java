@@ -77,7 +77,12 @@ public class Dostava extends Dialog implements OnClickListener {
 		emailBody.setText(teloEmaila);
 	}
 
-
+	public Dostava(Context context) {
+		super(context);
+		setContentView(R.layout.dostava);
+	}
+	
+	
 	
 	/**
 	 * Method to send email

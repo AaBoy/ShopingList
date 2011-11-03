@@ -4,7 +4,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:orientation="vertical" android:layout_gravity="left">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="left" android:weightSum="0">
-        <TextView android:id="@+id/TextView1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:text="C" android:textSize="15dp"></TextView>
+        <CheckBox android:id="@+id/CheckBox1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:textSize="15dp"></CheckBox>
         <TextView android:textSize="25dip" android:id="@+id/novaIme" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:width="180dip" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
         <TextView android:layout_height="wrap_content" android:id="@+id/novaCena" android:textSize="25dip" android:text="Cena" android:gravity="left" android:width="160dip" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
         <TextView android:layout_height="wrap_content" android:id="@+id/novaKolicina" android:textSize="25dip" android:text="Kolicina" android:gravity="left" android:width="140dip" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>

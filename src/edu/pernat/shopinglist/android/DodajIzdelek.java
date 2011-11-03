@@ -38,6 +38,31 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		prvi.setAdapter(pinnerArrayAdapter);
 
 	}
+	
+	
+	public DodajIzdelek(Context context) {
+		super(context);
+		// TODO Auto-generated constructor stub
+		setContentView(R.layout.dodaj_izdelek);
+		this.setTitle("Dodajte nov izdelek na seznam!");
+		prvi=(Spinner)findViewById(R.id.spinner1);
+		
+		potdi=(Button)findViewById(R.id.dodajPotrdi);
+		zavrni=(Button)findViewById(R.id.dodajZavrni);
+		potdi.setOnClickListener(this);
+		zavrni.setOnClickListener(this);
+		en="Nkeaj";
+//		
+//
+//		napolniSeznamArtiklov();
+//		
+//		
+//		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, array_spinner);
+//		prvi.setAdapter(pinnerArrayAdapter);
+		
+		
+		Toast.makeText(getContext(), "Jej notri", Toast.LENGTH_SHORT).show();
+	}
 
 	public void napolniSeznamArtiklov()
 	{
