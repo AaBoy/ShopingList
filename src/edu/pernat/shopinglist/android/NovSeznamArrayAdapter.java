@@ -24,12 +24,18 @@ import edu.pernat.shopinglist.android.razredi.Seznam;
 public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 	public static final int DIALOG_DODAJ_IZDELEK =1;
 	LayoutInflater mInflater;
-	
+	GlobalneVrednosti app;
 	Context vmensa=null;
 	
 	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Seznam> objects) { //Step 4.8 POPRAVI Stevec ->Rezultati
 		super(context, textViewResourceId,objects);
 	    mInflater = LayoutInflater.from(context);
+	    
+	   }
+	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Seznam> objects, GlobalneVrednosti app) { //Step 4.8 POPRAVI Stevec ->Rezultati
+		super(context, textViewResourceId,objects);
+	    mInflater = LayoutInflater.from(context);
+	    this.app=app;
 	   }
 	
 	  protected Dialog onCreateDialog(int id) {
@@ -74,7 +80,14 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// Bind the data efficiently with the holder.
-		holder.cena.setText(""+tmp.getArtikelCena()+" €"); //Step 4.8 POPRAVI
+		holder.cena.setOnLongClickListener(new OnLongClickListener() {
+	           
+            public boolean onLongClick(View v) {
+                SpremeniIzdelek dialog2=new SpremeniIzdelek(parent.getContext(), app, position);
+                dialog2.show();
+                return false;
+            }
+        });
 		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
 		holder.kolicina.setText(tmp.getArtikliKolicina());
 		
@@ -85,28 +98,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
             	getItem(position).setSelected(holder.kupljeno.isChecked());
             }
         });
-		
-//		holder.naziv.setOnLongClickListener((OnLongClickListener) new OnLongClickListener() {
-//			
-//			public boolean onLongClick(View v) {
-//
-//				parent.getContext();
-//                
-//				
-//				return false;
-//			}
-//		});
-//		
-//		 holder.cena.setOnLongClickListener(new OnLongClickListener() {
-//			
-//			public boolean onLongClick(View v) {
-//				vmensa= parent.getContext();
-//                onCreateDialog(DIALOG_DODAJ_IZDELEK);
-//				
-//				return false;
-//			}
-//		});
-
+	
 		
 		//holder.kupljeno.setClickable(true);
 		

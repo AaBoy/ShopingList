@@ -128,7 +128,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
     	  app.vsiSeznami.add(new Seznami(ns));
 
     	  if(!app.novSeznamList.isEmpty())
-  			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam);
+  			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam,app);
     	  
     	  
     	  return true;

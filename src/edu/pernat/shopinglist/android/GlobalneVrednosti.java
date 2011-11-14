@@ -44,7 +44,7 @@ public class GlobalneVrednosti extends Application {
         fillFromDB();
         //napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
-        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam);
+        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam, new GlobalneVrednosti());
         
         
 	}
