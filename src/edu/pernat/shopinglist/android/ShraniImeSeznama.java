@@ -1,5 +1,6 @@
 package edu.pernat.shopinglist.android;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -12,15 +13,17 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 	TextView ime;
 	Button potrdi;
 	GlobalneVrednosti app;
-	public ShraniImeSeznama(Context context,GlobalneVrednosti temp) {
+	Activity aa;
+	public ShraniImeSeznama(Context context,GlobalneVrednosti temp, Activity aa) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		setContentView(R.layout.nastavi_ime_seznama);
 		this.setTitle("Nastavite ime seznama.");
 		app=temp;
+		this.aa=aa;
 		
 		ime=(TextView)findViewById(R.id.imeSeznamaTextView);	
-		ime.setText(app.novSeznam.get(0).imeSeznama);
+		ime.setText(app.uporabnisko);
 		potrdi=(Button)findViewById(R.id.potrdniImeSeznama);
 		potrdi.setOnClickListener(this);
 	}
@@ -31,7 +34,8 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		{
 		case R.id.potrdniImeSeznama:
 			app.uporabnisko=ime.getText().toString();
-			this.dismiss();
+			aa.finish();
+			
 			break;
 		
 		}

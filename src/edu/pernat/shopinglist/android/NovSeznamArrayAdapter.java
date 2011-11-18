@@ -88,6 +88,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
                 return false;
             }
         });
+		holder.cena.setText(""+tmp.getArtikelCena()+" €");
 		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
 		holder.kolicina.setText(tmp.getArtikliKolicina());
 		

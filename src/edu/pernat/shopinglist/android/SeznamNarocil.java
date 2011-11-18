@@ -93,6 +93,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	      return true;
 	      
 	      case R.id.nov_seznam2:
+	    	  app.stSeznama=-1;
 	    	  Intent moj=new Intent(this, NovSeznam.class);
   			this.startActivity(moj);
 	    	  

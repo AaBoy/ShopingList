@@ -177,8 +177,12 @@ public class MainActivity extends Activity {
     		case R.id.gumbKamera:
     		
     		{
-    			Intent moj=new Intent(this, Kamera.class);
-    			this.startActivity(moj);
+    			
+    			Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            	intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+            	startActivityForResult(intent, 0);
+//    			Intent moj=new Intent(this, Kamera.class);
+//    			this.startActivity(moj);
     			break;
     			
     		}
@@ -189,8 +193,23 @@ public class MainActivity extends Activity {
     }
     
     
-    @Override
-    
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+ 	   if (requestCode == 0) {
+ 	      if (resultCode == RESULT_OK) {
+ 	         String contents = intent.getStringExtra("SCAN_RESULT");
+ 	         String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
+ 	         
+ 	         //Log.d("Izpis", contents);
+ 	      Toast.makeText(this, contents, Toast.LENGTH_SHORT)
+ 	        .show();
+ 	         // Handle successful scan
+ 	      } else if (resultCode == RESULT_CANCELED) {
+ 	         // Handle cancel
+ 	      }
+ 	   }
+ 	}
+
+    @Override   
     public void onStart()
     {
     	super.onStart();
@@ -246,16 +265,6 @@ public class MainActivity extends Activity {
     	//myName.println(app.ime);
     }
     
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-
-        // See which child activity is calling us back.
-
-        switch (resultCode) {
-
-            case 0:
-        }
-        
-    }
     /*Menu in dialog*/
     protected Dialog onCreateDialog(int id) {
     	

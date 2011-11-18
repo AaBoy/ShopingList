@@ -89,12 +89,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
        /// app.novSeznamList.notifyDataSetChanged();
     }
     
-    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-		
-		izbranIzdelek=position;
-		
-		showDialog(DIALOG_SPREMENI);
-	}
+//    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+//		
+//		izbranIzdelek=position;
+//		
+//		showDialog(DIALOG_SPREMENI);
+//	}
     
 
     @Override
@@ -113,24 +113,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       case R.id.Shrani:
-    	  Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
-    	  if(app.stSeznama!=-1)
-    	  app.vsiSeznami.remove(app.stSeznama);  
-    	  ArrayList<Seznam>ns= app.novSeznam;
-    	  
-    	  if(app.novSeznam.get(0).imeSeznama==null)
-    		  app.novSeznam.get(0).imeSeznama="";
-    	  
-    	  showDialog(DIALOG_IME_SEZNAMA);
-    	  
-    	  app.novSeznam.get(0).imeSeznama=app.uporabnisko;
-    	  app.novSeznam=new ArrayList<Seznam>();
-    	  app.vsiSeznami.add(new Seznami(ns));
 
-    	  if(!app.novSeznamList.isEmpty())
-  			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam,app);
-    	  
-    	  
+    	  showDialog(DIALOG_IME_SEZNAMA);
     	  return true;
     	  
       case R.id.Clear:
@@ -146,6 +130,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
       case R.id.Poslji:
       
     	  showDialog(DIALOG_POSLJI);
+    	  
       return true;
       
       case R.id.ustvariIzdelek:
@@ -164,6 +149,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
 
     }
 
+    
     
   protected Dialog onCreateDialog(int id) {
     	
@@ -193,10 +179,26 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
         	
         	return dialog3;
         	
-        case DIALOG_IME_SEZNAMA:
-        	Context mContext4=this;
-        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app);
+        case DIALOG_IME_SEZNAMA:  
+        	if(app.novSeznam.get(0).imeSeznama==null)
+       		  app.uporabnisko="";
         	
+        	Context mContext4=this;
+        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app,this);
+        	Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
+       	  
+	        ArrayList<Seznam>ns= app.novSeznam;
+	        if(app.stSeznama!=-1)
+       	 	app.vsiSeznami.remove(app.stSeznama);   	  	
+        	app.uporabnisko= app.novSeznam.get(0).imeSeznama;
+       	    ns.get(0).imeSeznama=app.uporabnisko;
+       	    app.novSeznam=new ArrayList<Seznam>();
+       	    app.vsiSeznami.add(new Seznami(ns));
+
+       	    if(!app.novSeznamList.isEmpty())
+     			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam);
+       	  
+        	//onFinish();
         	return dialog4;
         
         default:
@@ -244,7 +246,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
 
 
 
-
+	
 
 	public boolean onLongClick(View v) {
 		// TODO Auto-generated method stub
