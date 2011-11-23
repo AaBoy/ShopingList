@@ -1,28 +1,31 @@
 package edu.pernat.shopinglist.android;
 
-import android.R.string;
 
 
 
 public class RazredBaza {
 	
 	
-		String uporabnisko;
-		String geslo;
+		int stSeznama;
+		int stArtikla;
+		String imeSeznama;
 		long id;
 		
 		public void setID(long l)
 		{id=l;}
 		
-		public void setUpo(String i)
-		{uporabnisko=i;}
-		public void setGeslo(String i)
-		{geslo=i;}
+		public void setStSeznma(int i)
+		{stSeznama=i;}
+		public void setStArtikla(int i)
+		{stArtikla=i;}
+		public void setImeSeznama(String i)
+		{imeSeznama=i;}
 		
-		public RazredBaza(String i, String p)
+		public RazredBaza(int i, int p, String s)
 		{
-			uporabnisko=i;
-			geslo=p;
+			stSeznama=i;
+			stArtikla=p;
+			imeSeznama=s;
 		}
 		
 		
@@ -30,8 +33,9 @@ public class RazredBaza {
 		public RazredBaza() {
 			// TODO Auto-generated constructor stub
 		}
-		public String getUpo(){return uporabnisko;}
-		public String getGeslo(){return geslo;}
+		public int getStSeznama(){return stSeznama;}
+		public int getStArtikla(){return stArtikla;}
+		public String getImeSeznama(){return imeSeznama;}
 
 
 }

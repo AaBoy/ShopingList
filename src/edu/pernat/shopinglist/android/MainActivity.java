@@ -169,6 +169,7 @@ public class MainActivity extends Activity {
     		{
     			/*MojTask mt = new MojTask();
     			mt.execute(50);*/
+    			 global.stSeznama=-1;
     			Intent moj=new Intent(this, NovSeznam.class);
     			this.startActivity(moj);
     			break;

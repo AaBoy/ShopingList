@@ -26,7 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class NovSeznam extends ListActivity implements OnClickListener,OnLongClickListener{
+public class NovSeznam extends ListActivity implements OnClickListener{
     /** Called when the activity is first created. */
 	/*Globalne*/
 	
@@ -122,6 +122,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
     	  if(app.stSeznama!=-1)
         	  app.vsiSeznami.remove(app.stSeznama);
 
+    	  app.stSeznama=-1;
+    	  app.novSeznamList.clear();
     	  this.finish();
     	  Toast.makeText(this,"Izbrisano!", Toast.LENGTH_SHORT)
           .show();
@@ -180,25 +182,10 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
         	return dialog3;
         	
         case DIALOG_IME_SEZNAMA:  
-        	if(app.novSeznam.get(0).imeSeznama==null)
-       		  app.uporabnisko="";
-        	
         	Context mContext4=this;
         	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app,this);
         	Toast.makeText(this,"Shranjeno", Toast.LENGTH_SHORT).show();
-       	  
-	        ArrayList<Seznam>ns= app.novSeznam;
-	        if(app.stSeznama!=-1)
-       	 	app.vsiSeznami.remove(app.stSeznama);   	  	
-        	app.uporabnisko= app.novSeznam.get(0).imeSeznama;
-       	    ns.get(0).imeSeznama=app.uporabnisko;
-       	    app.novSeznam=new ArrayList<Seznam>();
-       	    app.vsiSeznami.add(new Seznami(ns));
-
-       	    if(!app.novSeznamList.isEmpty())
-     			app.novSeznamList = new NovSeznamArrayAdapter(this,R.layout.nov_seznam, app.novSeznam);
-       	  
-        	//onFinish();
+        	
         	return dialog4;
         
         default:
@@ -243,49 +230,6 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnLongCli
     public void onResume() {
 		super.onResume();
     }
-
-
-
-	
-
-	public boolean onLongClick(View v) {
-		// TODO Auto-generated method stub
-		AlertDialog alertDialog = new AlertDialog.Builder(
-                NovSeznam.this).create();
-alertDialog.setTitle("Confirmation");
-alertDialog
-                .setMessage("Do you want to set this image as wallaper?");
-
-               
-		
-		return false;
-	}
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

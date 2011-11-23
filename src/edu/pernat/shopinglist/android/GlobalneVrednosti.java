@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
 import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
-import edu.pernat.shopinglist.android.data.DBAdapterTrgovine;
+import edu.pernat.shopinglist.android.data.DBAdapterVsiSeznami;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import edu.pernat.shopinglist.android.razredi.Seznam;
@@ -14,6 +14,7 @@ import edu.pernat.shopinglist.android.razredi.Trgovina;
 import android.app.Application;
 import android.database.Cursor;
 import android.opengl.Visibility;
+import android.util.Log;
 
 public class GlobalneVrednosti extends Application {
 	public ArrayList<EmailNaslovi> lista;
@@ -27,12 +28,14 @@ public class GlobalneVrednosti extends Application {
 	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
 	DBAdapterIzdelki db1;
+	DBAdapterVsiSeznami dbSeznami;
 	String uporabnisko,geslo;
 	
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
         db1=new DBAdapterIzdelki(this);
+        dbSeznami=new DBAdapterVsiSeznami(this);
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
         lista=new ArrayList<EmailNaslovi>();
@@ -40,6 +43,7 @@ public class GlobalneVrednosti extends Application {
         stSeznama=-1;
         vsiSeznami=new ArrayList<Seznami>();
         novSeznam=new ArrayList<Seznam>();
+       
         init();
         fillFromDB();
         //napolniNaslov();
@@ -54,6 +58,8 @@ public class GlobalneVrednosti extends Application {
 		novSeznam.add(new Seznam("Nekdo", tmp));
 		
 	}
+	
+
 	
 	public void artikelNaSeznam(Artikli tmp)
 	{
@@ -91,7 +97,7 @@ public class GlobalneVrednosti extends Application {
 		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
 		
-		
+		stVnosov(new RazredBaza(1, 1, "Joza"));
 		
 	}
 
@@ -196,4 +202,18 @@ public class GlobalneVrednosti extends Application {
 		lista.remove(a);  //Step 4.10 Globalna lista
 	}
 	//DB konec
+	public void stVnosov(RazredBaza s)
+	{
+		dbSeznami.open();
+		s.setID(dbSeznami.insertUporabnik(s));
+		dbSeznami.close();
+		
+		Log.e("velikost baze",dbSeznami.sizeDB()+"" ); 
+	}
+	
+	
+	
+	
+	
+	
 }

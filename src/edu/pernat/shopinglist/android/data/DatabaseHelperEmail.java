@@ -16,7 +16,7 @@ public class DatabaseHelperEmail extends SQLiteOpenHelper
 	private static final String DATABASE_NAME = "Email naslovi";
 	private static final String DATABASE_CREATE =
 
-				"create table " +DBAdapterEmail.TABELA_EMAIL +" ("+DBAdapterTrgovine._ID+ " integer primary key autoincrement, "
+				"create table " +DBAdapterEmail.TABELA_EMAIL +" ("+DBAdapterVsiSeznami._ID+ " integer primary key autoincrement, "
 				+ DBAdapterEmail.EMAIL_NASLOVI+" TEXT not null);"
 		
 ;
