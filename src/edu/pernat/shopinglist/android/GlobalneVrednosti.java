@@ -27,14 +27,15 @@ public class GlobalneVrednosti extends Application {
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
-	DBAdapterIzdelki db1;
+	DBAdapterIzdelki dbIzdelki;
 	DBAdapterVsiSeznami dbSeznami;
 	String uporabnisko,geslo;
-	
+	String bazaPolna;
+
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
-        db1=new DBAdapterIzdelki(this);
+        dbIzdelki=new DBAdapterIzdelki(this);
         dbSeznami=new DBAdapterVsiSeznami(this);
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
@@ -70,13 +71,25 @@ public class GlobalneVrednosti extends Application {
 	
 	public void init()
 	{
+		/*
+		 * 
+		 * */
 		//lista.add(new RazredBaza("uporabniško", "Geslo"));
 		artikelNaSeznam(new Artikli(1, 2, "Mleko", "1l"));
-		artikelNaSeznam(new Artikli(1, 2.4, "Pivo", "0,5l"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Lizika", "16g"));
+		artikelNaSeznam(new Artikli(1, 2.4, "Sok", "0,5l"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Vino", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Moka", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Margerina", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Marmelada", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Cips", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Tuna", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Zemlje", "16g"));
+		artikelNaSeznam(new Artikli(1, 0.25, "Posebna", "16g"));
+		
 		
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
+		novSeznam.get(0).oznacen=true;
 		novSeznam.get(0).imeSeznama="Miha kovačev";
 		novSeznam.get(1).imeSeznama="Miha kovačev";
 		
@@ -97,7 +110,7 @@ public class GlobalneVrednosti extends Application {
 		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
 		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
 		
-		stVnosov(new RazredBaza(1, 1, "Joza"));
+		stVnosov(new RazredBaza(1, 1, "Joza",1,5));
 		
 	}
 
@@ -150,8 +163,8 @@ public class GlobalneVrednosti extends Application {
 	
 	//DB izdelki
 	public void fillFromDBIzdelki() {
-		db1.open();
-		Cursor c = db1.getAll();
+		dbIzdelki.open();
+		Cursor c = dbIzdelki.getAll();
 		Artikli tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			tmp = new Artikli();
@@ -163,12 +176,12 @@ public class GlobalneVrednosti extends Application {
 			seznamArtiklov.add(tmp); 
 		}
 		c.close();
-		db1.close();
+		dbIzdelki.close();
 	}
 	public void addDBArtikel(Artikli s) {
-		db1.open();
-		s.setID(db1.insertArtikel(s));
-		db1.close();	
+		dbIzdelki.open();
+		s.setID(dbIzdelki.insertArtikel(s));
+		dbIzdelki.close();	
 	}
 	public void remove(Artikli a) {
 		if (a!=null)
@@ -206,9 +219,14 @@ public class GlobalneVrednosti extends Application {
 	{
 		dbSeznami.open();
 		s.setID(dbSeznami.insertUporabnik(s));
+		Log.e("velikost baze",dbSeznami.sizeDB()+"" ); 
 		dbSeznami.close();
 		
-		Log.e("velikost baze",dbSeznami.sizeDB()+"" ); 
+//		dbIzdelki.open();
+//		Log.e("Vrjen izpis", dbIzdelki.vrniPozicije("Pivo")+"" ); ;
+//		dbIzdelki.close();
+		
+		
 	}
 	
 	

@@ -5,4 +5,5 @@
      <item android:icon="@android:drawable/ic_menu_send" android:id="@+id/Poslji" android:title="Poslji"></item>
      <item android:id="@+id/Shrani" android:title="Shrani" android:icon="@android:drawable/ic_menu_save"></item>
      <item android:id="@+id/ustvariIzdelek" android:title="Ustvari izdelek" android:icon="@android:drawable/ic_menu_save"></item>
+     <item android:id="@+id/CenejsiSeznam" android:title="Cenejsi" android:icon="@android:drawable/ic_menu_edit"></item>
 </menu>

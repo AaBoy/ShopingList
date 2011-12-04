@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/home/primoz/AndroidDatoteke/ShopingList/lib/commons-net.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="/home/primoz/AndroidDatoteke/ShopingList/lib/core.jar"/>
+	<classpathentry kind="lib" path="/home/primoz/AndroidDatoteke/ShopingList/lib/ksoap2.5.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -72,7 +72,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI
 			holder.kolicina=(TextView)convertView.findViewById(R.id.novaKolicina);
 			holder.kupljeno=(CheckBox)convertView.findViewById(R.id.CheckBox1);
-
+			
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView

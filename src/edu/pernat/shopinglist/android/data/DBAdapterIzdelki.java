@@ -22,13 +22,15 @@ public class DBAdapterIzdelki implements BaseColumns {
 	public static final  int AR_I=1;
 	public static final  int AR_C=2;
 	public static final  int AR_K=3;
+	
 	public static final  String AR_IME="ime";
 	public static final  String AR_CENA="s_cena";
 	public static final  String AR_KOLI="Kolicina";
+	
 
 
 	public static final  String TABLE="emaili";
-	public static final  String TABELA_EMAIL="email";
+	public static final  String TABELA_IZDELKI="email";
 
 
 	private final Context context;
@@ -63,20 +65,20 @@ public class DBAdapterIzdelki implements BaseColumns {
 		initialValues.put(AR_IME, tmp.getIme()); 
 		initialValues.put(AR_CENA, tmp.getCena()); 
 		initialValues.put(AR_KOLI, tmp.getKolicina()); 
-		return db.insert(TABELA_EMAIL, null, initialValues);
+		return db.insert(TABELA_IZDELKI, null, initialValues);
 		//return 1;
 	}
 
 	//---deletes a particular title---
 	public boolean deleteEmail(long rowId) 
 	{
-		return db.delete(TABELA_EMAIL, _ID + "=" + rowId, null) > 0;
+		return db.delete(TABELA_IZDELKI, _ID + "=" + rowId, null) > 0;
 	}
 
 	//---retrieves all the titles---
 	public Cursor getAll() 
 	{
-		return db.query(TABELA_EMAIL, new String[] {
+		return db.query(TABELA_IZDELKI, new String[] {
 				_ID,       //POS__ID=0;
 				    //POS_NAME=1
 				AR_IME,
@@ -120,4 +122,40 @@ public class DBAdapterIzdelki implements BaseColumns {
 				_ID + "=" + tmp.getId(), null) > 0;*/
 		return false;
 	}
+	public String vrniPozicije(String ime)
+	{
+		Cursor cursor = db.query(TABELA_IZDELKI, new String[] { "_ID",AR_IME}, 
+                AR_IME + " = " + "'"+ime+ "'", null, null, null, null);
+     
+		
+		
+		return cursor.getString(0);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

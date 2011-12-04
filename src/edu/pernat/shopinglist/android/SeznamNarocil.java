@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -45,6 +46,37 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 
 	}
     
+    @Override
+    public void onStop()
+    {
+    	super.onStop();
+		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    SharedPreferences.Editor editor1 = sharedPreferences.edit();
+	    editor1.putString("BAZA", "polna");
+	    editor1.commit();
+
+    	//myName.println(app.ime);
+    }
+    @Override   
+    public void onStart()
+    {
+    	super.onStart();
+    	SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
+	    Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
+    
+    }
+    
+	@Override
+	public void onPause() { //pref uporabnik ali OS zapusti pogled, potrebno shranit
+		super.onPause();
+		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    SharedPreferences.Editor editor1 = sharedPreferences.edit();
+	    editor1.putString("BAZA", "prazna");
+	    editor1.commit();
+	}
+    
+    
     public void prestej()
     {
     	
@@ -68,6 +100,9 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     public void onResume() {
 		super.onResume();
         app.seznamList.notifyDataSetChanged();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
+	    Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
     }
 	
 	 @Override

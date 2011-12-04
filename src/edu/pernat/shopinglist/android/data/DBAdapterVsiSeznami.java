@@ -11,6 +11,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.media.JetPlayer;
 import android.provider.BaseColumns;
 
 
@@ -22,11 +23,14 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 	public static final  int SEZNAM_ID=0;
 	public static final  int ARTIKEL_ID=1;
 	public static final int IME_SEZNAMA_ID=2;
+	public static final int OOZNACEN=3;
+	public static final int KOL_NAKUPOV=4;
 
 	public static final  String ST_SEZNAMA="stSeznama";
 	public static final  String ST_ARTIKLA="stArtikla";
 	public static final  String IME_SEZNAMA="imeSeznama";
-	
+	public static final String JE_OZNACEN="oznacen";
+	public static final String KOLI_NAKUOPV="koliNakupov";
 
 
 	public static final  String TABELA_SEZNAMI="seznami";
@@ -65,6 +69,8 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 		initialValues.put(ST_SEZNAMA, stevec.getStSeznama()); 
 		initialValues.put(ST_ARTIKLA, stevec.getStArtikla());
 		initialValues.put(IME_SEZNAMA, stevec.getImeSeznama());
+		initialValues.put(JE_OZNACEN, stevec.getOznacen());
+		initialValues.put(KOLI_NAKUOPV, stevec.getKolicina());
 		return db.insert(TABELA_SEZNAMI, null, initialValues);
 		//return 1;
 	}
@@ -83,7 +89,9 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 				_ID,       //POS__ID=0;
 				ST_SEZNAMA,      //POS_NAME=1
 				ST_ARTIKLA,
-				IME_SEZNAMA},    //POS_VALUE =2
+				IME_SEZNAMA,
+				JE_OZNACEN,
+				KOLI_NAKUOPV},    //POS_VALUE =2
 				null, 
 				null, 
 				null, 
@@ -99,7 +107,9 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 					_ID, 
 					ST_SEZNAMA,
 					ST_ARTIKLA,
-					IME_SEZNAMA}, 
+					IME_SEZNAMA,
+					JE_OZNACEN,
+					KOLI_NAKUOPV}, 
 					_ID + "=" + rowId, 
 					null,
 					null, 
@@ -124,12 +134,14 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 	}
 	public long sizeDB()
 	{
+	
+		
 		
 //		SQLiteStatement s= 
 			//return DatabaseUtils.queryNumEntries(db, TABELA_SEZNAMI);
-		//Cursor dataCount = db.rawQuery("select count(*) from " +TABELA_SEZNAMI , null);
+		Cursor dataCount = db.rawQuery("select count(*) from " +TABELA_SEZNAMI , null);
 		
-//		return dataCount.getCount();
-		return 1;
+		return dataCount.getCount();
+//		return 1;
 	}
 }

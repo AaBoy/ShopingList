@@ -12,13 +12,15 @@ public class DatabaseHelperVsiSeznami extends SQLiteOpenHelper
 
 	public static final  String TAG="DatabaseHelper";
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "Poiskusna1";
+	private static final String DATABASE_NAME = "Poiskusna4";
 	private static final String DATABASE_CREATE =
 
 				"create table " +DBAdapterVsiSeznami.TABELA_SEZNAMI +" ("+DBAdapterVsiSeznami._ID+ " integer primary key autoincrement, "
-				+ DBAdapterVsiSeznami.ST_SEZNAMA+" integer not null, "+DBAdapterVsiSeznami.ST_ARTIKLA +" integer not null, "+ DBAdapterVsiSeznami.IME_SEZNAMA+ " TEXT not null);";
+				+ DBAdapterVsiSeznami.ST_SEZNAMA+" integer not null, "+DBAdapterVsiSeznami.ST_ARTIKLA +" integer not null, "+ DBAdapterVsiSeznami.IME_SEZNAMA+ " TEXT not null, "+
+				DBAdapterVsiSeznami.JE_OZNACEN+ " integer not null, "+ DBAdapterVsiSeznami.KOLI_NAKUOPV+" integer not null); ";
 				
 				
+	
 				
 ;
 

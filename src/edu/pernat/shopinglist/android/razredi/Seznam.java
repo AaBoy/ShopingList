@@ -57,9 +57,7 @@ public class Seznam {
 		}
 		public void setSelected(Boolean selected) {
 			
-			if(selected=true)
-				
-			
+			if(selected==true)
 			this.oznacen = selected;
 		}
 }
