@@ -29,7 +29,7 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 		potdi.setOnClickListener(this);
 		zavrni.setOnClickListener(this);
 		en="Nkeaj";
-		
+		   
 
 		napolniSeznamArtiklov();
 		
