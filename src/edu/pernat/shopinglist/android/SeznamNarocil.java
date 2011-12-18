@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
 		
-
+		
 		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}

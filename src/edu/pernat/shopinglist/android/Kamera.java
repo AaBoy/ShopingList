@@ -3,6 +3,7 @@ package edu.pernat.shopinglist.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.razredi.Artikli;
@@ -17,7 +18,7 @@ public class Kamera extends Activity {
 	Boolean prvic=true;
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	super.onCreate(savedInstanceState);
         app=(GlobalneVrednosti) getApplication();  
         if(prvic==true)
         {
@@ -54,11 +55,12 @@ public class Kamera extends Activity {
  	    	 
  	    	Intent moj=new Intent(this, MainActivity.class);
 			this.startActivity(moj);
- 	    	 
+			
  	         // Handle successful scan
  	      } else if (resultCode == RESULT_CANCELED) {
  	         // Handle cancel
  	    	 Toast.makeText(Kamera.this,"Trenutno ne deluje",Toast.LENGTH_LONG).show();
+ 	    	
  	      }
  	   }
  	}

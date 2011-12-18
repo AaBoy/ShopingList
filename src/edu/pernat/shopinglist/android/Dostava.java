@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -41,7 +42,6 @@ public class Dostava extends Dialog implements OnClickListener {
 	String[] emaili;
 	public Dostava(Context context,GlobalneVrednosti temp) {
 		super(context);
-	
 		setContentView(R.layout.dostava);
 		// TODO Auto-generated constructor stub
 		// Get handle to the text edit and button widgets
@@ -75,6 +75,7 @@ public class Dostava extends Dialog implements OnClickListener {
 		
 		gnerirajTelo();
 		emailBody.setText(teloEmaila);
+
 	}
 
 	public Dostava(Context context) {
