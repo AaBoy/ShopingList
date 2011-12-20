@@ -30,8 +30,8 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	    potSpre.setOnClickListener(this);
 	    zavSpre.setOnClickListener(this);
 	    globalnoIzbran=izbrani;
-	    spreIme.setText(app.novSeznam.get(izbrani).getArtikelIme());
-	    spreCena.setText(""+app.novSeznam.get(izbrani).getArtikelCena());
+	    spreIme.setText(app.novSeznam.getNovSeznamArtiklov().get(izbrani).getIme());
+	    spreCena.setText(""+app.novSeznam.getNovSeznamArtiklov().get(izbrani).getCena());
 	    
 	}
 	
@@ -42,8 +42,8 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 			{
 				
 				
-				app.novSeznam.get(globalnoIzbran).setArtikelIme(spreIme.getText().toString());
-				app.novSeznam.get(globalnoIzbran).setArtikelCena(Double.parseDouble( spreCena.getText().toString()));
+				app.novSeznam.getNovSeznamArtiklov().get(globalnoIzbran).setIme(spreIme.getText().toString());
+				app.novSeznam.getNovSeznamArtiklov().get(globalnoIzbran).setCena(Double.parseDouble( spreCena.getText().toString()));
 				 
 				app.novSeznamList.setNotifyOnChange(true);
 				this.dismiss();

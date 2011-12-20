@@ -7,7 +7,7 @@ import android.os.Debug;
 import android.util.Log;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.razredi.Artikli;
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 
 
@@ -36,15 +36,16 @@ public class Kamera extends Activity {
          String format = tmp.getStringExtra("SCAN_RESULT_FORMAT");
          
          String [] izdelki=contents.split(";");
-         app.novSeznam.clear();
-         for(int i=0;i<izdelki.length;i++)
+         app.novSeznam=new NovSeznamArtiklov();
+         for(int i=0;i<izdelki.length-1;i++)
          {
         	 
-        	 app.novSeznam.add(new Seznam("Jiha", new Artikli(1, 2.1, izdelki[i], "250 g")));
+        	 app.dodajArtikelNaSeznam(new Artikli(1, 2.1, izdelki[i], "250 g"));
          }
-         app.novSeznam.get(0).imeSeznama="Recept";
-         app.vsiSeznami.add(new Seznami(app.novSeznam));
-         app.novSeznam.clear();
+         app.novSeznam.setImeSeznama(izdelki[izdelki.length-1]);
+         app.dodajSeznamNaSeznam(app.novSeznam);
+         app.novSeznam=new NovSeznamArtiklov();
+
          Log.d("Izpis", contents);
     }
     

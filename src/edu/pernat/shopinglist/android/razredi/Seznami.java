@@ -2,56 +2,48 @@ package edu.pernat.shopinglist.android.razredi;
 
 import java.util.ArrayList;
 
+import edu.pernat.shopinglist.android.UstvariNovIzdelek;
+
 public class Seznami {
 
-	ArrayList<	ArrayList<Seznam>> posamezniSeznam=new ArrayList<ArrayList<Seznam>>();
-	public int steviloIzbranih;
+	public ArrayList<NovSeznamArtiklov> ustvarjeniSeznami;
+	
 	public Seznami()
 	{
-		steviloIzbranih=0;
-		
-	}
-	public Seznami(ArrayList<Seznam> temp)
-	{
-		
-		posamezniSeznam.add(temp);
+		ustvarjeniSeznami=new ArrayList<NovSeznamArtiklov>();
 	}
 	
-	public void dodaj(ArrayList<Seznam> temp)
+	public ArrayList<NovSeznamArtiklov> getUstvarjeniSezname()
 	{
-		posamezniSeznam.add(temp);
+		return ustvarjeniSeznami;
+	}
+	public void odstraniNovSeznamArtiklov(int index)
+	{
+		ustvarjeniSeznami.remove(index);
 	}
 	
-	public String getImeSeznama(int i)
+	public void addNovSeznam(NovSeznamArtiklov tmp)
 	{
-		return posamezniSeznam.get(i).get(i).imeSeznama;
-		
+		ustvarjeniSeznami.add(tmp);
+	}
+	public void removNovSeznam(int index)
+	{
+		ustvarjeniSeznami.remove(index);
 	}
 	
-	public double getSkupnaCena()
+	public double getSkupanCena(int index)
 	{
-		return 15.3;
+		return ustvarjeniSeznami.get(index).getSkupnaCena();
 	}
-	
-	public int getSize(int i)
+	public String getImeNovegaSeznama(int index)
 	{
-		return posamezniSeznam.get(i).size();
+		return ustvarjeniSeznami.get(index).getImeSeznama();
 	}
-	
-	public Seznam vrsniSeznam(int i)
+	public int getSteviloOznacenihArtiklov(int index)
 	{
-		return new Seznam( posamezniSeznam.get(0).get(i).uporabnik, posamezniSeznam.get(0).get(i).artikel);
+		ustvarjeniSeznami.get(index).prestejOznacene();
+		return ustvarjeniSeznami.get(index).getStOznacenih();
 	}
-	
-	public int oznacen(int i)
-	{
-		int tmp=0;
-		for(int j=0;j<getSize(i)-1;j++)
-		{
-			 if(posamezniSeznam.get(i).get(j).oznacen)
-				 tmp++;
-		}
-		return tmp;
-	}
+
 	
 }

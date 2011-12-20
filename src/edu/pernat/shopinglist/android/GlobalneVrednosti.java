@@ -7,7 +7,7 @@ import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
 import edu.pernat.shopinglist.android.data.DBAdapterVsiSeznami;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
 
@@ -20,8 +20,8 @@ public class GlobalneVrednosti extends Application {
 	public ArrayList<EmailNaslovi> lista;
 	public ArrayList<Artikli> seznamArtiklov;
 	public ArrayList<Trgovina> seznamTrgovin;
-	public ArrayList<Seznami>  vsiSeznami;
-	public ArrayList<Seznam> novSeznam;
+	public Seznami vsiSeznami;
+	public NovSeznamArtiklov novSeznam;
 	public int stSeznama;
 	
 	SeznamArrayAdapter seznamList;
@@ -42,25 +42,28 @@ public class GlobalneVrednosti extends Application {
         lista=new ArrayList<EmailNaslovi>();
         seznamArtiklov=new ArrayList<Artikli>();
         stSeznama=-1;
-        vsiSeznami=new ArrayList<Seznami>();
-        novSeznam=new ArrayList<Seznam>();
+        vsiSeznami=new Seznami();
+        novSeznam=new NovSeznamArtiklov();
        
         init();
         fillFromDB();
         //napolniNaslov();
-        seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami); //Step 4.10 Globalna lista
-        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam, this);
+        seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
+        novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
         
         
 	}
 	
 	public void dodajArtikelNaSeznam(Artikli tmp)
 	{
-		novSeznam.add(new Seznam("Nekdo", tmp));
 		
+		novSeznam.addArtikelNaSeznam(tmp);
 	}
 	
-
+	public void dodajSeznamNaSeznam(NovSeznamArtiklov tmp)
+	{
+		vsiSeznami.addNovSeznam(tmp);
+	}
 	
 	public void artikelNaSeznam(Artikli tmp)
 	{
@@ -72,39 +75,40 @@ public class GlobalneVrednosti extends Application {
 	public void init()
 	{
 		/*
-		 * 
+		 * public Artikli(double cena, String ime, String kolicina, String opis,
+			boolean oznacen, int stIzbranegaArtikla)
 		 * */
 		//lista.add(new RazredBaza("uporabniško", "Geslo"));
-		artikelNaSeznam(new Artikli(1, 2, "Mleko", "1l"));
-		artikelNaSeznam(new Artikli(1, 2.4, "Sok", "0,5l"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Vino", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Moka", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Margerina", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Marmelada", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Cips", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Tuna", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Zemlje", "16g"));
-		artikelNaSeznam(new Artikli(1, 0.25, "Posebna", "16g"));
+		artikelNaSeznam(new Artikli(2, "Mleko", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Sok", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Vino", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Moka", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Margerina", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Marmelada", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Čips", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Tuna", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Žemlja", "1l","Polmastno",false,1));
+		artikelNaSeznam(new Artikli(2, "Posebna", "1l","Polmastno",false,1));
 		
 		
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
-		novSeznam.get(0).oznacen=true;
-		novSeznam.get(0).imeSeznama="Miha kovačev";
-		novSeznam.get(1).imeSeznama="Miha kovačev";
+		dodajArtikelNaSeznam (seznamArtiklov.get(2));
+		dodajArtikelNaSeznam (seznamArtiklov.get(1));
 		
 		
-		vsiSeznami.add(new Seznami(novSeznam));
-		novSeznam=new ArrayList<Seznam>();
+		novSeznam.setImeSeznama("Mihaaa");
 		
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(0)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
-		novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		novSeznam.get(0).imeSeznama="Janez kaj";
-		vsiSeznami.add(new Seznami(novSeznam));
-		novSeznam=new ArrayList<Seznam>();
+		
+		dodajSeznamNaSeznam(novSeznam);
+		novSeznam=new NovSeznamArtiklov();
+		
+		dodajArtikelNaSeznam (seznamArtiklov.get(2));
+		dodajArtikelNaSeznam (seznamArtiklov.get(2));
+		dodajArtikelNaSeznam (seznamArtiklov.get(0));
+		dodajArtikelNaSeznam (seznamArtiklov.get(1));
+		dodajArtikelNaSeznam (seznamArtiklov.get(2));
+		novSeznam.setImeSeznama("Jajo jao");
+		dodajSeznamNaSeznam(novSeznam);
+		novSeznam=new NovSeznamArtiklov();
 		
 		
 		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
@@ -116,7 +120,7 @@ public class GlobalneVrednosti extends Application {
 
 	public void newNovSeznam()
 	{
-		novSeznam=new ArrayList<Seznam>();
+		novSeznam=new NovSeznamArtiklov();
 		
 	}
 	
@@ -156,7 +160,7 @@ public class GlobalneVrednosti extends Application {
 	
 	public void dodajIzdelek(Artikli temp)
 	{
-		novSeznam.add(new Seznam(uporabnisko, temp));
+		novSeznam.addArtikelNaSeznam(temp);
 		
 	}
 	
@@ -168,7 +172,7 @@ public class GlobalneVrednosti extends Application {
 		Artikli tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			tmp = new Artikli();
-			tmp.setID(c.getLong( DBAdapterIzdelki.AR_ID));
+			
 			tmp.setIme(c.getString(DBAdapterIzdelki.AR_I));
 			tmp.setCena(c.getDouble(DBAdapterIzdelki.AR_C));
 			tmp.setKolicina(c.getString(DBAdapterIzdelki.AR_K));
@@ -180,7 +184,7 @@ public class GlobalneVrednosti extends Application {
 	}
 	public void addDBArtikel(Artikli s) {
 		dbIzdelki.open();
-		s.setID(dbIzdelki.insertArtikel(s));
+		//s.setID(dbIzdelki.insertArtikel(s));
 		dbIzdelki.close();	
 	}
 	public void remove(Artikli a) {

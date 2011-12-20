@@ -28,7 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 
 public class NovSeznam extends ListActivity implements OnClickListener{
     /** Called when the activity is first created. */
@@ -63,6 +63,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 			
 				napolniSeznam();
 		}
+		else{app.novSeznam=new NovSeznamArtiklov();}
 	
 		dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
@@ -90,7 +91,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
       case R.id.Clear:
     	  
     	  if(app.stSeznama!=-1)
-        	  app.vsiSeznami.remove(app.stSeznama);
+        	  app.vsiSeznami.removNovSeznam(app.stSeznama);
 
     	  app.stSeznama=-1;
     	  app.novSeznamList.clear();
@@ -112,6 +113,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
       case R.id.CenejsiSeznam:
     	  
     	  najcenejsiSeznam();
+    	  
     	  return true;
     	  
       default:// Generic catch all for all the other menu resources
@@ -194,6 +196,12 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	{
 		
 		super.onBackPressed();
+
+  	  if(app.stSeznama!=-1)
+  	  {
+  		  app.vsiSeznami.removNovSeznam(app.stSeznama);
+  		  app.dodajSeznamNaSeznam(app.novSeznam);
+  	  }
   	  if(!app.novSeznamList.isEmpty())
 			app.novSeznamList.clear();
 	}
@@ -211,28 +219,28 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	private void najcenejsiSeznam()
 	{
 		
-//		SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME);
-//		Request.addProperty("izdelki",zaNajboljsiIzdelek());	
-//		
-//		SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//		soapEnvelope.dotNet=false;
-//		soapEnvelope.setOutputSoapObject(Request);
-//		
-//		
-//		HttpTransportSE aht=new HttpTransportSE(URL);		
-//		
-//		try{
-//			aht.call(SOAP_ACTION,soapEnvelope);
-//			SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse();
-////			
-//
-//			//Get the first property and change the label text
-//			Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show(); 	
+		SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME);
+		Request.addProperty("izdelki",zaNajboljsiIzdelek());	
+		
+		SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		soapEnvelope.dotNet=false;
+		soapEnvelope.setOutputSoapObject(Request);
+		
+		
+		HttpTransportSE aht=new HttpTransportSE(URL);		
+		
+		try{
+			aht.call(SOAP_ACTION,soapEnvelope);
+			SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse();
 //			
-//		}catch(Exception e){
-//			e.printStackTrace();
-//			Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//		}
+
+			//Get the first property and change the label text
+			Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show(); 	
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+		}
 		CenejsaTrgovinaTask task=new CenejsaTrgovinaTask();
 		task.execute(1);
 		
@@ -241,10 +249,22 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	public String zaNajboljsiIzdelek()
 	{
 		  String vmesni="";
-    	  for(int i=0;i<app.novSeznam.size();i++)
+		  String sumniki="";
+		  
+    	  for(int i=0;i<app.novSeznam.getNovSeznamArtiklov().size();i++)
     	  {
-    		  vmesni+=app.novSeznam.get(i).getArtikelIme()+";";
+    		
+    		  sumniki=app.novSeznam.getNovSeznamArtiklov().get(i).getIme()+";";
+    		 
+    		  sumniki= sumniki.replace("č", "c");
+    		  sumniki= sumniki.replace("Č", "C");
+    		  sumniki= sumniki.replace("ž", "z");
+    		  sumniki= sumniki.replace("Ž", "Z");
+    		  sumniki= sumniki.replace("š", "s");
+    		  sumniki= sumniki.replace("Š", "S");
+    		  vmesni+=sumniki;
     	  }
+		  Toast.makeText(this, vmesni, Toast.LENGTH_SHORT).show();
     	  return vmesni;
 	}
 	ProgressDialog dialogWait;
@@ -277,11 +297,12 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 					//Get the first property and change the label text
 //					Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show(); 	
 					odgovor=result.toString();
-					
+					return "";
 				}catch(Exception e){
 					e.printStackTrace();
 //					Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
 					odgovor=e.getMessage().toString();
+					return "";
 				}
 				
 			} catch (Exception e) {
@@ -303,15 +324,16 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	
     public void napolniSeznam()
     {
-    	app.novSeznam=new ArrayList<Seznam>();   	
-    	int meja=(int) app.vsiSeznami.get(app.stSeznama).getSize(0);	
+    	app.novSeznam=new NovSeznamArtiklov();   	
+    	int meja=(int) app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().size();	
 
     	for(int x=0;x<meja;x++)
     	{
-    		app.dodajArtikelNaSeznam(app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel());
-    		app.novSeznamList.add(new Seznam("", app.vsiSeznami.get(app.stSeznama).vrsniSeznam(x).getArtikel()));
+    		app.dodajArtikelNaSeznam(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().get(x));
+    		app.novSeznamList.add(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().get(x));
+    		
     	}
-    	app.novSeznam.get(0).imeSeznama=app.vsiSeznami.get(app.stSeznama).getImeSeznama(0);
+    	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
     }
     
 }

@@ -198,8 +198,9 @@ public class KjeSemActivity extends MapActivity {
 			GeoPoint point = new GeoPoint(lat1.intValue(), log1.intValue());
 
 			mapController.animateTo(point);
-		   
-		   //novi.setText(lat1.toString()+"  "+log1.toString());
+			
+			MyPositionOverlay narisiNaPravemMestu=new MyPositionOverlay();
+			
 		  }
 		  else{
 		 

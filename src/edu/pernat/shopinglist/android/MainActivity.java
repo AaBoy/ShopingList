@@ -60,18 +60,6 @@ public class MainActivity extends Activity {
 	    return activeNetworkInfo != null;
 	}
     
-
-    
-    public void odpriVpis(View v)
-    {
-    	
-    	if(v.getId()==R.id.button1)
-    	{	
-    		Intent moj=new Intent(this, NovSeznam.class);
-			this.startActivity(moj);
-    		//this.startActivityForResult(moj, 0);
-    	}
-    }
     
     public void odpriOkno(View v)
     {

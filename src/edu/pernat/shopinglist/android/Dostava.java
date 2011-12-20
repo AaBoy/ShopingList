@@ -110,9 +110,9 @@ public class Dostava extends Dialog implements OnClickListener {
 	public void gnerirajTelo()
 	{
 		teloEmaila="";
-		for(int i=0;i<app.novSeznam.size();i++)
+		for(int i=0;i<app.novSeznam.getNovSeznamArtiklov().size();i++)
 		{
-			teloEmaila+=app.novSeznam.get(i).getArtikelIme()+"   "+app.novSeznam.get(i).getArtikelCena()+"€   \n";
+			teloEmaila+=app.novSeznam.getNovSeznamArtiklov().get(i).getIme()+"   "+app.novSeznam.getNovSeznamArtiklov().get(i).getCena()+"€   \n";
 			
 		}
 	}

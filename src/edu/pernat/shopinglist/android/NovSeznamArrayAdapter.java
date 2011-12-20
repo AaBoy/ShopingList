@@ -18,21 +18,23 @@ import android.widget.Toast;
 import edu.pernat.shopinglist.android.R;
 import edu.pernat.shopinglist.android.R.id;
 import edu.pernat.shopinglist.android.R.layout;
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.Artikli;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
+import edu.pernat.shopinglist.android.razredi.Seznami;
 
 
-public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
+public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
 	public static final int DIALOG_DODAJ_IZDELEK =1;
 	LayoutInflater mInflater;
 	GlobalneVrednosti app;
 	Context vmensa=null;
 	
-	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Seznam> objects) { //Step 4.8 POPRAVI Stevec ->Rezultati
+	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Artikli> objects) { //Step 4.8 POPRAVI Stevec ->Rezultati
 		super(context, textViewResourceId,objects);
 	    mInflater = LayoutInflater.from(context);
 	    
 	   }
-	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Seznam> objects, GlobalneVrednosti app) { //Step 4.8 POPRAVI Stevec ->Rezultati
+	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Artikli> objects, GlobalneVrednosti app) { //Step 4.8 POPRAVI Stevec ->Rezultati
 		super(context, textViewResourceId,objects);
 	    mInflater = LayoutInflater.from(context);
 	    this.app=app;
@@ -57,7 +59,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 	
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
-		final Seznam tmp = getItem(position); //Step Step 4.7 pridobi data
+		final Artikli tmp = getItem(position); //Step Step 4.7 pridobi data
 		final ViewHolder holder;
 		// When convertView is not null, we can reuse it directly, there is no need
 		// to reinflate it. We only inflate a new View when the convertView supplied
@@ -72,6 +74,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
 			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI
 			holder.kolicina=(TextView)convertView.findViewById(R.id.novaKolicina);
 			holder.kupljeno=(CheckBox)convertView.findViewById(R.id.CheckBox1);
+			holder.opis=(TextView)convertView.findViewById(R.id.textViewOpisIzdelka);
 			
 			convertView.setTag(holder);
 		} else {
@@ -88,28 +91,28 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Seznam>{
                 return false;
             }
         });
-		holder.cena.setText(""+tmp.getArtikelCena()+" €");
-		holder.naziv.setText(tmp.getArtikelIme()); //Step 4.8 POPRAVI
-		holder.kolicina.setText(tmp.getArtikliKolicina());
+		holder.cena.setText(""+tmp.getCena()+" €");
+		holder.naziv.setText(tmp.getIme()); //Step 4.8 POPRAVI
+		holder.kolicina.setText(tmp.getKolicina());
+		holder.opis.setText(tmp.getOpis());
+		holder.kupljeno.setChecked(tmp.getOznacen());
 		
-		holder.kupljeno.setChecked(tmp.oznacen);
 		
 		holder.kupljeno.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	getItem(position).setSelected(holder.kupljeno.isChecked());
+            	getItem(position).setOznacen(holder.kupljeno.isChecked());
             }
         });
-	
 		
-		//holder.kupljeno.setClickable(true);
 		
-		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		return convertView;
 	}
 	static class ViewHolder {
 		TextView cena; //Step 4.8 POPRAVI
 		TextView naziv; //Step 4.8 POPRAVI
 		TextView kolicina;
+		TextView opis;
+		
 		CheckBox kupljeno;
 	}
 	

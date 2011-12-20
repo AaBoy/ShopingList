@@ -2,76 +2,109 @@ package edu.pernat.shopinglist.android.razredi;
 
 public class Artikli {
 	
-	long id_trgovina;
-	 double cena;
-	 String ime,kolicina;
-	 String opis;
 	
-	public Artikli(long idTrgovina, double cena, String ime, String kolicina,
-			String opis) {
+	 private double cena;
+	 private String ime,kolicina;
+	 private String opis;
+	 private boolean oznacen;
+	 private int steviloIzbranihAriklov;
+	 private int idBaze;
+	
+	public Artikli(double cena, String ime, String kolicina, boolean oznacen) {
 		super();
-		id_trgovina = idTrgovina;
+		this.cena = cena;
+		this.ime = ime;
+		this.kolicina = kolicina;
+		this.oznacen = oznacen;
+	}
+	public Artikli(int id,double cena, String ime, String kolicina) {
+		super();
+		this.cena = cena;
+		this.ime = ime;
+		this.kolicina = kolicina;
+		
+	}
+
+	public Artikli() {
+		
+	}
+
+	public Artikli(double cena, String ime, String kolicina, String opis,
+			boolean oznacen, int stIzbranegaArtikla) {
+		super();
 		this.cena = cena;
 		this.ime = ime;
 		this.kolicina = kolicina;
 		this.opis = opis;
+		this.oznacen = oznacen;
+		this.steviloIzbranihAriklov = stIzbranegaArtikla;
 	}
-	public Artikli(long iD,double c,String i,String k )
-	{
-		id_trgovina=iD;
-		cena=c;
-		ime=i;
-		kolicina=k;
+
+
+	public double getCena() {
+		return cena;
 	}
+
+
+	public void setCena(double cena) {
+		this.cena = cena;
+	}
+
+
+	public String getIme() {
+		return ime;
+	}
+
+
+	public void setIme(String ime) {
+		this.ime = ime;
+	}
+
+
+	public String getKolicina() {
+		return kolicina;
+	}
+
+
+	public void setKolicina(String kolicina) {
+		this.kolicina = kolicina;
+	}
+
 
 	public String getOpis() {
 		return opis;
 	}
 
+
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-	
-	public Artikli()
-	{}
-	
-	
-	public void setIme(String i)
-	{
-		ime=i;
+
+
+	public boolean getOznacen() {
+		return oznacen;
 	}
-	public void setKolicina(String k)
-	{kolicina=k;}
-	public void setCena(double c)
-	{
-		cena=c;;
+
+
+	public void setOznacen(boolean oznacen) {
+		this.oznacen = oznacen;
 	}
-	public void setID(long i)
-	{
-		id_trgovina=i;
+
+
+	public int getStIzbranegaArtikla() {
+		return steviloIzbranihAriklov;
 	}
-	
-	
-	public long getId_trgovina()
-	{
-		return id_trgovina;
+
+
+	public void setStIzbranegaArtikla(int stIzbranegaArtikla) {
+		this.steviloIzbranihAriklov = stIzbranegaArtikla;
 	}
-	
-	public double getCena()
-	{
-		return cena;
-	}
-	public String getIme()
-	{
-		return ime;
-	}
-	public String getKolicina()
-	{return kolicina;}
-	
+
+
 	public String printOut()
 	{
 		
-		return ""+id_trgovina+";"+ime+";"+cena+";"+kolicina+";"+opis;
+		return ime+";"+cena+";"+kolicina+";"+opis;
 	}
 	
 }

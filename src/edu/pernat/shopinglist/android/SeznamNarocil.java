@@ -2,7 +2,7 @@ package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
 
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import android.R.bool;
 import android.app.Activity;
@@ -38,14 +38,20 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         setContentView(R.layout.stevec_list_activity);
         this.setRequestedOrientation(1);
         app=(GlobalneVrednosti) getApplication();
-        prestej();
+        kolikoIzbranih();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
-		
-		
-		//Toast.makeText(this, "Pritisnili ste:", Toast.LENGTH_LONG).show();
 
 	}
+    
+    void kolikoIzbranih()
+    {
+    	for(int i=0;i<app.vsiSeznami.getUstvarjeniSezname().size();i++)
+    	{
+    		app.vsiSeznami.getSteviloOznacenihArtiklov(i);
+    	}
+    	
+    }
     
     @Override
     public void onStop()
@@ -64,7 +70,8 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     	super.onStart();
     	SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
-	    Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
+	    //Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
+	    app.seznamList.notifyDataSetChanged();
     
     }
     
@@ -78,16 +85,6 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	}
     
     
-    public void prestej()
-    {
-    	
-//    	for(int j=0;j<app.vsiSeznami.size();j++)
-//    	{
-//	    	
-//	    		app.vsiSeznami.get(j).steviloIzbranih=app.vsiSeznami.get(j).oznacen(j);
-//
-//    	}
-    }
     
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		//Toast.makeText(this, "Pritisnili ste: "+, Toast.LENGTH_LONG).show();
@@ -103,7 +100,8 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         app.seznamList.notifyDataSetChanged();
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
-	    Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
+	    //Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
+	    app.seznamList.notifyDataSetChanged();
     }
 	
 	 @Override
@@ -137,7 +135,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	    	  
 	      default:// Generic catch all for all the other menu resources
 	        if (!item.hasSubMenu()) {
-	          Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+	          //Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
 	          return true;
 	        }
 	        break;

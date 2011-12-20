@@ -1,6 +1,6 @@
 package edu.pernat.shopinglist.android;
 
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -83,8 +83,8 @@ public class DodajIzdelek extends Dialog implements OnClickListener {
 			//dodaj na seznam
 			
 			Toast.makeText(getContext(), "Izdelek dodan", Toast.LENGTH_SHORT).show();
-			app.novSeznam.add(new Seznam(app.getUser(), app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
-			app.novSeznamList.add(new Seznam("", app.seznamArtiklov.get(prvi.getSelectedItemPosition())));
+			app.dodajArtikelNaSeznam( app.seznamArtiklov.get(prvi.getSelectedItemPosition()));
+			app.novSeznamList.add(app.seznamArtiklov.get(prvi.getSelectedItemPosition()));
 			//app.novSeznamList.notifyDataSetChanged();
 			this.dismiss();
 			break;

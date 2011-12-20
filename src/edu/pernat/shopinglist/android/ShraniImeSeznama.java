@@ -2,7 +2,7 @@ package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
 
-import edu.pernat.shopinglist.android.razredi.Seznam;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import android.app.Activity;
 import android.app.Dialog;
@@ -27,14 +27,14 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		this.aa=aa;
 		ime=(TextView)findViewById(R.id.imeSeznamaTextView);	
 		
-		if(app.novSeznam.get(0).imeSeznama==null)
+		if(app.novSeznam.getImeSeznama()==null)
 		{  
 			app.uporabnisko="";
 			ime.setText(app.uporabnisko);
 		}
 		else
 		{
-			ime.setText(app.novSeznam.get(0).imeSeznama);
+			ime.setText(app.novSeznam.getImeSeznama());
 		}
 	
 		
@@ -50,17 +50,17 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		case R.id.potrdniImeSeznama:
 			app.uporabnisko=ime.getText().toString();
 
-  	        ArrayList<Seznam>ns= app.novSeznam;
+  	        NovSeznamArtiklov ns= app.novSeznam;
   	        
   	        if(app.stSeznama!=-1)
-         	 	app.vsiSeznami.remove(app.stSeznama);   
+         	 	app.vsiSeznami.removNovSeznam(app.stSeznama);   
   	        
-         	    ns.get(0).imeSeznama=app.uporabnisko;
-         	    app.novSeznam=new ArrayList<Seznam>();
-         	    app.vsiSeznami.add(new Seznami(ns));
+         	    ns.setImeSeznama(app.uporabnisko);
+         	    app.novSeznam=new NovSeznamArtiklov();
+         	    app.dodajSeznamNaSeznam(ns);
 
          	    if(!app.novSeznamList.isEmpty())
-       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam);
+       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov());
 			
          	    aa.finish();
 

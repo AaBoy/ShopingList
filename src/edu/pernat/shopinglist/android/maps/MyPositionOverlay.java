@@ -68,7 +68,7 @@ public class MyPositionOverlay extends Overlay {
       paint.setFakeBoldText(true);
 
       Paint backPaint = new Paint();
-      backPaint.setARGB(175, 50, 50, 50);
+      backPaint.setARGB(175, 0, 255, 0);
       backPaint.setAntiAlias(true);
 
       RectF backRect = new RectF(point.x + 2 + mRadius, 
