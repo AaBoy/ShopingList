@@ -2,7 +2,7 @@ package edu.pernat.shopinglist.android.data;
 
 import java.sql.Date;
 
-import edu.pernat.shopinglist.android.RazredBaza;
+import edu.pernat.shopinglist.android.razredi.RazredBaza;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,6 +25,7 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 	public static final int IME_SEZNAMA_ID=2;
 	public static final int OOZNACEN=3;
 	public static final int KOL_NAKUPOV=4;
+
 
 	public static final  String ST_SEZNAMA="stSeznama";
 	public static final  String ST_ARTIKLA="stArtikla";
@@ -63,7 +64,7 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 	}
 
 	//---insert a stevec
-	public long insertUporabnik(RazredBaza stevec) 
+	public long insertSezname(RazredBaza stevec) 
 	{
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(ST_SEZNAMA, stevec.getStSeznama()); 
@@ -132,6 +133,13 @@ public class DBAdapterVsiSeznami implements BaseColumns {
 				_ID + "=" + tmp.getId(), null) > 0;*/
 		return false;
 	}
+	public void deleteAll()
+	{
+	    SQLiteDatabase db= this.db;
+	    db.delete(TABELA_SEZNAMI, null, null);
+
+	}
+
 	public long sizeDB()
 	{
 	

@@ -3,10 +3,28 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:orientation="vertical">
-    <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="250dip">
-        <TextView android:text="Ime seznama" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_weight="0.2"></TextView>
-        <EditText android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/imeSeznamaTextView"></EditText>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="250dip"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ime seznama" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/imeSeznamaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" >
+        </EditText>
     </LinearLayout>
+
     <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="250dip">
         <Button android:layout_weight="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Shrani" android:id="@+id/potrdniImeSeznama"></Button>
     </LinearLayout>

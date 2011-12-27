@@ -50,8 +50,9 @@ public class SeznamArrayAdapter extends ArrayAdapter<NovSeznamArtiklov>{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// Bind the data efficiently with the holder.
+		String v=""+tmp.getSkupnaCena();
 		holder.naslovSeznama.setText(""+tmp.getImeSeznama()); //Step 4.8 POPRAVI
-		holder.skupnaCena.setText(""+tmp.getSkupnaCena()+"€"); //Step 4.8 POPRAVI
+		holder.skupnaCena.setText(""+v.replace(".", ",")+"€"); //Step 4.8 POPRAVI
 		holder.zapovrstniID.setText(""+(position+1));
 		holder.stNakupov.setMax(tmp.getVelikostSeznamaArtiklov());
 		holder.stNakupov.setProgress(tmp.getStOznacenih());

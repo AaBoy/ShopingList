@@ -8,6 +8,10 @@
 
  
    <application android:name="GlobalneVrednosti" android:icon="@drawable/adroid_gospa" android:label="@string/app_name" android:debuggable="true" >
+       
+       
+       
+       
     <uses-library android:name="com.google.android.maps" />
      
         <activity android:name="MainActivity"
@@ -52,7 +56,8 @@
         
 				    
         	<activity android:name=".SplashScreen"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:debuggable="true">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -92,6 +97,18 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
+		    
+		   <receiver android:name="edu.pernat.shopinglist.android.widget.MojWidget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/widget_info" />
+		</receiver>
+		<service android:name="edu.pernat.shopinglist.android.widget.UpdateWidgetService"/>
+		    
+		    
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

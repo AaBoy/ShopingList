@@ -28,16 +28,12 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
 	LayoutInflater mInflater;
 	GlobalneVrednosti app;
 	Context vmensa=null;
-	
-	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Artikli> objects) { //Step 4.8 POPRAVI Stevec ->Rezultati
-		super(context, textViewResourceId,objects);
-	    mInflater = LayoutInflater.from(context);
-	    
-	   }
+
 	public NovSeznamArrayAdapter(Context context, int textViewResourceId, List<Artikli> objects, GlobalneVrednosti app) { //Step 4.8 POPRAVI Stevec ->Rezultati
 		super(context, textViewResourceId,objects);
 	    mInflater = LayoutInflater.from(context);
 	    this.app=app;
+	    
 	   }
 	
 	  protected Dialog onCreateDialog(int id) {
@@ -60,6 +56,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
 		final Artikli tmp = getItem(position); //Step Step 4.7 pridobi data
+		
 		final ViewHolder holder;
 		// When convertView is not null, we can reuse it directly, there is no need
 		// to reinflate it. We only inflate a new View when the convertView supplied
@@ -91,20 +88,21 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
                 return false;
             }
         });
-		holder.cena.setText(""+tmp.getCena()+" €");
+		String v=""+tmp.getCena();
+		holder.cena.setText(""+v.replace(".", ",")+"€");
 		holder.naziv.setText(tmp.getIme()); //Step 4.8 POPRAVI
 		holder.kolicina.setText(tmp.getKolicina());
 		holder.opis.setText(tmp.getOpis());
-		holder.kupljeno.setChecked(tmp.getOznacen());
 		
-		
-		holder.kupljeno.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	getItem(position).setOznacen(holder.kupljeno.isChecked());
-            }
-        });
-		
-		
+		if(app.novSeznam!=null && app.novSeznam.getVelikostSeznamaArtiklov()>position)
+		{
+			holder.kupljeno.setChecked(app.novSeznam.jeOznacen(position));
+			holder.kupljeno.setOnClickListener(new OnClickListener() {
+	            public void onClick(View v) {
+	            	app.novSeznam.Oznaci(position);
+	            }
+	        });
+		}
 		return convertView;
 	}
 	static class ViewHolder {

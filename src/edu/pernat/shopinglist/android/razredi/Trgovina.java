@@ -2,14 +2,36 @@ package edu.pernat.shopinglist.android.razredi;
 
 public class Trgovina {
 	
-	String ime, kraj;
+	String naslov, kraj;
 	int id;
 	
-	public Trgovina(String i, String k, int iD)
+	public Trgovina(String n, String k)
 	{
-		ime=i;
+		naslov=n;
 		kraj=k;
-		id=iD;
+
+	}
+	public Trgovina()
+	{}
+
+	public String getNaslov() {
+		return naslov;
+	}
+
+	public void setNaslov(String naslov) {
+		this.naslov = naslov;
+	}
+
+	public String getKraj() {
+		return kraj;
+	}
+
+	public void setKraj(String kraj) {
+		this.kraj = kraj;
 	}
 	
+	public String print()
+	{
+		return naslov+", "+kraj;
+	}
 }

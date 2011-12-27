@@ -16,7 +16,6 @@ import com.google.android.maps.Overlay;
 import edu.pernat.shopinglist.android.DodajIzdelek;
 import edu.pernat.shopinglist.android.Dostava;
 import edu.pernat.shopinglist.android.GlobalneVrednosti;
-import edu.pernat.shopinglist.android.IzberiTrgovino;
 import edu.pernat.shopinglist.android.R;
 import edu.pernat.shopinglist.android.SpremeniIzdelek;
 import edu.pernat.shopinglist.android.UstvariNovIzdelek;
@@ -52,7 +51,7 @@ public class KjeSemActivity extends MapActivity {
 	//http://code.google.com/android/maps-api-signup.html
 	MapController mapController;
 	MyPositionOverlay positionOverlay;
-
+	GlobalneVrednosti app;
 	TextView novi ;
 	double LATITUDE = 37.42233;
 	double LONGITUDE = -122.083;
@@ -62,6 +61,7 @@ public class KjeSemActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		System.out.println("Delo!");
 		setContentView(R.layout.maps_main);
+		app=(GlobalneVrednosti)getApplication();
 		
 		this.setRequestedOrientation(1);
 		MapView myMapView = (MapView)findViewById(R.id.myMapView);
@@ -134,7 +134,7 @@ public class KjeSemActivity extends MapActivity {
 	        switch(id) {
 	        case 1:
 	        	Context mContext1 = this;
-	        	IzberiTrgovino dialog1 = new IzberiTrgovino(mContext1);      	
+	        	IzberiTrgovino dialog1 = new IzberiTrgovino(mContext1,this,app);      	
 				return dialog1;
 
 	        

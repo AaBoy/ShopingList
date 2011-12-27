@@ -6,16 +6,24 @@ public class Artikli {
 	 private double cena;
 	 private String ime,kolicina;
 	 private String opis;
-	 private boolean oznacen;
-	 private int steviloIzbranihAriklov;
+	// private boolean oznacen;
+	 
 	 private int idBaze;
 	
-	public Artikli(double cena, String ime, String kolicina, boolean oznacen) {
+	public Artikli(double cena, String ime, String kolicina, String opis, int id) {
 		super();
 		this.cena = cena;
 		this.ime = ime;
 		this.kolicina = kolicina;
-		this.oznacen = oznacen;
+		this.opis=opis;
+		this.idBaze=id;
+		//this.oznacen = oznacen;
+	}
+	public int getIdBaze() {
+		return idBaze;
+	}
+	public void setIdBaze(int idBaze) {
+		this.idBaze = idBaze;
 	}
 	public Artikli(int id,double cena, String ime, String kolicina) {
 		super();
@@ -29,15 +37,14 @@ public class Artikli {
 		
 	}
 
-	public Artikli(double cena, String ime, String kolicina, String opis,
-			boolean oznacen, int stIzbranegaArtikla) {
+	public Artikli(double cena, String ime, String kolicina, String opis) {
 		super();
 		this.cena = cena;
 		this.ime = ime;
 		this.kolicina = kolicina;
 		this.opis = opis;
-		this.oznacen = oznacen;
-		this.steviloIzbranihAriklov = stIzbranegaArtikla;
+		
+		
 	}
 
 
@@ -81,24 +88,15 @@ public class Artikli {
 	}
 
 
-	public boolean getOznacen() {
-		return oznacen;
-	}
+//	public boolean getOznacen() {
+//		return oznacen;
+//	}
+//
+//
+//	public void setOznacen(boolean oznacen) {
+//		this.oznacen = oznacen;
+//	}
 
-
-	public void setOznacen(boolean oznacen) {
-		this.oznacen = oznacen;
-	}
-
-
-	public int getStIzbranegaArtikla() {
-		return steviloIzbranihAriklov;
-	}
-
-
-	public void setStIzbranegaArtikla(int stIzbranegaArtikla) {
-		this.steviloIzbranihAriklov = stIzbranegaArtikla;
-	}
 
 
 	public String printOut()

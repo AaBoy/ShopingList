@@ -38,53 +38,23 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         setContentView(R.layout.stevec_list_activity);
         this.setRequestedOrientation(1);
         app=(GlobalneVrednosti) getApplication();
-        kolikoIzbranih();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
 
 	}
-    
-    void kolikoIzbranih()
-    {
-    	for(int i=0;i<app.vsiSeznami.getUstvarjeniSezname().size();i++)
-    	{
-    		app.vsiSeznami.getSteviloOznacenihArtiklov(i);
-    	}
-    	
-    }
-    
+
     @Override
     public void onStop()
     {
     	super.onStop();
-		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	    SharedPreferences.Editor editor1 = sharedPreferences.edit();
-	    editor1.putString("BAZA", "polna");
-	    editor1.commit();
-
-    	//myName.println(app.ime);
+    	
     }
     @Override   
     public void onStart()
     {
     	super.onStart();
-    	SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
-	    //Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
-	    app.seznamList.notifyDataSetChanged();
-    
+    	app.seznamList.notifyDataSetChanged();
     }
-    
-	@Override
-	public void onPause() { //pref uporabnik ali OS zapusti pogled, potrebno shranit
-		super.onPause();
-		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	    SharedPreferences.Editor editor1 = sharedPreferences.edit();
-	    editor1.putString("BAZA", "prazna");
-	    editor1.commit();
-	}
-    
-    
     
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		//Toast.makeText(this, "Pritisnili ste: "+, Toast.LENGTH_LONG).show();
@@ -97,11 +67,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	@Override
     public void onResume() {
 		super.onResume();
-        app.seznamList.notifyDataSetChanged();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	    String strSavedMem1 = sharedPreferences.getString("BAZA", "");
-	    //Toast.makeText(SeznamNarocil.this,strSavedMem1,Toast.LENGTH_LONG).show();
-	    app.seznamList.notifyDataSetChanged();
+		app.seznamList.notifyDataSetChanged();
     }
 	
 	 @Override

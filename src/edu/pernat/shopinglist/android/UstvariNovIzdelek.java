@@ -43,7 +43,7 @@ public class UstvariNovIzdelek extends Dialog implements OnClickListener  {
 		
 		case R.id.potrdiNovIzdelek:
 			
-			app.artikelNaSeznam(new Artikli(app.seznamArtiklov.size(), Double.parseDouble(cena.getText().toString()), ime.getText().toString(), kolicina.getText().toString()));			
+			app.artikelNaSeznamInBazo(new Artikli(app.seznamArtiklov.size(), Double.parseDouble(cena.getText().toString()), ime.getText().toString(), kolicina.getText().toString()));			
 			Toast.makeText(getContext(), "Potrdi", Toast.LENGTH_SHORT).show();
 			this.cancel();
 			

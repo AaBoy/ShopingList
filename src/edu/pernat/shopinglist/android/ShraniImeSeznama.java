@@ -60,7 +60,7 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
          	    app.dodajSeznamNaSeznam(ns);
 
          	    if(!app.novSeznamList.isEmpty())
-       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov());
+       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov(),app);
 			
          	    aa.finish();
 

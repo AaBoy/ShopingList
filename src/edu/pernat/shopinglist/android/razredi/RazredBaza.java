@@ -1,4 +1,4 @@
-package edu.pernat.shopinglist.android;
+package edu.pernat.shopinglist.android.razredi;
 
 
 
@@ -6,6 +6,7 @@ package edu.pernat.shopinglist.android;
 public class RazredBaza {
 	
 	
+		
 		int stSeznama;
 		int stArtikla;
 		String imeSeznama;

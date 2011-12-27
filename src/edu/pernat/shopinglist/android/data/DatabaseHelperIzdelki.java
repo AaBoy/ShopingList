@@ -12,12 +12,12 @@ public class DatabaseHelperIzdelki extends SQLiteOpenHelper
 
 	public static final  String TAG="DatabaseHelper";
 	private static final int DATABASE_VERSION = 2;
-	private static final String DATABASE_NAME = "Izdelki";
+	private static final String DATABASE_NAME = "Izdelki2";
 	private static final String DATABASE_CREATE =
 
 				"create table " +DBAdapterIzdelki.TABELA_IZDELKI +" ("+DBAdapterVsiSeznami._ID+ " integer primary key autoincrement, "
-				+ DBAdapterIzdelki.AR_IME+" TEXT not null," + DBAdapterIzdelki.AR_CENA+ " DECIMAL not null, "
-				+DBAdapterIzdelki.AR_KOLI+" TEXT not null );"
+				+ DBAdapterIzdelki.AR_IME+" TEXT not null, " + DBAdapterIzdelki.AR_CENA+ " DECIMAL not null, "
+				+DBAdapterIzdelki.AR_KOLI+" TEXT not null, "+DBAdapterIzdelki.AR_OPIS+" TEXT not null );"
 		
 ;
 

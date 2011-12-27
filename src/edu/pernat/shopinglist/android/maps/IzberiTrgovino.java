@@ -1,5 +1,10 @@
-package edu.pernat.shopinglist.android;
+package edu.pernat.shopinglist.android.maps;
 
+import edu.pernat.shopinglist.android.GlobalneVrednosti;
+import edu.pernat.shopinglist.android.R;
+import edu.pernat.shopinglist.android.R.id;
+import edu.pernat.shopinglist.android.R.layout;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -13,16 +18,16 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 	Spinner imeTrgovin, naslovTrgovin;
 	String array_spinner[];
 	Button potrdi, zavrni;
+	Activity glob;
+	GlobalneVrednosti app;
 	
-	
-	public IzberiTrgovino(Context context) {
+	public IzberiTrgovino(Context context, Activity aa,GlobalneVrednosti app1) {
 		super(context);
 		setContentView(R.layout.izberi_trgovino);
 		this.setTitle("Izberite trgovino!");
-		
-		
-		
-		
+		glob=aa;
+		app=app1;
+
 		potrdi=(Button)findViewById(R.id.potrdiTrgovino);
 		zavrni=(Button)findViewById(R.id.zavrniTrgovino);
 		potrdi.setOnClickListener(this);
@@ -30,31 +35,19 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		//*Dodaj spinerje*/
 		
 		imeTrgovin=(Spinner)findViewById(R.id.spinerNazivTrgovine);
-		naslovTrgovin=(Spinner)findViewById(R.id.spinerNasloTrgovine);
-		
-		array_spinner=new String [1];
-		array_spinner[0]="Mercator";
-		/*array_spinner[1]="Spar";
-		array_spinner[2]="Tuš";
-		array_spinner[3]="Žerak";
-		array_spinner[4]="Eurospin";*/
 		
 		
-		
-		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, array_spinner);
-		imeTrgovin.setAdapter(pinnerArrayAdapter);
-		
-		array_spinner=new String [1];
-		array_spinner[0]="TRŽAŠKA 65";
-		/*array_spinner[1]="Miheličeva 55";
-		array_spinner[2]="Nova Gorica 5b";
-		array_spinner[3]="Tezno 12";
-		array_spinner[4]="Žirovnik ul. 5";*/
-		
-		ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, array_spinner);
-		naslovTrgovin.setAdapter(spinnerArrayAdapter);
+		array_spinner=new String [app.seznamTrgovin.size()];
 
+		for(int i=0;i<app.seznamTrgovin.size();i++)
+		{
+			array_spinner[i]=app.seznamTrgovin.get(i).print();
+		}
 		
+		
+		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item,array_spinner );
+		imeTrgovin.setAdapter(pinnerArrayAdapter);
+	
 	/*Konec dodajanja*/
 		// TODO Auto-generated constructor stub
 	}
@@ -71,7 +64,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		case R.id.zavrniTrgovino:
 		{
 			
-			this.dismiss();
+			glob.finish();
 			break;
 		}
 		

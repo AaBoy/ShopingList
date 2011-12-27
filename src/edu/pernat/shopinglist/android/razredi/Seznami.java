@@ -44,6 +44,10 @@ public class Seznami {
 		ustvarjeniSeznami.get(index).prestejOznacene();
 		return ustvarjeniSeznami.get(index).getStOznacenih();
 	}
+	public int size()
+	{
+		return ustvarjeniSeznami.size();
+	}
 
 	
 }

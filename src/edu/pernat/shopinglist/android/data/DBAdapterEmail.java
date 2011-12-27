@@ -2,8 +2,8 @@ package edu.pernat.shopinglist.android.data;
 
 import java.sql.Date;
 
-import edu.pernat.shopinglist.android.RazredBaza;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
+import edu.pernat.shopinglist.android.razredi.RazredBaza;
 
 import android.content.ContentValues;
 import android.content.Context;
