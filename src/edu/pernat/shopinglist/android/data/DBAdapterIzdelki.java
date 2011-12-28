@@ -130,7 +130,23 @@ public class DBAdapterIzdelki implements BaseColumns {
 	    db.delete(TABELA_IZDELKI, null, null);
 
 	}
-
+	public boolean obstajaTabela()
+	{
+		try {
+			db = DBHelper.getWritableDatabase();
+			Cursor cur;
+			cur=db.rawQuery("select * from "+TABELA_IZDELKI +";", null);
+			if(cur!=null)return true;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		
+		 
+		    return false;
+		    
+	}
 	
 	public String vrniPozicije(String ime)
 	{

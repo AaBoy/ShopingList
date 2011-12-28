@@ -6,9 +6,28 @@ public class Artikli {
 	 private double cena;
 	 private String ime,kolicina;
 	 private String opis;
-	// private boolean oznacen;
+	 private long id;
 	 
-	 private int idBaze;
+	public Artikli(double cena, String ime, String kolicina, String opis,
+			long id, int idBaze) {
+		super();
+		this.cena = cena;
+		this.ime = ime;
+		this.kolicina = kolicina;
+		this.opis = opis;
+		this.id = id;
+		this.idBaze = idBaze;
+	}
+	 
+	 public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	private int idBaze;
 	
 	public Artikli(double cena, String ime, String kolicina, String opis, int id) {
 		super();

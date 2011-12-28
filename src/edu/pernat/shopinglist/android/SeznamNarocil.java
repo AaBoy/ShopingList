@@ -14,17 +14,20 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SeznamNarocil extends ListActivity implements OnItemClickListener  {
+public class SeznamNarocil extends ListActivity implements OnItemClickListener, OnItemLongClickListener  {
 	
 	GlobalneVrednosti app;
 	private Menu mMenu;  //ni nujno
@@ -40,6 +43,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         app=(GlobalneVrednosti) getApplication();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
+		
 
 	}
 
@@ -59,6 +63,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 		//Toast.makeText(this, "Pritisnili ste: "+, Toast.LENGTH_LONG).show();
 		app.stSeznama=position;
+		Log.e("jej", app.vsiSeznami.size()+"");
 		Intent moj=new Intent(this, NovSeznam.class);
 		this.startActivity(moj);
 	}
@@ -109,6 +114,18 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	      return false;
 
 	    }
+
+
+		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+				int position, long arg3) {
+			
+			
+//			app.vsiSeznami.removNovSeznam(position);
+//			app.seznamList.notify();
+			
+			// TODO Auto-generated method stub
+			return false;
+		}
 
 }
     

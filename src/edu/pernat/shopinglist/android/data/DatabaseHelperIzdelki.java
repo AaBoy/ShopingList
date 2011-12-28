@@ -15,7 +15,7 @@ public class DatabaseHelperIzdelki extends SQLiteOpenHelper
 	private static final String DATABASE_NAME = "Izdelki2";
 	private static final String DATABASE_CREATE =
 
-				"create table " +DBAdapterIzdelki.TABELA_IZDELKI +" ("+DBAdapterVsiSeznami._ID+ " integer primary key autoincrement, "
+				"create table " +DBAdapterIzdelki.TABELA_IZDELKI +" ("+DBAdapterSeznami._ID+ " integer primary key autoincrement, "
 				+ DBAdapterIzdelki.AR_IME+" TEXT not null, " + DBAdapterIzdelki.AR_CENA+ " DECIMAL not null, "
 				+DBAdapterIzdelki.AR_KOLI+" TEXT not null, "+DBAdapterIzdelki.AR_OPIS+" TEXT not null );"
 		

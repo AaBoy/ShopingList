@@ -37,7 +37,8 @@ public class MainActivity extends Activity {
         this.setRequestedOrientation(1);
     	global=(GlobalneVrednosti) getApplication();
     	
-    	global.fillFromDBIzdelki();
+//    	global.fillFromDBIzdelki();
+    	global.napolniBazoSeznamov();
 		//global.init();
     	
 //    	if(isNetworkAvailable())
@@ -60,7 +61,8 @@ public class MainActivity extends Activity {
 	    return activeNetworkInfo != null;
 	}
     
-    
+
+	
     public void odpriOkno(View v)
     {
     	//Toast.makeText(this, "Sem stisnil gumb", Toast.LENGTH_SHORT)
@@ -146,19 +148,26 @@ public class MainActivity extends Activity {
       }
       return false;
     }
-    /*Konec menija*/
     
+//    @Override
+//    public void onPause()
+//    {
+//    	super.onPause();
+//    	global.napolniVmesno();
+//    }
     
+    @Override
+    public void onStop()
+    {
+    	super.onStart();
+    	global.napolniVmesno();
+    }
     
-    
-    
-    
-    //Parser
-
-    
-    
-    
-    
-    
+//    @Override
+//    public void onDestroy()
+//    {
+//    	super.onDestroy();
+//    	global.napolniVmesno();
+//    }
     
 }

@@ -194,7 +194,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
   	  if(app.stSeznama!=-1)
   	  {
   		  app.vsiSeznami.removNovSeznam(app.stSeznama);
-  		  app.dodajSeznamNaSeznam(app.novSeznam);
+  		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
   	  }
   	  if(!app.novSeznamList.isEmpty())
 			app.novSeznamList.clear();

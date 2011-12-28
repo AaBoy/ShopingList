@@ -49,15 +49,6 @@ public class SplashScreen extends Activity {
 	    setContentView(R.layout.splash);
 	    app=(GlobalneVrednosti) getApplication();
 	    final SplashScreen sPlashScreen = this; 
-	    
-	    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	    final String strSavedMem1 = sharedPreferences.getString("BAZA", "");
-	    
-	    SharedPreferences shIzdelki = getPreferences(MODE_PRIVATE);
-	    final String imamoIzdelke =shIzdelki.getString("IZDELKI", "");
-	    
-	    SharedPreferences shSeznami = getPreferences(MODE_PRIVATE);
-	    final String jePolniSeznam =shIzdelki.getString("SEZNAMI", "");
 
 	    // thread for displaying the SplashScreen
 	    splashTread = new Thread() {
@@ -66,7 +57,7 @@ public class SplashScreen extends Activity {
 	            try {
 	            	
 
-	            		if(strSavedMem1=="")
+	            		if(app.obstajaTrgovinaTabela())
 	            		{
 	            			app.sprazniBazoTrgovina();
 	            			prvaRazdelitev=podatki.split("\n");
@@ -75,19 +66,15 @@ public class SplashScreen extends Activity {
 	            				naDvaDela=prvaRazdelitev[i].split(";");
 	            				app.dodajTrgovinoNaSeznam(new Trgovina(naDvaDela[0], naDvaDela[1]));
 	            			}
-	            			SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	            		    SharedPreferences.Editor editor1 = sharedPreferences.edit();
-	            		    editor1.putString("BAZA", "polna");
-	            		    editor1.commit();
 	            		}
 	            		else
 	            		{
 	            			app.fillFromDBTrgovina();
 	            		}	
 	            	
-	            		if(imamoIzdelke=="")
+	            		if(app.obstajaIzdelkiTabela())
 	            		{
-	            			//app.sprazniBazoArtikli();
+	            			app.sprazniBazoTrgovina();
 	            			prvaRazdelitev=izdelki.split("\n");
 	            			for(int i=0;i<prvaRazdelitev.length;i++)
 	            			{
@@ -95,10 +82,6 @@ public class SplashScreen extends Activity {
 	            				app.artikelNaSeznamInBazo(new Artikli( Double.parseDouble( naPetDelov[2].replace(",", ".")), 
 	            						naPetDelov[1], naPetDelov[3], naPetDelov[4],i));
 	            			}
-	            			SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-	            		    SharedPreferences.Editor editor1 = sharedPreferences.edit();
-	            		    editor1.putString("IZDELKI", "polna");
-	            		    editor1.commit();
 	            		}
 	            		else
 	            		{
@@ -106,11 +89,19 @@ public class SplashScreen extends Activity {
 	            			app.fillFromDBIzdelki();
 	            			
 	            		}
-	            		if(jePolniSeznam!="")
+	            		if(app.obstajaTabelaSeznami())
 	            		{
 	            			app.fillFromDBSeznami();
 	            		}
-
+	            		
+	            		if(app.obstajaVmensaTabela())
+	            		{
+	            			app.fillFromDBVmesni();
+	            		}
+	            		if(app.obstajaEmailTabela())
+	            		{
+	            			app.fillFromDB();
+	            		}
 	            } 
 	            finally {
 	                finish();

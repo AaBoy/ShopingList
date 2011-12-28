@@ -30,6 +30,10 @@ public class Seznami {
 	{
 		ustvarjeniSeznami.remove(index);
 	}
+	public void replaceSeznam(int index, NovSeznamArtiklov tmp)
+	{
+		ustvarjeniSeznami.add(index, tmp);
+	}
 	
 	public double getSkupanCena(int index)
 	{
@@ -43,6 +47,15 @@ public class Seznami {
 	{
 		ustvarjeniSeznami.get(index).prestejOznacene();
 		return ustvarjeniSeznami.get(index).getStOznacenih();
+	}
+	
+	public void vstaviSeznamNaArtikel(int indexSeznam,int indexArtikle, Artikli tmp, boolean ozn)
+	{
+	
+		ustvarjeniSeznami.get(indexSeznam).addArtikelNaSeznam(tmp, ozn);
+		//ustvarjeniSeznami.get(indexSeznam).oznacee.add(new Oznaceni(indexArtikle, ozn));
+		
+	 
 	}
 	public int size()
 	{

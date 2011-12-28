@@ -58,7 +58,7 @@ public class NovSeznamArtiklov {
 	private double skupnaCena;
 	private String imeSeznama;
 	private int stOznacenih;
-	private int idBaze;
+	private long idBaze;
 	
 	public int getStOznacenih() {
 		prestejOznacene();
@@ -129,12 +129,12 @@ public class NovSeznamArtiklov {
 		stOznacenih=vmesni;
 	}
 	
-	public int getIdBaze() {
+	public long getIdBaze() {
 		return idBaze;
 	}
 
 
-	public void setIdBaze(int idBaze) {
+	public void setIdBaze(long idBaze) {
 		this.idBaze = idBaze;
 	}
 

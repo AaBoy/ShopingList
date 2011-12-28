@@ -97,7 +97,23 @@ public class DBAdapterEmail implements BaseColumns {
 		}
 		return mCursor;
 	}
-
+	public boolean obstajaTabela()
+	{
+		try {
+			db = DBHelper.getWritableDatabase();
+			Cursor cur;
+			cur=db.rawQuery("select * from "+TABELA_EMAIL +";", null);
+			if(cur!=null)return true;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		
+		 
+		    return false;
+		    
+	}
 	//---update---
 	public boolean updateStevec() 
 	{

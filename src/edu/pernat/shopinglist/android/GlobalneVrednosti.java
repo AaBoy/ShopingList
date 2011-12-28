@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
 import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
 import edu.pernat.shopinglist.android.data.DBAdapterTrgovina;
-import edu.pernat.shopinglist.android.data.DBAdapterVsiSeznami;
+import edu.pernat.shopinglist.android.data.DBAdapterSeznami;
+import edu.pernat.shopinglist.android.data.DBAdapterVmesnaTabela;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
@@ -31,8 +32,9 @@ public class GlobalneVrednosti extends Application {
 	public NovSeznamArrayAdapter novSeznamList;
 	DBAdapterEmail db;
 	DBAdapterIzdelki dbIzdelki;
-	DBAdapterVsiSeznami dbSeznami;
+	DBAdapterSeznami dbSeznami;
 	DBAdapterTrgovina dbTrgovina;
+	DBAdapterVmesnaTabela dbVmesnaTabela;
 	String uporabnisko,geslo;
 	String bazaPolna;
 
@@ -40,8 +42,9 @@ public class GlobalneVrednosti extends Application {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
         dbIzdelki=new DBAdapterIzdelki(this);
-        dbSeznami=new DBAdapterVsiSeznami(this);
+        dbSeznami=new DBAdapterSeznami(this);
         dbTrgovina=new DBAdapterTrgovina(this);
+        dbVmesnaTabela=new DBAdapterVmesnaTabela(this);
         /*lista = new ArrayList<Rezultat>(); //inicializirat
          fillFromDB();*/
         lista=new ArrayList<EmailNaslovi>();
@@ -50,8 +53,7 @@ public class GlobalneVrednosti extends Application {
         vsiSeznami=new Seznami();
         novSeznam=new NovSeznamArtiklov();
         seznamTrgovin=new ArrayList<Trgovina>();
-        init();
-        fillFromDB();
+//        fillFromDB();
         //napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
@@ -106,53 +108,6 @@ public class GlobalneVrednosti extends Application {
 		//novSeznam.Oznaci(novSeznam.getVelikostSeznamaArtiklov()-1);
 		dodajSeznamNaSeznam(novSeznam);
 		novSeznam=new NovSeznamArtiklov();
-	}
-	
-	public void init()
-	{
-		
-		/*
-		 * public Artikli(double cena, String ime, String kolicina, String opis,
-			boolean oznacen, int stIzbranegaArtikla)
-		 * */
-		//lista.add(new RazredBaza("uporabniško", "Geslo"));
-//		artikelNaSeznam(new Artikli(1.77, "Mleko", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2.6, "Sok", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(0.5, "Vino", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2, "Moka", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2, "Margerina", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(1.4, "Marmelada", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2.4, "Čips", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(0.8, "Tuna", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2, "Žemlja", "1l","Polmastno",false,1));
-//		artikelNaSeznam(new Artikli(2, "Posebna", "1l","Polmastno",false,1));
-//		
-//		
-//		dodajArtikelNaSeznam (seznamArtiklov.get(2));
-//		dodajArtikelNaSeznam (seznamArtiklov.get(1));
-//		
-//		
-//		novSeznam.setImeSeznama("Mihaaa");
-//		
-//		
-//		dodajSeznamNaSeznam(novSeznam);
-//		novSeznam=new NovSeznamArtiklov();
-//		
-//		dodajArtikelNaSeznam (seznamArtiklov.get(2));
-//		dodajArtikelNaSeznam (seznamArtiklov.get(2));
-//		dodajArtikelNaSeznam (seznamArtiklov.get(0));
-//		dodajArtikelNaSeznam (seznamArtiklov.get(1));
-//		dodajArtikelNaSeznam (seznamArtiklov.get(2));
-//		novSeznam.setImeSeznama("Jajo jao");
-//		dodajSeznamNaSeznam(novSeznam);
-//		novSeznam=new NovSeznamArtiklov();
-		
-		
-		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(2)));
-		//novSeznam.add(new Seznam("Nekdo", seznamArtiklov.get(1)));
-		
-//		stVnosov(new RazredBaza(1, 1, "Joza",1,5));
-		
 	}
 
 	public void newNovSeznam()
@@ -244,69 +199,132 @@ public class GlobalneVrednosti extends Application {
 	}
 	
 	//*vSI PODATKI*/
-	public void addDBSeznami(RazredBaza en)
+	public void addDBSeznami(NovSeznamArtiklov en, int index)
 	{
 		dbSeznami.open();
-		dbSeznami.insertSezname(en);
+		dbSeznami.insertSezname(en,index);
 		dbSeznami.close();
 		
 	}
+	public boolean obstajaTabelaSeznami()
+	{
+		return dbSeznami.obstajaTabela();
+	}
+	
 	public void napolniBazoSeznamov()
 	{
-		
+		dbSeznami.deleteAll();
 		if(vsiSeznami.getUstvarjeniSezname().size()>0)
 		{		
 			//if(dbSeznami.sizeDB()>0) dbSeznami.deleteAll();
 			for(int i=0;i<vsiSeznami.getUstvarjeniSezname().size();i++)
 			{
 				NovSeznamArtiklov tmp=vsiSeznami.getUstvarjeniSezname().get(i);
-				for(int j=0;j<tmp.getVelikostSeznamaArtiklov();j++)
-				{
-					addDBSeznami(new RazredBaza(i, tmp.getNovSeznamArtiklov().get(i).getIdBaze(), tmp.getImeSeznama(),tmp.jeOznacen(i)?1:0 ,tmp.getStKosov(j)));
-				}
-				
+				addDBSeznami(tmp,i);
 			}
 		}
 	}
 	public void fillFromDBSeznami() {
 		dbSeznami.open();
 		Cursor c = dbSeznami.getAll();
-		RazredBaza tmp;
+		NovSeznamArtiklov tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			tmp = new RazredBaza();
-			tmp.setStArtikla(c.getInt( DBAdapterVsiSeznami.ARTIKEL_ID));
-			tmp.setImeSeznama(c.getString(DBAdapterVsiSeznami.IME_SEZNAMA_ID));
-			tmp.setKolicina(c.getInt(DBAdapterVsiSeznami.KOL_NAKUPOV));
-			tmp.setStSeznma(c.getInt(DBAdapterVsiSeznami.SEZNAM_ID));
-			tmp.setoznacen(c.getInt(DBAdapterVsiSeznami.OOZNACEN));
-			preurediRazrednoBazo(tmp);
+			tmp = new NovSeznamArtiklov();
+			tmp.setImeSeznama(c.getString(DBAdapterSeznami.IME_SEZNAMA_ID));
+			tmp.setStOznacenih(c.getInt(DBAdapterSeznami.KOL_NAKUPOV));
+			tmp.setIdBaze(c.getInt(DBAdapterSeznami.SEZNAM_ID));
+			tmp.setSkupnaCena(c.getDouble(DBAdapterSeznami.SKUPNA_CENA_ID));
+			dodajSeznamNaSeznam(tmp);
 			
 		}
+		Log.e("idSeznam", ""+vsiSeznami.size());
+		
 		c.close();
 		dbSeznami.close();
 	}
 	
 	int id;
-	void preurediRazrednoBazo(RazredBaza tmp)
-	{
-		if(tmp.getStSeznama()==vsiSeznami.size())
-		{
-			novSeznam.addArtikelNaSeznam(seznamArtiklov.get(tmp.getStArtikla()));
-			novSeznam.setStKosov(novSeznam.getVelikostSeznamaArtiklov()-1, tmp.getKolicina());
-			novSeznam.setImeSeznama(tmp.getImeSeznama());
-			novSeznam.Oznaci(novSeznam.getVelikostSeznamaArtiklov()-1);
+
+
+/*
+ * Vmesna tabela polni in pridobi
+ * */
+
+	public void fillFromDBVmesni() {
+		dbVmesnaTabela.open();
+		Cursor c = dbVmesnaTabela.getAll();
+		long idSeznama=0, idArtikla;
+		long vmesni=0;
+		int oznacen;
+		
+//		if(!c.isAfterLast())
+//		{
+//			vmesni=c.getLong(DBAdapterVmesnaTabela.SEZNAM_ID);
+//			newNovSeznam();
+//			Log.e("Prvi id seznama", vmesni+"");
+//		}
+		c = dbVmesnaTabela.getAll();
+		int stevec=0;
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			
+			idSeznama=c.getLong(DBAdapterVmesnaTabela.SEZNAM_ID);
+			idArtikla=c.getLong(DBAdapterVmesnaTabela.ARTIKLE_ID);
+
+			oznacen=c.getInt(DBAdapterVmesnaTabela.OZNACEN);
+			if(vmesni!=idSeznama)
+			{
+				if(oznacen!=1)
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1),false);
+				else 
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1), true);
+				
+				
+				stevec++;
+				vmesni=idSeznama;
+			}else
+			{
+				if(oznacen!=1)
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1),false);
+				else 
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1), true);
+				
+				
+				stevec++;
+				vmesni=idSeznama;
+			}	
 		}
-		else
+		c.close();
+		dbVmesnaTabela.close();
+	}
+	
+	public boolean obstajaVmensaTabela()
+	{
+		return dbVmesnaTabela.obstajaTabela();
+	}
+	
+	public void napolniVmesno()
+	{
+		dbVmesnaTabela.open();
+		dbVmesnaTabela.deleteAll();
+		for(int i=0;i<vsiSeznami.size();i++)
 		{
+			NovSeznamArtiklov tmp= vsiSeznami.getUstvarjeniSezname().get(i);
+			
+			for(int j=0;j<tmp.getVelikostSeznamaArtiklov();j++)
+			{
+				dbVmesnaTabela.insertSezname(i, tmp.getNovSeznamArtiklov().get(j).getIdBaze(), tmp.jeOznacen(j)? 1 : 0);
+			}
 			
 		}
-		
+
+		dbVmesnaTabela.close();
 	}
-
-
-
 	
-	// konec db izdelki
+	/*
+	 *Konec vmesne baze
+	 * 
+	 * */
+	
 	//EMAILI
 	public void fillFromDB() {
 		db.open();
@@ -366,19 +384,36 @@ public class GlobalneVrednosti extends Application {
 		lista.remove(a);  //Step 4.10 Globalna lista
 	}
 	//DB konec
-	public void stVnosov(RazredBaza s)
+	
+	
+	//DB obstaja tabela
+	
+	
+	public boolean obstajaEmailTabela()
 	{
-		dbSeznami.open();
-		s.setID(dbSeznami.insertSezname(s));
-		Log.e("velikost baze",dbSeznami.sizeDB()+"" ); 
-		dbSeznami.close();
-		
-//		dbIzdelki.open();
-//		Log.e("Vrjen izpis", dbIzdelki.vrniPozicije("Pivo")+"" ); ;
-//		dbIzdelki.close();
-		
-		
+		return db.obstajaTabela();
 	}
+	
+	public boolean obstajaTrgovinaTabela()
+	{
+		return dbTrgovina.obstajaTabela();
+	}
+	
+	
+	
+	public boolean obstajaIzdelkiTabela()
+	{
+		return dbIzdelki.obstajaTabela();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
