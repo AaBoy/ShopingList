@@ -198,6 +198,10 @@ public class GlobalneVrednosti extends Application {
 		seznamArtiklov.remove(a);  //Step 4.10 Globalna lista
 	}
 	
+	public void updateArtili(Artikli tmp)
+	{
+		Log.e("Posodboljena baza", ""+dbIzdelki.Update(tmp));
+	}
 	//*vSI PODATKI*/
 	public void addDBSeznami(NovSeznamArtiklov en, int index)
 	{
@@ -274,9 +278,9 @@ public class GlobalneVrednosti extends Application {
 			if(vmesni!=idSeznama)
 			{
 				if(oznacen!=1)
-					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1),false);
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla),false);
 				else 
-					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1), true);
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla), true);
 				
 				
 				stevec++;
@@ -284,9 +288,9 @@ public class GlobalneVrednosti extends Application {
 			}else
 			{
 				if(oznacen!=1)
-					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1),false);
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla),false);
 				else 
-					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla-1), true);
+					vsiSeznami.vstaviSeznamNaArtikel((int)idSeznama, stevec, seznamArtiklov.get((int) idArtikla), true);
 				
 				
 				stevec++;
@@ -358,7 +362,7 @@ public class GlobalneVrednosti extends Application {
 		Cursor c = dbTrgovina.getAll();
 		Trgovina tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			tmp = new Trgovina();
+			tmp = new Trgovina();  
 			
 			tmp.setKraj(c.getString(DBAdapterTrgovina.TRGOVINA_KRAJ));
 			tmp.setNaslov(c.getString(DBAdapterTrgovina.TRGOVINA_NASLOV));
@@ -403,7 +407,9 @@ public class GlobalneVrednosti extends Application {
 	
 	public boolean obstajaIzdelkiTabela()
 	{
-		return dbIzdelki.obstajaTabela();
+		boolean ob= dbIzdelki.obstajaTabela();
+		Log.e("OBstajaIzdelki", ob+"");
+		return ob;
 	}
 	
 	

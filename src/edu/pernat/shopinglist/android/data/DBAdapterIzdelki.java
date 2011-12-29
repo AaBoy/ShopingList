@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
+import android.util.Log;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 
 
@@ -133,19 +134,18 @@ public class DBAdapterIzdelki implements BaseColumns {
 	public boolean obstajaTabela()
 	{
 		try {
+			
 			db = DBHelper.getWritableDatabase();
 			Cursor cur;
 			cur=db.rawQuery("select * from "+TABELA_IZDELKI +";", null);
-			if(cur!=null)return true;
+			cur.getCount();
+			if(cur.getCount()>0)return true;
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			return false;
 		}
-		
-		 
-		    return false;
-		    
+		return false;
 	}
 	
 	public String vrniPozicije(String ime)
@@ -165,7 +165,16 @@ public class DBAdapterIzdelki implements BaseColumns {
 	}
 	
 	
-	
+	public int Update(Artikli tmp)
+	{
+		db = DBHelper.getWritableDatabase();
+		ContentValues cv =  new ContentValues();
+		cv.put(AR_IME, tmp.getIme());
+		cv.put(AR_CENA, tmp.getCena());
+		cv.put(AR_KOLI, tmp.getKolicina());
+		cv.put(AR_OPIS, tmp.getOpis());
+		return db.update(TABELA_IZDELKI, cv, AR_IME+"='"+tmp.getIme()+"'  AND "+AR_OPIS+"='"+tmp.getOpis()+"'",null);
+	}
 	
 	
 	
