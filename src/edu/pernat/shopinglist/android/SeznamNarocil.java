@@ -1,39 +1,41 @@
 package edu.pernat.shopinglist.android;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
-import android.R.bool;
-import android.app.Activity;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ListAdapter;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class SeznamNarocil extends ListActivity implements OnItemClickListener, OnItemLongClickListener  {
+public class SeznamNarocil extends ListActivity implements OnItemClickListener  {
 	
 	GlobalneVrednosti app;
 	private Menu mMenu;  //ni nujno
 	public static final int DIALOG_GLAVNI_MENI=0;
 	public static final int DIALOG_USTVARI_SEZNAM=1;
-	
+	public static final int DIALOG_PREIMENUJ=1;
 	/** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,8 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener, 
         app=(GlobalneVrednosti) getApplication();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
-		
+		//this.getListView().setOnItemLongClickListener(this);
+		registerForContextMenu(getListView());
 
 	}
 
@@ -51,8 +54,18 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener, 
     public void onStop()
     {
     	super.onStop();
+//    	app.napolniVmesno();
     	
     }
+    @Override
+    public void onDestroy()
+    {
+    	super.onDestroy();
+//    	app.newNovSeznam();
+//    	app.newVsiArtikli();
+//    	app.newVsiSeznami();
+    }
+    
     @Override   
     public void onStart()
     {
@@ -114,19 +127,92 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener, 
 	      return false;
 
 	    }
+///////////****************************************************context menu
+	    @Override
+	    public boolean onContextItemSelected(MenuItem item) {
+	      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+	      	
+	      	
+	      	if(item.getTitle()=="Preimenuj")
+	      	{
+	      		app.stSeznama=info.position;
+	      		napolniSeznam();
+	      		Log.e("Position",""+ info.position);
+	      		showDialog(DIALOG_PREIMENUJ);
+	      		app.seznamList.notifyDataSetChanged();
+	      		
+	      		
+	      	}
+	      	else
+	      	{
+	      		app.stSeznama=info.position;
+	      		show_alert();
+	      	}
+	      
+	      return true;
+	    }
+	    @Override
+	    public void onCreateContextMenu(ContextMenu menu, View v,
+	        ContextMenuInfo menuInfo) {
+	      if (v.getId()==getListView().getId()) {
+	        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+	        menu.setHeaderTitle(app.vsiSeznami.getImeNovegaSeznama(info.position));
+	        String[] menuItems = {"Izbriši","Preimenuj"};
+	        for (int i = 0; i<menuItems.length; i++) {
+	          menu.add(Menu.NONE, i, i, menuItems[i]);
+	        }
+	      }
+	    }
+	    
+	    protected Dialog onCreateDialog(int id) {
+	    	
+	        switch(id) {   	
+	        case DIALOG_PREIMENUJ:  
+	        	Context mContext4=this;
+	        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app);
+	        	return dialog4;
+	        
+	        default:
+	            break;
+	        }
+	        
+	        return null;
+	    }
+	    
+	    
+	    private void show_alert() {
+	    	// TODO Auto-generated method stub
+	    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
+	    	 alert_box.setMessage("Zares želite izbrisast seznam?");
+	    	 alert_box.setPositiveButton("DA",new DialogInterface.OnClickListener() {
+	    	 public void onClick(DialogInterface dialog, int which) {
+	    		 app.vsiSeznami.removNovSeznam(app.stSeznama);
+	    		 app.stSeznama=-1;
+		      	 app.seznamList.notifyDataSetChanged();
+		      	 Toast.makeText(getApplicationContext(), "Izbrisan element", Toast.LENGTH_LONG).show();
+	    		}
+	    	 });
+	    	 alert_box.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+	    	 public void onClick(DialogInterface dialog, int which) {
+	    		 Toast.makeText(getApplicationContext(), "Nisem izbrisal seznama", Toast.LENGTH_LONG).show();
+	    	 }
+	    	 });
 
+	    	 alert_box.show();
+	    }
+	    public void napolniSeznam()
+	    {
+	    	app.novSeznam=new NovSeznamArtiklov();   	
+	    	int meja=(int) app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().size();	
 
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-				int position, long arg3) {
-			
-			
-//			app.vsiSeznami.removNovSeznam(position);
-//			app.seznamList.notify();
-			
-			// TODO Auto-generated method stub
-			return false;
-		}
-
+	    	for(int x=0;x<meja;x++)
+	    	{
+	    		app.dodajArtikelNaSeznam(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().get(x),app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).jeOznacen(x));
+	    		//app.novSeznamList.add(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().get(x));
+	    		
+	    	}
+	    	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
+	    }
 }
     
 

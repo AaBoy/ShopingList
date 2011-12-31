@@ -18,6 +18,31 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 	Button potrdi;
 	GlobalneVrednosti app;
 	Activity aa;
+	Context vmesni=null;
+	public ShraniImeSeznama(Context context,GlobalneVrednosti temp) {
+		super(context);
+		// TODO Auto-generated constructor stub
+		setContentView(R.layout.nastavi_ime_seznama);
+		this.setTitle("Nastavite ime seznama.");
+		ime=(TextView)findViewById(R.id.imeSeznamaTextView);	
+		app=temp;
+		vmesni=context;
+		if(app.novSeznam.getImeSeznama()==null)
+		{  
+			app.uporabnisko="";
+			ime.setText(app.uporabnisko);
+		}
+		else
+		{
+			ime.setText(app.novSeznam.getImeSeznama());
+		}
+	
+		
+		potrdi=(Button)findViewById(R.id.potrdniImeSeznama);
+		potrdi.setOnClickListener(this);
+		
+	}
+	
 	public ShraniImeSeznama(Context context,GlobalneVrednosti temp, Activity aa) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -48,33 +73,55 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		switch(v.getId())
 		{
 		case R.id.potrdniImeSeznama:
-			app.uporabnisko=ime.getText().toString();
 
-  	        NovSeznamArtiklov ns= app.novSeznam;
-  	        
-  	        if(app.stSeznama!=-1)
-         	 	{
-  	        		app.vsiSeznami.removNovSeznam(app.stSeznama);   
-  	        		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
-         	 	}
-  	        else
-  	        {
-  	        	ns.setImeSeznama(app.uporabnisko);
-         	   
-         	    app.dodajSeznamNaSeznam(ns);
-  	        }
-         	    
-  	        	app.novSeznam=new NovSeznamArtiklov();
-         	    if(!app.novSeznamList.isEmpty())
-       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov(),app);
+			if(aa!=null)
+			{
+	  	        NovSeznamArtiklov ns= app.novSeznam;
+	  	        ns.setImeSeznama(ime.getText().toString());
+	  	        if(app.stSeznama!=-1)
+	         	 	{
+	  	        		app.vsiSeznami.removNovSeznam(app.stSeznama);   
+	  	        		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
+	         	 	}
+	  	        else
+	  	        {
+	         	    app.dodajSeznamNaSeznam(ns);
+	  	        }
+	         	    
+	  	        	app.novSeznam=new NovSeznamArtiklov();
+	         	    if(!app.novSeznamList.isEmpty())
+	       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov(),app);
+				
+	         	    app.napolniBazoSeznamov();
+	         	    aa.finish();
+			}
+			else
+			{
+					NovSeznamArtiklov ns= app.novSeznam;
+		  	        ns.setImeSeznama(ime.getText().toString());
+		  	        if(app.stSeznama!=-1)
+		         	 	{
+		  	        		app.vsiSeznami.removNovSeznam(app.stSeznama);   
+		  	        		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
+		         	 	}
+		  	        else
+		  	        {
+		         	    app.dodajSeznamNaSeznam(ns);
+		  	        }
+		         	    
+		  	        app.novSeznam=new NovSeznamArtiklov();
+		         	if(!app.novSeznamList.isEmpty())         		
+		       		app.novSeznamList = new NovSeznamArrayAdapter(vmesni,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov(),app);
+		         	app.seznamList.notifyDataSetChanged();
+		         	this.dismiss();    
+		         	    
+			 }
+			}
 			
-         	    aa.finish();
-
-			break;
 		
 		}
 		
 		
 	}
 
-}
+

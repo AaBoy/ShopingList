@@ -173,7 +173,12 @@ public class DBAdapterIzdelki implements BaseColumns {
 		cv.put(AR_CENA, tmp.getCena());
 		cv.put(AR_KOLI, tmp.getKolicina());
 		cv.put(AR_OPIS, tmp.getOpis());
-		return db.update(TABELA_IZDELKI, cv, AR_IME+"='"+tmp.getIme()+"'  AND "+AR_OPIS+"='"+tmp.getOpis()+"'",null);
+		int stUpdatov= db.update(TABELA_IZDELKI, cv, AR_IME+"='"+tmp.getIme()+"'  AND "+AR_OPIS+"='"+tmp.getOpis()+"'",null);
+		
+		if(stUpdatov==0)
+			insertArtikel(tmp);
+		
+		return stUpdatov;
 	}
 	
 	

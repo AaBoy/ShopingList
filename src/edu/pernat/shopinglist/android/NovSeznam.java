@@ -6,18 +6,23 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -48,9 +53,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
         //oznaceno=(CheckBox)findViewById(R.id.checkBox1);
         setListAdapter(app.novSeznamList);
         this.setRequestedOrientation(1);
-		//this.getListView().setOnItemClickListener(this);
-		
-		
+        registerForContextMenu(getListView());
 		if(app.stSeznama!=-1)
 		{
 			
@@ -188,19 +191,46 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	@Override
 	public void onBackPressed()
 	{
-		
-		super.onBackPressed();
+//		super.onBackPressed();
 
   	  if(app.stSeznama!=-1)
   	  {
   		  app.vsiSeznami.removNovSeznam(app.stSeznama);
   		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
+  		 
+
+		 if(!app.novSeznamList.isEmpty())  
+		  		app.novSeznamList.clear();
+		 finish();
   	  }
-  	  if(!app.novSeznamList.isEmpty())
-			app.novSeznamList.clear();
+  	  else
+  	  {
+  		show_alert();
+  	  }
+  	 
 	
 	}
-	
+	 private void show_alert() {
+	    	// TODO Auto-generated method stub
+	    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
+	    	 alert_box.setMessage("Izgubili boste seznam, ga ne želite shraniti?");
+	    	 alert_box.setPositiveButton("DA",new DialogInterface.OnClickListener() {
+	    	 public void onClick(DialogInterface dialog, int which) {
+	    		 app.newNovSeznam();
+	    		 if(!app.novSeznamList.isEmpty())  
+	    		  		app.novSeznamList.clear();
+	    		 finish();
+	    		 Toast.makeText(getApplicationContext(), "Izbrisan element", Toast.LENGTH_LONG).show();
+	    		}
+	    	 });
+	    	 alert_box.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+	    	 public void onClick(DialogInterface dialog, int which) {
+	    		 Toast.makeText(getApplicationContext(), "Nisem izbrisal seznama", Toast.LENGTH_LONG).show();
+	    	 }
+	    	 });
+
+	    	 alert_box.show();
+	    }
 	@Override
     public void onResume() {
 		super.onResume();
@@ -301,5 +331,53 @@ public class NovSeznam extends ListActivity implements OnClickListener{
     	}
     	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
     }
-    
+    /*********************************contex meniji************************************/
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+      	
+      	
+      	if(item.getTitle()=="Spremeni ceno")
+      	{
+      		app.stSeznama=info.position;
+      		showDialog(DIALOG_SPREMENI);
+      		Toast.makeText(this, "POzicija "+info.position, Toast.LENGTH_LONG).show();
+      		
+      		
+      	}
+      	else
+      	{
+      		app.novSeznam.getNovSeznamArtiklov().remove(info.position);
+      		NovSeznamArtiklov ns= app.novSeznam;
+	  	   
+      		app.vsiSeznami.removNovSeznam(app.stSeznama);   
+      		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
+      		app.novSeznam=new NovSeznamArtiklov();
+      		
+      		if(!app.novSeznamList.isEmpty())
+    			app.novSeznamList.clear();
+      		napolniSeznam();
+
+      		app.novSeznamList.notifyDataSetChanged();
+      		Toast.makeText(this, "Velikost seznama artiklov "+app.novSeznam.getNovSeznamArtiklov().size(), Toast.LENGTH_LONG).show();
+      		
+      	}
+      
+      return true;
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+        ContextMenuInfo menuInfo) {
+      if (v.getId()==getListView().getId()) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        menu.setHeaderTitle(app.novSeznam.getNovSeznamArtiklov().get(info.position).getIme());
+        String[] menuItems = {"Izbriši","Spremeni ceno"};
+        for (int i = 0; i<menuItems.length; i++) {
+          menu.add(Menu.NONE, i, i, menuItems[i]);
+        }
+      }
+    }
+
+
+  
 }

@@ -2,25 +2,23 @@ package edu.pernat.shopinglist.android;
 
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
-import edu.pernat.shopinglist.android.R;
-import edu.pernat.shopinglist.android.R.id;
-import edu.pernat.shopinglist.android.R.layout;
 import edu.pernat.shopinglist.android.razredi.Artikli;
-import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
-import edu.pernat.shopinglist.android.razredi.Seznami;
 
 
 public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
@@ -66,6 +64,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
 			// Creates a ViewHolder and store references to the naziv children views
 			// we want to bind data to.
 			holder = new ViewHolder();
+			
 			holder.cena = (TextView) convertView.findViewById(R.id.novaCena); //Step 4.8 POPRAVI
 			// holder.icon = (ImageView) convertView.findViewById(R.id.icon);
 			holder.naziv = (TextView) convertView.findViewById(R.id.novaIme); //Step 4.8 POPRAVI
@@ -88,11 +87,22 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
                 return false;
             }
         });
+		
+	
 		String v=""+tmp.getCena();
 		holder.cena.setText(""+v.replace(".", ",")+"€");
 		holder.naziv.setText(tmp.getIme()); //Step 4.8 POPRAVI
 		holder.kolicina.setText(tmp.getKolicina());
 		holder.opis.setText(tmp.getOpis());
+		
+		holder.opis.setOnLongClickListener(new OnLongClickListener() {
+	           
+         public boolean onLongClick(View v) {
+             
+             return false;
+         }
+     });
+		
 		
 		if(app.novSeznam!=null && app.novSeznam.getVelikostSeznamaArtiklov()>position)
 		{
@@ -105,6 +115,7 @@ public class NovSeznamArrayAdapter extends ArrayAdapter<Artikli>{
 		}
 		return convertView;
 	}
+	
 	static class ViewHolder {
 		TextView cena; //Step 4.8 POPRAVI
 		TextView naziv; //Step 4.8 POPRAVI

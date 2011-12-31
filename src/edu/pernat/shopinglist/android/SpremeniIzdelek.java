@@ -44,7 +44,7 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 				
 				app.novSeznam.getNovSeznamArtiklov().get(globalnoIzbran).setIme(spreIme.getText().toString());
 				app.novSeznam.getNovSeznamArtiklov().get(globalnoIzbran).setCena(Double.parseDouble( spreCena.getText().toString()));
-				 
+				app.updateArtili(app.novSeznam.getNovSeznamArtiklov().get(globalnoIzbran));
 				app.novSeznamList.setNotifyOnChange(true);
 				this.dismiss();
 				break;

@@ -37,7 +37,7 @@ public class GlobalneVrednosti extends Application {
 	DBAdapterVmesnaTabela dbVmesnaTabela;
 	String uporabnisko,geslo;
 	String bazaPolna;
-
+	int velikostSeznamov;
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
@@ -57,7 +57,7 @@ public class GlobalneVrednosti extends Application {
         //napolniNaslov();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
-        
+        velikostSeznamov=0;
         
 	}
 	
@@ -119,6 +119,10 @@ public class GlobalneVrednosti extends Application {
 	public void newVsiArtikli()
 	{
 		seznamArtiklov=new ArrayList<Artikli>();
+	}
+	public void newVsiSeznami()
+	{
+		vsiSeznami=new Seznami();
 	}
 	public String getUser()
 	{
@@ -297,6 +301,7 @@ public class GlobalneVrednosti extends Application {
 				vmesni=idSeznama;
 			}	
 		}
+		velikostSeznamov=(int)idSeznama;
 		c.close();
 		dbVmesnaTabela.close();
 	}
@@ -316,7 +321,7 @@ public class GlobalneVrednosti extends Application {
 			
 			for(int j=0;j<tmp.getVelikostSeznamaArtiklov();j++)
 			{
-				dbVmesnaTabela.insertSezname(i, tmp.getNovSeznamArtiklov().get(j).getIdBaze(), tmp.jeOznacen(j)? 1 : 0);
+				dbVmesnaTabela.insertSezname(i, tmp.getNovSeznamArtiklov().get(j).getIdBaze()-1, tmp.jeOznacen(j)? 1 : 0);
 			}
 			
 		}

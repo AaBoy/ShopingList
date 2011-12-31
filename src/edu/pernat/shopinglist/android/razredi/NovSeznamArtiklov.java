@@ -148,7 +148,8 @@ public class NovSeznamArtiklov {
 		}
 		DecimalFormat twoDForm= new DecimalFormat("#.##");
 		
-		this.skupnaCena=vmesni;//Double.valueOf(twoDForm.format(vmesni));
+		this.skupnaCena=(double)Math.round(vmesni * 100) / 100;
+		//Double.valueOf(twoDForm.format(vmesni));
 	}
 	
 	public void addArtikelNaSeznam(Artikli tmp)
