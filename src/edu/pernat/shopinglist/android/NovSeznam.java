@@ -129,7 +129,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
     	
         switch(id) {
         case DIALOG_SPREMENI:
-        	app.stSeznama=-1;
+//        	app.stSeznama=-1;
         	
         	Context mContext = this;
         	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,app,izbranIzdelek );
@@ -339,7 +339,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
       	
       	if(item.getTitle()=="Spremeni ceno")
       	{
-      		app.stSeznama=info.position;
+      		//app.stSeznama=info.position;
       		showDialog(DIALOG_SPREMENI);
       		Toast.makeText(this, "POzicija "+info.position, Toast.LENGTH_LONG).show();
       		

@@ -90,8 +90,8 @@ public class KjeSemActivity extends MapActivity {
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
 
-		Location location = locationManager.getLastKnownLocation(provider);
-		my_updateWithNewLocation(location);
+//		Location location = locationManager.getLastKnownLocation(provider);
+//		my_updateWithNewLocation(location);
 
 
 		locationManager.requestLocationUpdates(provider, 2000, 10,   
@@ -182,7 +182,7 @@ public class KjeSemActivity extends MapActivity {
 			 
 		       try {
 		  List<Address> addresses =
-			  geocoder.getFromLocationName("TRŽAŠKA 65 2000 Maribor", 1, 46.44896008877663, 15.4852294921875, 46.629384155883876, 15.835418701171875); 
+			  geocoder.getFromLocationName(app.seznamTrgovin.get(app.stSeznama).print(), 1, 46.44896008877663, 15.4852294921875, 46.629384155883876, 15.835418701171875); 
 			  
 		 
 		  if(addresses != null) {

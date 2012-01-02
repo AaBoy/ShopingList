@@ -58,6 +58,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		{
 		case R.id.potrdiTrgovino:
 		{
+			app.stSeznama= imeTrgovin.getSelectedItemPosition();
 			this.dismiss();
 			break;
 		}

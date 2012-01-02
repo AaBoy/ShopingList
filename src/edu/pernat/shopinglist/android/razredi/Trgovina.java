@@ -32,6 +32,6 @@ public class Trgovina {
 	
 	public String print()
 	{
-		return naslov+", "+kraj;
+		return naslov+" "+kraj;
 	}
 }

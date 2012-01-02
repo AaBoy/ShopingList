@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dip"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:background="@drawable/myshape_vrstica_1" >
+
+
+
+ 
+    <LinearLayout
+        android:id="@+id/LinearLayout07"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:weightSum="0" 
+        >
+        
+        <TextView
+            android:id="@+id/TextViewIme1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Ime"
+            android:textSize="18dip"
+            android:textColor="#FFFFFF"
+            android:width="180dip" 
+            />
+
+        <TextView
+            android:id="@+id/TextViewCena1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="18dip"
+            android:width="160dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewKolicina1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="18dip"
+            android:width="140dip" android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout08"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" 
+       >
+
+        <TextView
+            android:id="@+id/TextViewOpis1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#FFFFFF"/>
+
+        <ImageView android:id="@+id/ImageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/crta" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout05"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:weightSum="0" >
+        
+        <TextView
+            android:id="@+id/TextViewIme2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Ime"
+            android:textSize="18dip"
+            android:width="180dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewCena2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="18dip"
+            android:width="160dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewKolicina2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="18dip"
+            android:width="140dip" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout06"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextViewOpis2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/ImageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/crta" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout03"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:weightSum="0" >
+
+        <TextView
+            android:id="@+id/TextViewIme3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Ime"
+            android:textSize="18dip"
+            android:width="180dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewCena3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="18dip"
+            android:width="160dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewKolicina3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="18dip"
+            android:width="140dip" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout04"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextViewOpis3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/ImageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/crta" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:weightSum="0" >
+
+        <TextView
+            android:id="@+id/TextViewIme4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Ime"
+            android:textSize="18dip"
+            android:width="180dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TexViewCena4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="18dip"
+            android:width="160dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewKolicna4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="18dip"
+            android:width="140dip" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextViewOpis4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/ImageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/crta" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="left"
+        android:weightSum="0" >
+
+        <TextView
+            android:id="@+id/TextViewIme5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="Ime"
+            android:textSize="18dip"
+            android:width="180dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewCena5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="18dip"
+            android:width="160dip" android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:id="@+id/TextViewKolicina5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="18dip"
+            android:width="140dip" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextViewOpis5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+</LinearLayout>

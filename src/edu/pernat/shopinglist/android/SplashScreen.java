@@ -54,7 +54,7 @@ public class SplashScreen extends Activity {
 	private static final String SOAP_ACTION_PRIDOBI_POSODOBI="http://izdelki.shoopinglist.pernat.edua/pridobiIzbazeNazadnjeSpremenjene";
 	
 	private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
-	private static final String URL="http://192.168.1.3:8080/PridobiMerkatorIzdelke/services/MainClass?wsdl";
+	private static final String URL="http://192.168.1.5:8080/PridobiMerkatorIzdelke/services/MainClass?wsdl";
 	private static final String METHOD_NAME_PRIDOBI_IZ_BAZE="pridobiIzbaze";
 	private static final String METHOD_NAME_TRGOVINE="Trgovine";
 	private static final String METHOD_NAME_NAZADNJE_SPREMENJENE="pridobiIzbazeNazadnjeSpremenjene";
@@ -68,6 +68,10 @@ public class SplashScreen extends Activity {
 		
 		SharedPreferences shIzdelki = getPreferences(MODE_PRIVATE);
 		imamoIzdelke =shIzdelki.getString("IZDELKI", "");
+		
+		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+		SharedPreferences.Editor editor1 = sharedPreferences.edit();
+		editor1.putString("NEKO SRANJE", "Miha");
 	    // thread for displaying the SplashScreen
 	    splashTread = new Thread() {
 	        @Override
@@ -77,6 +81,7 @@ public class SplashScreen extends Activity {
 	            	 if(isNetworkAvailable())
 	            	 {
 	            		 Log.e("Omrežje ", "jee");
+	            		
 	            		 kakoSTrgovinami();
 	            		 kakoZIZdelki();
 	            		 if(app.obstajaTabelaSeznami())
@@ -203,12 +208,15 @@ public class SplashScreen extends Activity {
 
 	private void kakoZIZdelki()
 	{
+		Log.e("Preverim ali je tabela polna", "Preverim ali je tabela polna");
 		if(app.obstajaIzdelkiTabela())
 		{
-		
+			Log.e("Tabela je polna", "Tabela je polna");
+			
 			if(imamoIzdelke!=null)
 			{
 				try {
+					Log.e("Posodobim podatke", "posodobim podatke");
 					SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_NAZADNJE_SPREMENJENE);
 					Request.addProperty("datum",imamoIzdelke);	
 					
@@ -227,6 +235,7 @@ public class SplashScreen extends Activity {
 					SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 					SharedPreferences.Editor editor1 = sharedPreferences.edit();
 					editor1.putString("IZDELKI", prvaRazdelitev[prvaRazdelitev.length-1]);
+					Log.e("Dobim datum", prvaRazdelitev[prvaRazdelitev.length-1]);
 
 					for(int i=0;i<prvaRazdelitev.length-1;i++)
 					{
@@ -249,13 +258,16 @@ public class SplashScreen extends Activity {
 			}
 			
 			else
+			{
+				Log.e("Sem v izdelki, ko tabela ni prazna, nimamo nič v share", "Sem v izdelki, ko tabela ni prazna, nimamo nič v share");
 				app.fillFromDBIzdelki();
-			
+			}
 		
 		}
 		else
 		{
 			try {
+				Log.e("Sem v izdelki, ko tabela je prazna", "Sem v izdelki, ko tabela je prazna");
 				SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_PRIDOBI_IZ_BAZE);	
 				SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 				soapEnvelope.dotNet=false;
@@ -275,6 +287,7 @@ public class SplashScreen extends Activity {
 				SharedPreferences.Editor editor1 = sharedPreferences.edit();
 				editor1.putString("IZDELKI", prvaRazdelitev[prvaRazdelitev.length-1]);
 				
+				Log.e("Dobim datum", prvaRazdelitev[prvaRazdelitev.length-1]);
 				for(int i=0;i<prvaRazdelitev.length-1;i++)
 				{
 				naPetDelov=prvaRazdelitev[i].split(";");

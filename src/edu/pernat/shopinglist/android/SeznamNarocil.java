@@ -70,6 +70,11 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
     public void onStart()
     {
     	super.onStart();
+    	if(app.stSeznama!=-1)
+    	{
+    		app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).sestejCeno();
+    	}
+    	
     	app.seznamList.notifyDataSetChanged();
     }
     
