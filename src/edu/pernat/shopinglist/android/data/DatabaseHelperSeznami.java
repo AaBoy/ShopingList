@@ -17,7 +17,8 @@ public class DatabaseHelperSeznami extends SQLiteOpenHelper
 
 				"create table " +DBAdapterSeznami.TABELA_SEZNAMI +" ("
 				+ DBAdapterSeznami.ST_SEZNAMA+" integer primary key not null, "+ DBAdapterSeznami.IME_SEZNAMA+ " TEXT not null, "+
-				DBAdapterSeznami.SKUPNA_CENA+ " real not null, "+ DBAdapterSeznami.KOLI_NAKUOPV+" integer not null); ";
+				DBAdapterSeznami.SKUPNA_CENA+ " real not null, "+ DBAdapterSeznami.KOLI_NAKUOPV+" integer not null, "
+				+DBAdapterSeznami.DATUM_NAKUPA_S+" TEXT not null); ";
 				
 				
 	

@@ -1,8 +1,8 @@
 package edu.pernat.shopinglist.android.razredi;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import edu.pernat.shopinglist.android.UstvariNovIzdelek;
 
 public class Seznami {
 
@@ -25,6 +25,7 @@ public class Seznami {
 	public void addNovSeznam(NovSeznamArtiklov tmp)
 	{
 		ustvarjeniSeznami.add(tmp);
+
 	}
 	public void removNovSeznam(int index)
 	{
@@ -33,6 +34,8 @@ public class Seznami {
 	public void replaceSeznam(int index, NovSeznamArtiklov tmp)
 	{
 		ustvarjeniSeznami.add(index, tmp);
+		final Calendar c = Calendar.getInstance();
+		ustvarjeniSeznami.get(index).setDatumNakupa(""+(c.get(Calendar.DATE))+". "+(c.get(Calendar.MONTH)+1)+". "+c.get(Calendar.YEAR));
 	}
 	
 	public double getSkupanCena(int index)
@@ -52,9 +55,7 @@ public class Seznami {
 	public void vstaviSeznamNaArtikel(int indexSeznam,int indexArtikle, Artikli tmp, boolean ozn)
 	{
 	
-		ustvarjeniSeznami.get(indexSeznam).addArtikelNaSeznam(tmp, ozn);
-		//ustvarjeniSeznami.get(indexSeznam).oznacee.add(new Oznaceni(indexArtikle, ozn));
-		
+		ustvarjeniSeznami.get(indexSeznam).addArtikelNaSeznam(tmp, ozn);	
 	 
 	}
 	public int size()

@@ -1,11 +1,15 @@
 package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import android.app.Application;
+import android.database.Cursor;
+import android.util.Log;
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
 import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
-import edu.pernat.shopinglist.android.data.DBAdapterTrgovina;
 import edu.pernat.shopinglist.android.data.DBAdapterSeznami;
+import edu.pernat.shopinglist.android.data.DBAdapterTrgovina;
 import edu.pernat.shopinglist.android.data.DBAdapterVmesnaTabela;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
@@ -13,11 +17,6 @@ import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.RazredBaza;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
-
-import android.app.Application;
-import android.database.Cursor;
-import android.opengl.Visibility;
-import android.util.Log;
 
 public class GlobalneVrednosti extends Application {
 	public ArrayList<EmailNaslovi> lista;
@@ -45,22 +44,28 @@ public class GlobalneVrednosti extends Application {
         dbSeznami=new DBAdapterSeznami(this);
         dbTrgovina=new DBAdapterTrgovina(this);
         dbVmesnaTabela=new DBAdapterVmesnaTabela(this);
-        /*lista = new ArrayList<Rezultat>(); //inicializirat
-         fillFromDB();*/
         lista=new ArrayList<EmailNaslovi>();
         seznamArtiklov=new ArrayList<Artikli>();
         stSeznama=-1;
         vsiSeznami=new Seznami();
         novSeznam=new NovSeznamArtiklov();
         seznamTrgovin=new ArrayList<Trgovina>();
-//        fillFromDB();
-        //napolniNaslov();
+
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
         velikostSeznamov=0;
         
 	}
-	
+	public void selectIzdelek(String ime,String kolicina)
+	{
+		
+		int vmesni=dbIzdelki.selectIzdelek(ime, kolicina);
+		if(vmesni>0)
+		{
+			novSeznam.addArtikelNaSeznam(seznamArtiklov.get( vmesni-1));
+			final Calendar c = Calendar.getInstance();
+		}
+	}
 	public void dodajArtikelNaSeznam(Artikli tmp)
 	{
 		
@@ -242,6 +247,7 @@ public class GlobalneVrednosti extends Application {
 			tmp.setStOznacenih(c.getInt(DBAdapterSeznami.KOL_NAKUPOV));
 			tmp.setIdBaze(c.getInt(DBAdapterSeznami.SEZNAM_ID));
 			tmp.setSkupnaCena(c.getDouble(DBAdapterSeznami.SKUPNA_CENA_ID));
+			tmp.setDatumNakupa(c.getString(DBAdapterSeznami.DATUM_NAKUPA));
 			dodajSeznamNaSeznam(tmp);
 			
 		}
@@ -264,13 +270,6 @@ public class GlobalneVrednosti extends Application {
 		long idSeznama=0, idArtikla;
 		long vmesni=0;
 		int oznacen;
-		
-//		if(!c.isAfterLast())
-//		{
-//			vmesni=c.getLong(DBAdapterVmesnaTabela.SEZNAM_ID);
-//			newNovSeznam();
-//			Log.e("Prvi id seznama", vmesni+"");
-//		}
 		c = dbVmesnaTabela.getAll();
 		int stevec=0;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {

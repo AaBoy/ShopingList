@@ -3,12 +3,9 @@ package edu.pernat.shopinglist.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.widget.Toast;
-import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
-import edu.pernat.shopinglist.android.razredi.Seznami;
 
 
 
@@ -34,19 +31,27 @@ public class Kamera extends Activity {
     {
     	 String contents = tmp.getStringExtra("SCAN_RESULT");
          String format = tmp.getStringExtra("SCAN_RESULT_FORMAT");
+         String [] izdelki=contents.split("\n");
+         String [] naDvaDela=new String[2];
+         app.newNovSeznam();
+        
+         try {
+        	 for(int i=0;i<izdelki.length-1;i++)
+             {
+            	 naDvaDela=izdelki[i].split(";");
+            	 app.selectIzdelek(naDvaDela[0].trim(), naDvaDela[1].trim());
+             }
          
-         String [] izdelki=contents.split(";");
-         app.novSeznam=new NovSeznamArtiklov();
-         for(int i=0;i<izdelki.length-1;i++)
-         {
-        	 
-        	 app.dodajArtikelNaSeznam(new Artikli(1, 2.1, izdelki[i], "250 g"));
-         }
-         app.novSeznam.setImeSeznama(izdelki[izdelki.length-1]);
-         app.dodajSeznamNaSeznam(app.novSeznam);
-         app.novSeznam=new NovSeznamArtiklov();
+             app.novSeznam.setImeSeznama(izdelki[izdelki.length-1]);
+             app.dodajSeznamNaSeznam(app.novSeznam);
+             app.novSeznam=new NovSeznamArtiklov();
+		} catch (Exception e) {
+			// TODO: handle exception
+			Toast.makeText(Kamera.this,"Nepravilna QR coda",Toast.LENGTH_LONG).show();
+		}
+        
 
-         Log.d("Izpis", contents);
+         
     }
     
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

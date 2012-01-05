@@ -9,8 +9,6 @@
             <Spinner android:id="@+id/spinerNazivTrgovine" android:layout_width="200dip" android:layout_height="wrap_content" android:layout_weight="1"></Spinner>
         </LinearLayout>
         <LinearLayout android:id="@+id/linearLayout2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
-            <TextView android:layout_gravity="center" android:layout_width="wrap_content" android:id="@+id/textView2" android:text="Naslov trgovine: " android:layout_height="wrap_content" android:layout_weight="1"></TextView>
-            <Spinner android:id="@+id/spinerNasloTrgovine" android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="200dip"></Spinner>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:layout_width="290dip">

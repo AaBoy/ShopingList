@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-
 import edu.pernat.shopinglist.android.R;
 
 public class MojWidget extends AppWidgetProvider {
@@ -18,11 +17,14 @@ public class MojWidget extends AppWidgetProvider {
 		// Build the intent to call the service
 				RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 				Intent intent = new Intent(context.getApplicationContext(),UpdateWidgetService.class);
-				
+				Intent animacije= new Intent(context.getApplicationContext(),Animacije.class);
+				PendingIntent pendingIntent = PendingIntent.getService(context.getApplicationContext(), 0, animacije,PendingIntent.FLAG_UPDATE_CURRENT);
 				intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+				remoteViews.setOnClickPendingIntent(R.id.TextViewOpis1, pendingIntent);
 
+				
 				appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-
+				
 				context.startService(intent);
 				
 	}

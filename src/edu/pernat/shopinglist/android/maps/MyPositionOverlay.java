@@ -1,13 +1,14 @@
 package edu.pernat.shopinglist.android.maps;
 
-import java.util.ArrayList;
-
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.RectF;
-import android.location.Location;
+import android.graphics.Typeface;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -16,114 +17,136 @@ import com.google.android.maps.Projection;
 
 public class MyPositionOverlay extends Overlay {
 
-  private final int mRadius = 8;
 
-  public MyPositionOverlay() {
-	  super();
-	  locations = new ArrayList<Location>();
-  }
-  Location location;
-  ArrayList<Location> locations;
- 
-  public Location getLocation() {
-    return location;
-  }
-  public void setLocation(Location location) {
-    this.location = location;
-  }
+	private GeoPoint gp1; 
+	private GeoPoint gp2; 
+	private int mRadius=6; 
+	private int mode=0; 
+	private int defaultColor; 
+
+	private Bitmap img = null; 
+	private String podatki="";
 	
-  @Override
-  public boolean onTap(GeoPoint point, MapView mapView) {
-    return false;
-  }
-  
-  @Override
-  public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-    Projection projection = mapView.getProjection();
+	public MyPositionOverlay(GeoPoint gp1,GeoPoint gp2,int mode) // GeoPoint is a int. (6E) 
+	{ 
+		this.gp1 = gp1; 
+		this.gp2 = gp2; 
+		this.mode = mode; 
+		defaultColor = 999; // no defaultColor 
 
-    if ((location!=null)&&(shadow == false)) {
-    	
-    	
-      // Get the current location    
-      Double latitude = location.getLatitude()*1E6;
-      Double longitude = location.getLongitude()*1E6;
-      GeoPoint geoPoint; 
-      geoPoint = new 
-        GeoPoint(latitude.intValue(),longitude.intValue());
-      
-      
-      locations.add(new Location(location));
-      
-      // Convert the location to screen pixels     
-      Point point = new Point();
-      projection.toPixels(geoPoint, point);
+	} 
+	public MyPositionOverlay(GeoPoint gp1,GeoPoint gp2,int mode,String podatk) // GeoPoint is a int. (6E) 
+	{ 
+		this.gp1 = gp1; 
+		this.gp2 = gp2; 
+		this.mode = mode; 
+		defaultColor = 999; // no defaultColor 
+		this.podatki=podatk;
+	} 
+	public void setPodatki(String p)
+	{
+		podatki=p;
+	}
 
-      RectF oval = new RectF(point.x - mRadius, point.y - mRadius, 
-                             point.x + mRadius, point.y + mRadius);
+	public MyPositionOverlay(GeoPoint gp1,GeoPoint gp2,int mode, int defaultColor) 
+	{ 
+		this.gp1 = gp1; 
+		this.gp2 = gp2; 
+		this.mode = mode; 
+		this.defaultColor = defaultColor; 
+	} 
+	public void setBitmap(Bitmap bitmap) 
+	{ 
+		this.img = bitmap; 
+	} 
+	public int getMode() 
+	{ 
+		return mode; 
+	} 
 
-      // Setup the paint
-      Paint paint = new Paint();
-      paint.setARGB(250,255 , 0, 0);
-      paint.setAntiAlias(true);
-      paint.setFakeBoldText(true);
+	@Override 
+	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) 
+	{ 
+		Projection projection = mapView.getProjection(); 
+		if (shadow == false) 
+		{ 
+			Paint paint = new Paint(); 
+			paint.setAntiAlias(true); 
+			Point point = new Point(); 
+			projection.toPixels(gp1, point); 
+			// mode=1&#65306;start 
+			if(mode==1) 
+			{ 
+				if(defaultColor==999) 
+				paint.setColor(Color.BLUE); 
+				else 
+				paint.setColor(defaultColor); 			
+				RectF oval=new RectF(point.x - mRadius, point.y - mRadius, 
+				point.x + mRadius, point.y + mRadius); 
+				// start point 
+				canvas.drawOval(oval, paint); 
+			}
+			// mode=2&#65306;path 
+			else if(mode==2) 
+			{ 
+				if(defaultColor==999) 
+				paint.setColor(Color.RED); 
+				else 
+				paint.setColor(defaultColor); 
+				
+				Point point2 = new Point(); 
+				projection.toPixels(gp2, point2); 
+				paint.setStrokeWidth(5); 
+				paint.setAlpha(120); 
+				canvas.drawLine(point.x, point.y, point2.x,point2.y, paint); 
+			} 
+			/* mode=3&#65306;end */ 
+			else if(mode==3) 
+			{ 
+				/* the last path */ 
+				if(defaultColor==999) paint.setColor(Color.MAGENTA); 
+				else 
+				paint.setColor(defaultColor); 
+				Point point2 = new Point(); 
+				projection.toPixels(gp2, point2); 
+				paint.setStrokeWidth(5); 
+				paint.setAlpha(120); 
+				canvas.drawLine(point.x, point.y, point2.x,point2.y, paint); 
+				RectF oval=new RectF(point2.x - mRadius,point2.y - mRadius, 
+				point2.x + mRadius,point2.y + mRadius); 
+				/* end point */ 
+				paint.setAlpha(255); 
+				canvas.drawOval(oval, paint); 
+				
+				
+				RectF rec=new RectF(5, 10, 390, 35);
+				paint.setColor(Color.TRANSPARENT);
+				canvas.drawRect(rec, paint);
+				
+				Paint strokePaint = new Paint();
+				strokePaint.setARGB(255, 0, 0, 0);
+				strokePaint.setTextAlign(Paint.Align.CENTER);
+				strokePaint.setTextSize(20);
+				strokePaint.setTypeface(Typeface.DEFAULT_BOLD);
+				strokePaint.setStyle(Paint.Style.STROKE);
+				strokePaint.setStrokeWidth(2);
 
-      Paint backPaint = new Paint();
-      backPaint.setARGB(175, 0, 255, 0);
-      backPaint.setAntiAlias(true);
-
-      RectF backRect = new RectF(point.x + 2 + mRadius, 
-                                 point.y - 3*mRadius,
-                                 point.x + 65, point.y + mRadius);
-
-      // Draw the marker    
-      canvas.drawOval(oval, paint);
-      canvas.drawRoundRect(backRect, 5, 5, backPaint);
-
-     
-      canvas.drawText("Tukaj je trgovina"+locations.size(), 
-              point.x + 2*mRadius+2, point.y, 
-              paint);
-      
-      /*for(int i=0;i<locations.size()-1;i++)
-      {
-    	  
-    	 Double lat= locations.get(i).getLatitude()*1E6;
-    	 Double lon=locations.get(i).getLongitude()*1E6;
-    	 
-    	 GeoPoint geoPoint1; 
-         geoPoint1 = new 
-         GeoPoint(lat.intValue(),lon.intValue());
-         Point point1 = new Point();
-         projection.toPixels(geoPoint1, point1);
-
-         RectF oval1 = new RectF(point1.x - mRadius, point1.y - mRadius, 
-                                point1.x + mRadius, point1.y + mRadius);
-
-         paint.setARGB(250,0 , 255, 0);    
-         canvas.drawOval(oval1, paint);
+				Paint textPaint = new Paint();
+				textPaint.setARGB(255, 255, 0, 0);
+				textPaint.setTextAlign(Paint.Align.CENTER);
+				textPaint.setTextSize(20);
+				textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+				canvas.drawColor(Color.TRANSPARENT);
+				
+				
+				canvas.drawText(podatki, 195, 30, strokePaint);
+				canvas.drawText(podatki, 195, 30, textPaint);
 
 
-    	  Double lat2 = locations.get(i+1).getLatitude()*1E6;
-    	  Double lon2 = locations.get(i+1).getLongitude()*1E6;
+			}
+			Log.e("Vrednost podatki", podatki);
 
-    	  GeoPoint gp1= new GeoPoint(lat.intValue(),lon.intValue());  
-    	  GeoPoint gp2= new GeoPoint(lat2.intValue(),lon2.intValue());
-
-    	  Path path = new Path();
-    	  Point p1=new Point();
-    	  Point p2=new Point();
-
-    	  projection.toPixels(gp1, p1);
-    	  projection.toPixels(gp2, p2);
-    	  path.moveTo(p2.x, p2.y);
-    	  path.lineTo(p1.x,p1.y);
-    	  Paint crta=new Paint();
-    	  crta.setARGB(250, 0, 0, 255);
-    	  canvas.drawLine(p1.x, p1.y, p2.x, p2.y, crta);
-      }
-*/
-      
-    }
-    super.draw(canvas, mapView, shadow);
-  }
+		} 
+	return super.draw(canvas, mapView, shadow, when); 
+	}
 }

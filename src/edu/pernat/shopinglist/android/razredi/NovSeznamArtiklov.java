@@ -59,6 +59,15 @@ public class NovSeznamArtiklov {
 	private String imeSeznama;
 	private int stOznacenih;
 	private long idBaze;
+	private String datumNakupa;
+	
+	public String getDatumNakupa() {
+		return datumNakupa;
+	}
+
+	public void setDatumNakupa(String datumNakupa) {
+		this.datumNakupa = datumNakupa;
+	}
 	
 	public int getStOznacenih() {
 		prestejOznacene();
@@ -156,11 +165,13 @@ public class NovSeznamArtiklov {
 	{
 		NovSeznamArtiklov.add(tmp);
 		oznacee.add(new Oznaceni(NovSeznamArtiklov.size()-1));
+		
 		sestejCeno();
 	}
 	public void addArtikelNaSeznam(Artikli tmp,boolean ozn)
 	{
 		NovSeznamArtiklov.add(tmp);
+		
 		oznacee.add(new Oznaceni(NovSeznamArtiklov.size()-1,ozn));
 		sestejCeno();
 	}

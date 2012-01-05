@@ -139,7 +139,7 @@ public class DBAdapterIzdelki implements BaseColumns {
 			Cursor cur;
 			cur=db.rawQuery("select * from "+TABELA_IZDELKI +";", null);
 			cur.getCount();
-			if(cur.getCount()>0)return true;
+			if(cur.getCount()>0){cur.close();return true;}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -181,25 +181,27 @@ public class DBAdapterIzdelki implements BaseColumns {
 		return stUpdatov;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public int selectIzdelek(String ime,String kolicina)
+	{
+		db = DBHelper.getWritableDatabase();
+		Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_KOLI,_ID},  AR_IME+ "='"+ime +"' AND " +AR_KOLI
+				+ "='"+kolicina+"'", null, null, null, null);
+		
+		try {
+			
+			Log.e("Dobljeni select",v.getCount()+"");
+			v.moveToFirst();
+			Log.e("Ime artikla", v.getString(0));
+			Log.e("Kolicina artikla", v.getString(1));
+			Log.e("ID artikla", v.getString(2));
+			return v.getInt(2);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e("Napaka v selectIzdelek", e.toString());
+		}
+		return -1;
+		
+	}
 	
 	
 }

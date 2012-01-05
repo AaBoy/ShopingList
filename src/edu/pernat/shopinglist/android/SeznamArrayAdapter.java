@@ -58,11 +58,7 @@ public class SeznamArrayAdapter extends ArrayAdapter<NovSeznamArtiklov>{
 		holder.stNakupov.setMax(tmp.getVelikostSeznamaArtiklov());
 		holder.stNakupov.setProgress(tmp.getStOznacenih());
 		holder.veilkostPrgres.setText(tmp.getStOznacenih()+"/"+tmp.getVelikostSeznamaArtiklov()+". izdelkov.");
-		final Calendar c = Calendar.getInstance();
-//	    mHour = c.get(Calendar.DATE);
-//	    mMinute = c.get(Calendar.);
-
-		holder.datum.setText("Ustvarjen seznam: "+c.get(Calendar.DATE)+". "+c.get(Calendar.MONTH)+". "+c.get(Calendar.YEAR));
+		holder.datum.setText("Ustvarjen seznam: "+tmp.getDatumNakupa());
 		//holder.icon.setImageBitmap((position & 1) == 1 ? mIcon1 : mIcon2);
 		return convertView;
 	}

@@ -1,6 +1,7 @@
 package edu.pernat.shopinglist.android;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.Seznami;
@@ -77,6 +78,8 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 			if(aa!=null)
 			{
 	  	        NovSeznamArtiklov ns= app.novSeznam;
+	  			final Calendar c = Calendar.getInstance();
+	  	        app.novSeznam.setDatumNakupa(""+(c.get(Calendar.DATE))+". "+(c.get(Calendar.MONTH)+1)+". "+c.get(Calendar.YEAR));
 	  	        ns.setImeSeznama(ime.getText().toString());
 	  	        if(app.stSeznama!=-1)
 	         	 	{
@@ -91,7 +94,6 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 	  	        	app.novSeznam=new NovSeznamArtiklov();
 	         	    if(!app.novSeznamList.isEmpty())
 	       			app.novSeznamList = new NovSeznamArrayAdapter(aa,R.layout.nov_seznam, app.novSeznam.getNovSeznamArtiklov(),app);
-				
 	         	    app.napolniBazoSeznamov();
 	         	    aa.finish();
 			}

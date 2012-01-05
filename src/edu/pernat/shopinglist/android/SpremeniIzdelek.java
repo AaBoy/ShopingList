@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,6 +33,8 @@ public class SpremeniIzdelek extends Dialog implements OnClickListener {
 	    globalnoIzbran=izbrani;
 	    spreIme.setText(app.novSeznam.getNovSeznamArtiklov().get(izbrani).getIme());
 	    spreCena.setText(""+app.novSeznam.getNovSeznamArtiklov().get(izbrani).getCena());
+	    Log.e("Ime izdelka: ",app.novSeznam.getNovSeznamArtiklov().get(izbrani).getIme());
+	    Log.e("Cena izdelka: ",""+app.novSeznam.getNovSeznamArtiklov().get(izbrani).getCena());
 	    
 	}
 	

@@ -121,7 +121,7 @@ public class DBAdapterTrgovina implements BaseColumns {
 			cur=db.rawQuery("select * from "+TABELA_TRGOVINE +";", null);
 			cur.getCount();
 			
-			if(cur.getCount()>0)return true;
+			if(cur.getCount()>0){cur.close();return true;}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

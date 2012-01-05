@@ -2,10 +2,11 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent" android:orientation="vertical" android:layout_gravity="left">
+  android:layout_height="match_parent" android:orientation="vertical" android:layout_gravity="left"
+  android:id="@+id/linearLayoutArrayAdapeter">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="left" android:weightSum="0">
         <CheckBox android:id="@+id/CheckBox1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:textSize="15dp"></CheckBox>
-        <TextView android:textSize="25dip" android:id="@+id/novaIme" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:width="180dip" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
+        <TextView android:textSize="21sp" android:id="@+id/novaIme" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
 
         <TextView
             android:id="@+id/novaCena"
@@ -15,8 +16,7 @@
             android:layout_weight="0.6"
             android:gravity="left"
             android:text="Cena"
-            android:textSize="25dip"
-            android:width="160dip" >
+            android:textSize="21sp">
 </TextView>
 
         <TextView

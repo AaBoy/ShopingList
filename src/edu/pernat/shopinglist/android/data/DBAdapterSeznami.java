@@ -17,12 +17,14 @@ public class DBAdapterSeznami implements BaseColumns {
 	public static final int IME_SEZNAMA_ID=1;
 	public static final int SKUPNA_CENA_ID=2;
 	public static final int KOL_NAKUPOV=3;
+	public static final int DATUM_NAKUPA=4;
 
 
 	public static final  String ST_SEZNAMA="stSeznama";
 	public static final  String IME_SEZNAMA="imeSeznama";
 	public static final String SKUPNA_CENA="cena";
 	public static final String KOLI_NAKUOPV="koliNakupov";
+	public static final String DATUM_NAKUPA_S="datumNakupa";
 
 
 	public static final  String TABELA_SEZNAMI="seznami";
@@ -62,6 +64,7 @@ public class DBAdapterSeznami implements BaseColumns {
 		initialValues.put(IME_SEZNAMA, stevec.getImeSeznama());
 		initialValues.put(SKUPNA_CENA, stevec.getSkupnaCena());
 		initialValues.put(KOLI_NAKUOPV, stevec.getStOznacenih());
+		initialValues.put(DATUM_NAKUPA_S, stevec.getDatumNakupa());
 		return db.insert(TABELA_SEZNAMI, null, initialValues);
 		//return 1;
 	}
@@ -80,7 +83,8 @@ public class DBAdapterSeznami implements BaseColumns {
 				ST_SEZNAMA,      //POS_NAME=1
 				IME_SEZNAMA,
 				SKUPNA_CENA,
-				KOLI_NAKUOPV},    //POS_VALUE =2
+				KOLI_NAKUOPV,
+				DATUM_NAKUPA_S},    //POS_VALUE =2
 				null, 
 				null, 
 				null, 
@@ -96,7 +100,8 @@ public class DBAdapterSeznami implements BaseColumns {
 					ST_SEZNAMA,
 					IME_SEZNAMA,
 					SKUPNA_CENA,
-					KOLI_NAKUOPV}, 
+					KOLI_NAKUOPV,
+					DATUM_NAKUPA_S}, 
 					_ID + "=" + rowId, 
 					null,
 					null, 

@@ -4,7 +4,7 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
+import org.ksoap2.transport.AndroidHttpTransport;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +25,7 @@ public class SplashScreen extends Activity {
 	//how long until we go to the next activity
 	protected int _splashTime = 5000; 
 
-//	String podatki="Medvoška c. 3;1215 Medvode\n" +
+//	String podatki="ormoška cesta 30;2250 Ptuj\n" +
 //			"Opekarniška cesta 9;3000 Celje\n" +
 //			"Cesta talcev 4;1230 Domžale\n" +
 //			"Spodnji plavž 5;4270 Jesenice\n" +
@@ -65,7 +65,9 @@ public class SplashScreen extends Activity {
 	    setContentView(R.layout.splash);
 	    app=(GlobalneVrednosti) getApplication();
 	    final SplashScreen sPlashScreen = this; 
-		
+	    app.seznamArtiklov.clear();
+    	app.vsiSeznami.ustvarjeniSeznami.clear();
+    	
 		SharedPreferences shIzdelki = getPreferences(MODE_PRIVATE);
 		imamoIzdelke =shIzdelki.getString("IZDELKI", "");
 		
@@ -176,9 +178,9 @@ public class SplashScreen extends Activity {
 					SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 					soapEnvelope.dotNet=false;
 					soapEnvelope.setOutputSoapObject(Request);		
-					HttpTransportSE aht=new HttpTransportSE(URL);	
-					
-					
+					AndroidHttpTransport aht=new AndroidHttpTransport(URL,10000);
+//					
+//					
 					try{
 						
 						aht.call(SOAP_ACTION_TRGOVINA,soapEnvelope);
@@ -223,15 +225,15 @@ public class SplashScreen extends Activity {
 					SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 					soapEnvelope.dotNet=false;
 					soapEnvelope.setOutputSoapObject(Request);	
-					HttpTransportSE aht=new HttpTransportSE(URL);	
-					
+					AndroidHttpTransport aht=new AndroidHttpTransport(URL,10000);	
 					try{
+					
 					aht.call(SOAP_ACTION_PRIDOBI_POSODOBI,soapEnvelope);	
 					SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
 					
 					String vmesni=result.toString();
 					prvaRazdelitev=vmesni.split("\n");
-
+					
 					SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 					SharedPreferences.Editor editor1 = sharedPreferences.edit();
 					editor1.putString("IZDELKI", prvaRazdelitev[prvaRazdelitev.length-1]);
@@ -272,7 +274,7 @@ public class SplashScreen extends Activity {
 				SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 				soapEnvelope.dotNet=false;
 				soapEnvelope.setOutputSoapObject(Request);	
-				HttpTransportSE aht=new HttpTransportSE(URL);	
+				AndroidHttpTransport aht=new AndroidHttpTransport(URL,30000);
 				
 				try{
 				aht.call(SOAP_ACTION_PRIDOBI_IZ_BAZE,soapEnvelope);

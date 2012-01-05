@@ -14,6 +14,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.maps.KjeSemActivity;
 
@@ -36,21 +43,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         this.setRequestedOrientation(1);
     	global=(GlobalneVrednosti) getApplication();
-    	
-//    	global.fillFromDBIzdelki();
     	global.napolniBazoSeznamov();
-		//global.init();
-    	
-//    	if(isNetworkAvailable())
-//    	{
-//    		Toast.makeText(MainActivity.this,"Je internet",Toast.LENGTH_LONG).show();
-//    		MojTask mt = new MojTask();
-//    		mt.execute(1);
-//    	}else
-//    	{
-//    		global.fillFromDBIzdelki();
-//    		global.init();
-//    	}
+
+        
+
 
     }
 
@@ -88,9 +84,8 @@ public class MainActivity extends Activity {
     		
     		case R.id.novSeznam:
     		{
-    			/*MojTask mt = new MojTask();
-    			mt.execute(50);*/
-    			 global.stSeznama=-1;
+
+    			global.stSeznama=-1;
     			Intent moj=new Intent(this, NovSeznam.class);
     			this.startActivity(moj);
     			break;
@@ -99,8 +94,6 @@ public class MainActivity extends Activity {
     		case R.id.gumbKamera:
     		
     		{
-    			
-    			
     			Intent moj=new Intent(this, Kamera.class);
     			this.startActivity(moj);
     			break;

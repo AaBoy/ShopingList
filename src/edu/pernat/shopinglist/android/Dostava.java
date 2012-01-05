@@ -106,13 +106,15 @@ public class Dostava extends Dialog implements OnClickListener {
 		sendIntent.setType("text/plain");
 		getContext().startActivity(Intent.createChooser(sendIntent, "email"));
 	}
+	
 
+	
 	public void gnerirajTelo()
 	{
 		teloEmaila="";
 		for(int i=0;i<app.novSeznam.getNovSeznamArtiklov().size();i++)
 		{
-			teloEmaila+=app.novSeznam.getNovSeznamArtiklov().get(i).getIme()+"   "+app.novSeznam.getNovSeznamArtiklov().get(i).getCena()+"€   \n";
+			teloEmaila+=app.novSeznam.getNovSeznamArtiklov().get(i).getIme()+"   "+app.novSeznam.getNovSeznamArtiklov().get(i).getOpis()+"\n";
 			
 		}
 	}

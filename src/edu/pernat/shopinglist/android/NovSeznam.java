@@ -15,20 +15,23 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.PopupWindow;
 import android.widget.Toast;
+import edu.pernat.shopinglist.android.quickaction.ActionItem;
+import edu.pernat.shopinglist.android.quickaction.QuickAction;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 
-public class NovSeznam extends ListActivity implements OnClickListener{
+public class NovSeznam extends ListActivity implements OnClickListener,OnItemClickListener, OnItemLongClickListener{
     /** Called when the activity is first created. */
 	/*Globalne*/
 	
@@ -39,9 +42,13 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
-	public static final int DIALOG_USTVARI_NOV_IZDELEK=3;
 	public static final int DIALOG_IME_SEZNAMA=4;
 	int izbranIzdelek;
+	
+	private static final int ID_BRISI = 1;
+	private static final int ID_SPREMENI_CENO = 2;
+	private int mSelectedRow = 0;
+	QuickAction mQuickAction;
 	/*Konec globalnih*/
 	
     @Override
@@ -54,16 +61,61 @@ public class NovSeznam extends ListActivity implements OnClickListener{
         setListAdapter(app.novSeznamList);
         this.setRequestedOrientation(1);
         registerForContextMenu(getListView());
+        this.getListView().setOnItemClickListener(this);
+		this.getListView().setOnItemLongClickListener(this);
+        
+        dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
+        dodajIzdelek.setOnClickListener(this);
 		if(app.stSeznama!=-1)
 		{
-			
 				napolniSeznam();
 		}
-		else{app.novSeznam=new NovSeznamArtiklov();}
-	
-		dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
-        dodajIzdelek.setOnClickListener(this);
-		
+		else{
+			app.novSeznam=new NovSeznamArtiklov();
+		}
+
+	     ActionItem addItem 		= new ActionItem(ID_BRISI, "Izbriši", getResources().getDrawable(R.drawable.file_delete_icon));
+	     ActionItem uploadItem 	= new ActionItem(ID_SPREMENI_CENO, "Spremeni ceno", getResources().getDrawable(R.drawable.name_help_con));
+	     
+	     mQuickAction 	= new QuickAction(this);	
+	     mQuickAction.addActionItem(addItem);
+	     mQuickAction.addActionItem(uploadItem);
+	   //setup the action item click listener
+	     mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+				
+				public void onItemClick(QuickAction quickAction, int pos, int actionId) {
+//					ActionItem actionItem = quickAction.getActionItem(pos);
+					
+					if (actionId == ID_BRISI) { //Add item selected
+
+			      		app.novSeznam.getNovSeznamArtiklov().remove(izbranIzdelek);
+			      		NovSeznamArtiklov ns= app.novSeznam;
+				  	   
+			      		app.vsiSeznami.removNovSeznam(app.stSeznama);   
+			      		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
+			      		app.novSeznam=new NovSeznamArtiklov();
+			      		
+			      		if(!app.novSeznamList.isEmpty())
+			    			app.novSeznamList.clear();
+			      		napolniSeznam();
+
+			      		app.novSeznamList.notifyDataSetChanged();
+				
+					}else if(actionId==ID_SPREMENI_CENO)
+					{
+						
+						showDialog(DIALOG_SPREMENI);
+			      		
+					}
+				}
+			});
+			
+			//setup on dismiss listener, set the icon back to normal
+			mQuickAction.setOnDismissListener(new PopupWindow.OnDismissListener() {			
+				public void onDismiss() {
+				}
+			});
+
     }
 
     @Override
@@ -101,11 +153,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
     	  showDialog(DIALOG_POSLJI);
     	  
     	  return true;
-      
-      case R.id.ustvariIzdelek:
-    	   showDialog(DIALOG_USTVARI_NOV_IZDELEK);
-    	  
-    	   return true;
+
       case R.id.CenejsiSeznam:
     	  
     	  CenejsaTrgovinaTask task=new CenejsaTrgovinaTask();
@@ -130,7 +178,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
         switch(id) {
         case DIALOG_SPREMENI:
 //        	app.stSeznama=-1;
-        	
+        	Log.e("Grem spremenit seznam", "Velikost seznama: "+app.novSeznam.getVelikostSeznamaArtiklov() +" Velikost izbrani  izdelki: "+ izbranIzdelek );
         	Context mContext = this;
         	SpremeniIzdelek dialog = new SpremeniIzdelek(mContext,app,izbranIzdelek );
         	
@@ -140,18 +188,11 @@ public class NovSeznam extends ListActivity implements OnClickListener{
         	Context mContext1 = this;
         	Dostava dialog1 = new Dostava(mContext1,app);      	
         	return dialog1;
-			
+        	
         case DIALOG_DODAJ_IZDELEK:
-        	Context mContext2=this;
-        	DodajIzdelek dialog2=new DodajIzdelek(mContext2,app);
-        	
+        	Context mContex2 =this;
+        	DodajIzdelek dialog2=new DodajIzdelek(mContex2, app);
         	return dialog2;
-        	
-        case DIALOG_USTVARI_NOV_IZDELEK:
-        	Context mContext3=this;
-        	UstvariNovIzdelek dialog3=new UstvariNovIzdelek(mContext3, app);
-        	
-        	return dialog3;
         	
         case DIALOG_IME_SEZNAMA:  
         	Context mContext4=this;
@@ -173,7 +214,6 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 		{
 			case R.id.dodajIzdelek:
 				showDialog(DIALOG_DODAJ_IZDELEK);
-		
 		}
 		
 		// TODO Auto-generated method stub
@@ -193,15 +233,22 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	{
 //		super.onBackPressed();
 
+		
+	  if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
+	  {
+		  finish();
+	  }
   	  if(app.stSeznama!=-1)
   	  {
-  		  app.vsiSeznami.removNovSeznam(app.stSeznama);
-  		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
   		 
+  		 app.vsiSeznami.removNovSeznam(app.stSeznama);
+  		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
+  		 finish();
 
 		 if(!app.novSeznamList.isEmpty())  
 		  		app.novSeznamList.clear();
-		 finish();
+		 
+		 
   	  }
   	  else
   	  {
@@ -234,6 +281,7 @@ public class NovSeznam extends ListActivity implements OnClickListener{
 	@Override
     public void onResume() {
 		super.onResume();
+		
     }
 
 	//moje funkcije
@@ -331,52 +379,22 @@ public class NovSeznam extends ListActivity implements OnClickListener{
     	}
     	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
     }
-    /*********************************contex meniji************************************/
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-      	
-      	
-      	if(item.getTitle()=="Spremeni ceno")
-      	{
-      		//app.stSeznama=info.position;
-      		showDialog(DIALOG_SPREMENI);
-      		Toast.makeText(this, "POzicija "+info.position, Toast.LENGTH_LONG).show();
-      		
-      		
-      	}
-      	else
-      	{
-      		app.novSeznam.getNovSeznamArtiklov().remove(info.position);
-      		NovSeznamArtiklov ns= app.novSeznam;
-	  	   
-      		app.vsiSeznami.removNovSeznam(app.stSeznama);   
-      		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
-      		app.novSeznam=new NovSeznamArtiklov();
-      		
-      		if(!app.novSeznamList.isEmpty())
-    			app.novSeznamList.clear();
-      		napolniSeznam();
 
-      		app.novSeznamList.notifyDataSetChanged();
-      		Toast.makeText(this, "Velikost seznama artiklov "+app.novSeznam.getNovSeznamArtiklov().size(), Toast.LENGTH_LONG).show();
-      		
-      	}
-      
-      return true;
-    }
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-        ContextMenuInfo menuInfo) {
-      if (v.getId()==getListView().getId()) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        menu.setHeaderTitle(app.novSeznam.getNovSeznamArtiklov().get(info.position).getIme());
-        String[] menuItems = {"Izbriši","Spremeni ceno"};
-        for (int i = 0; i<menuItems.length; i++) {
-          menu.add(Menu.NONE, i, i, menuItems[i]);
-        }
-      }
-    }
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		app.novSeznam.Oznaci(arg2);
+	}
+
+	public boolean onItemLongClick(AdapterView<?> arg0, View view, int position,
+			long arg3) {
+//		app.stSeznama=position;
+		izbranIzdelek=position;
+		mQuickAction.show(view);
+		return false;
+		
+	}
+
+
 
 
   

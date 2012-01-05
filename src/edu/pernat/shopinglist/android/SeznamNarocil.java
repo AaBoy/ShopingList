@@ -1,10 +1,5 @@
 package edu.pernat.shopinglist.android;
 
-import java.util.List;
-
-import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
-import edu.pernat.shopinglist.android.razredi.Seznami;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -15,27 +10,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.PopupWindow;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+import edu.pernat.shopinglist.android.quickaction.ActionItem;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
+import edu.pernat.shopinglist.android.quickaction.QuickAction;
 
-public class SeznamNarocil extends ListActivity implements OnItemClickListener  {
+public class SeznamNarocil extends ListActivity implements OnItemClickListener,OnItemLongClickListener  {
 	
 	GlobalneVrednosti app;
 	private Menu mMenu;  //ni nujno
 	public static final int DIALOG_GLAVNI_MENI=0;
 	public static final int DIALOG_USTVARI_SEZNAM=1;
 	public static final int DIALOG_PREIMENUJ=1;
+	public static final int DIALOG_POSLJI=2;
+	//za quickaction
+	private static final int ID_BRISI = 1;
+	private static final int ID_POSLJI = 2;
+	private static final int ID_SPREMENI_IME = 3;
+	private int mSelectedRow = 0;
+	QuickAction mQuickAction;
 	/** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,36 +47,94 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
         app=(GlobalneVrednosti) getApplication();
         setListAdapter(app.seznamList);
 		this.getListView().setOnItemClickListener(this);
+		this.getListView().setOnItemLongClickListener(this);
 		//this.getListView().setOnItemLongClickListener(this);
 		registerForContextMenu(getListView());
-
+		
+	     ActionItem addItem 		= new ActionItem(ID_BRISI, "Izbriši", getResources().getDrawable(R.drawable.file_delete_icon));
+		 ActionItem acceptItem 	= new ActionItem(ID_POSLJI, "Pošlji", getResources().getDrawable(R.drawable.email_icon));
+	     ActionItem uploadItem 	= new ActionItem(ID_SPREMENI_IME, "Spremeni ime", getResources().getDrawable(R.drawable.name_help_con));
+	     
+	     mQuickAction 	= new QuickAction(this);	
+	     mQuickAction.addActionItem(addItem);
+	     mQuickAction.addActionItem(acceptItem);
+	     mQuickAction.addActionItem(uploadItem);
+	   //setup the action item click listener
+		 mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+				
+				public void onItemClick(QuickAction quickAction, int pos, int actionId) {
+					ActionItem actionItem = quickAction.getActionItem(pos);
+					
+					if (actionId == ID_BRISI) { //Add item selected
+						show_alert();
+					} else if(actionId==ID_POSLJI){
+						showDialog(DIALOG_POSLJI);
+					}else if(actionId==ID_SPREMENI_IME)
+					{
+						napolniSeznam();
+			      		showDialog(DIALOG_PREIMENUJ);
+			      		app.seznamList.notifyDataSetChanged();
+					}
+				}
+			});
+			
+			//setup on dismiss listener, set the icon back to normal
+			mQuickAction.setOnDismissListener(new PopupWindow.OnDismissListener() {			
+				public void onDismiss() {
+				}
+			});
 	}
 
+    
     @Override
     public void onStop()
     {
-    	super.onStop();
-//    	app.napolniVmesno();
-    	
+    	super.onStop(); 	
     }
     @Override
     public void onDestroy()
     {
     	super.onDestroy();
-//    	app.newNovSeznam();
-//    	app.newVsiArtikli();
-//    	app.newVsiSeznami();
     }
     
     @Override   
     public void onStart()
     {
     	super.onStart();
+    	
     	if(app.stSeznama!=-1)
     	{
     		app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).sestejCeno();
     	}
-    	
+
+         if(app.vsiSeznami.size()==0 && app.seznamArtiklov.size()==0)
+         {
+        	app.seznamArtiklov.clear();
+         	app.vsiSeznami.ustvarjeniSeznami.clear();
+         	app.seznamTrgovin.clear();
+          	
+         		if(app.obstajaIzdelkiTabela())
+         		{
+         			app.fillFromDBIzdelki();
+         		}
+         		if(app.obstajaTrgovinaTabela())
+         		{
+         			app.fillFromDBTrgovina();
+         		}
+         		if(app.obstajaTabelaSeznami())
+         		{
+         			app.fillFromDBSeznami();
+         		}	
+         		if(app.obstajaVmensaTabela())
+         		{
+         			app.fillFromDBVmesni();
+         		}
+         		if(app.obstajaEmailTabela())
+         		{
+         			app.fillFromDB();
+         		}
+         }
+         
     	app.seznamList.notifyDataSetChanged();
     }
     
@@ -132,50 +192,18 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	      return false;
 
 	    }
-///////////****************************************************context menu
-	    @Override
-	    public boolean onContextItemSelected(MenuItem item) {
-	      AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-	      	
-	      	
-	      	if(item.getTitle()=="Preimenuj")
-	      	{
-	      		app.stSeznama=info.position;
-	      		napolniSeznam();
-	      		Log.e("Position",""+ info.position);
-	      		showDialog(DIALOG_PREIMENUJ);
-	      		app.seznamList.notifyDataSetChanged();
-	      		
-	      		
-	      	}
-	      	else
-	      	{
-	      		app.stSeznama=info.position;
-	      		show_alert();
-	      	}
-	      
-	      return true;
-	    }
-	    @Override
-	    public void onCreateContextMenu(ContextMenu menu, View v,
-	        ContextMenuInfo menuInfo) {
-	      if (v.getId()==getListView().getId()) {
-	        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-	        menu.setHeaderTitle(app.vsiSeznami.getImeNovegaSeznama(info.position));
-	        String[] menuItems = {"Izbriši","Preimenuj"};
-	        for (int i = 0; i<menuItems.length; i++) {
-	          menu.add(Menu.NONE, i, i, menuItems[i]);
-	        }
-	      }
-	    }
-	    
+ 
 	    protected Dialog onCreateDialog(int id) {
 	    	
 	        switch(id) {   	
 	        case DIALOG_PREIMENUJ:  
 	        	Context mContext4=this;
-	        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app);
+	        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app,this);
 	        	return dialog4;
+	        case DIALOG_POSLJI:  
+	        	Context mContext=this;
+	        	Dostava dialog=new Dostava(mContext, app);
+	        	return dialog;
 	        
 	        default:
 	            break;
@@ -216,8 +244,17 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener  
 	    		//app.novSeznamList.add(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().get(x));
 	    		
 	    	}
+	    	
 	    	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
 	    }
+
+	   
+		public boolean onItemLongClick(AdapterView<?> arg0, View view,int position, long arg3) {
+			app.stSeznama=position;
+			mSelectedRow=position;
+			mQuickAction.show(view);
+			return false;
+		}
 }
     
 

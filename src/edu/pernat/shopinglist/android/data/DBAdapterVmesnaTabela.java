@@ -131,8 +131,10 @@ public class DBAdapterVmesnaTabela implements BaseColumns {
 		try {
 			db = DBHelper.getWritableDatabase();
 			Cursor cur;
+		
 			cur=db.rawQuery("select * from "+TABELA_VMESNA +";", null);
-			if(cur.getCount()>0)return true;
+			if(cur.getCount()>0){cur.close();return true;}
+			cur.close();
 			
 		} catch (Exception e) {
 			// TODO: handle exception

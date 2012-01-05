@@ -1,5 +1,7 @@
 package edu.pernat.shopinglist.android.maps;
 
+import com.google.android.maps.MapActivity;
+
 import edu.pernat.shopinglist.android.GlobalneVrednosti;
 import edu.pernat.shopinglist.android.R;
 import edu.pernat.shopinglist.android.R.id;
@@ -15,13 +17,13 @@ import android.widget.Spinner;
 
 public class IzberiTrgovino extends Dialog implements OnClickListener {
 
-	Spinner imeTrgovin, naslovTrgovin;
+	Spinner imeTrgovin;
 	String array_spinner[];
 	Button potrdi, zavrni;
-	Activity glob;
+	KjeSemActivity glob;
 	GlobalneVrednosti app;
 	
-	public IzberiTrgovino(Context context, Activity aa,GlobalneVrednosti app1) {
+	public IzberiTrgovino(Context context, KjeSemActivity aa,GlobalneVrednosti app1) {
 		super(context);
 		setContentView(R.layout.izberi_trgovino);
 		this.setTitle("Izberite trgovino!");
@@ -43,8 +45,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		{
 			array_spinner[i]=app.seznamTrgovin.get(i).print();
 		}
-		
-		
+			
 		ArrayAdapter pinnerArrayAdapter = new ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item,array_spinner );
 		imeTrgovin.setAdapter(pinnerArrayAdapter);
 	
@@ -59,6 +60,7 @@ public class IzberiTrgovino extends Dialog implements OnClickListener {
 		case R.id.potrdiTrgovino:
 		{
 			app.stSeznama= imeTrgovin.getSelectedItemPosition();
+			glob.my_updateWithNewLocation(null);
 			this.dismiss();
 			break;
 		}
