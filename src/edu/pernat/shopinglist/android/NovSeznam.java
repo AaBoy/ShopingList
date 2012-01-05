@@ -227,6 +227,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		app.stSeznama=-1;
 	
 	}
+    @Override
+    public void onStop()
+    {
+    	super.onStop();
+    	app.napolniVmesno();
+    }
 	
 	@Override
 	public void onBackPressed()
@@ -236,24 +242,27 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		
 	  if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
 	  {
-		  finish();
+		  super.onBackPressed();
 	  }
-  	  if(app.stSeznama!=-1)
-  	  {
-  		 
-  		 app.vsiSeznami.removNovSeznam(app.stSeznama);
-  		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
-  		 finish();
-
-		 if(!app.novSeznamList.isEmpty())  
-		  		app.novSeznamList.clear();
-		 
-		 
-  	  }
-  	  else
-  	  {
-  		show_alert();
-  	  }
+	  else
+	  {
+	  	  if(app.stSeznama!=-1)
+	  	  {
+	  		 
+	  		 app.vsiSeznami.removNovSeznam(app.stSeznama);
+	  		 app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
+	  		 finish();
+	
+			 if(!app.novSeznamList.isEmpty())  
+			  		app.novSeznamList.clear();
+			 
+			 
+	  	  }
+	  	  else
+	  	  {
+	  		show_alert();
+	  	  }
+	  }
   	 
 	
 	}

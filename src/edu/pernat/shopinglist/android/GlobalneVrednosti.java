@@ -63,7 +63,7 @@ public class GlobalneVrednosti extends Application {
 		if(vmesni>0)
 		{
 			novSeznam.addArtikelNaSeznam(seznamArtiklov.get( vmesni-1));
-			final Calendar c = Calendar.getInstance();
+			
 		}
 	}
 	public void dodajArtikelNaSeznam(Artikli tmp)
@@ -82,6 +82,7 @@ public class GlobalneVrednosti extends Application {
 	public void dodajSeznamNaSeznam(NovSeznamArtiklov tmp)
 	{
 		vsiSeznami.addNovSeznam(tmp);
+		
 	}
 	public void dodajTrgovinoNaSeznam(Trgovina tmp)
 	{

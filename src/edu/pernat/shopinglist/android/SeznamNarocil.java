@@ -89,12 +89,43 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
     @Override
     public void onStop()
     {
-    	super.onStop(); 	
+    	super.onStop();
+    	app.napolniVmesno();
     }
+
     @Override
-    public void onDestroy()
-    {
-    	super.onDestroy();
+    protected void onRestart() {
+    	// TODO Auto-generated method stub
+    	super.onRestart();
+    	 if(app.vsiSeznami.size()==0 && app.seznamArtiklov.size()==0)
+         {
+        	app.seznamArtiklov.clear();
+         	app.vsiSeznami.ustvarjeniSeznami.clear();
+         	app.seznamTrgovin.clear();
+          	
+         		if(app.obstajaIzdelkiTabela())
+         		{
+         			app.fillFromDBIzdelki();
+         		}
+         		if(app.obstajaTrgovinaTabela())
+         		{
+         			app.fillFromDBTrgovina();
+         		}
+         		if(app.obstajaTabelaSeznami())
+         		{
+         			app.fillFromDBSeznami();
+         		}	
+         		if(app.obstajaVmensaTabela())
+         		{
+         			app.fillFromDBVmesni();
+         		}
+         		if(app.obstajaEmailTabela())
+         		{
+         			app.fillFromDB();
+         		}
+         }
+         
+    	app.seznamList.notifyDataSetChanged();
     }
     
     @Override   
