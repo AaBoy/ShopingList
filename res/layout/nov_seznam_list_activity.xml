@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:orientation="vertical"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:paddingLeft="8dp"
-         android:paddingRight="8dp">
-     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
-         <Button android:text="Dodaj izdelek" android:id="@+id/dodajIzdelek" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
-     </LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
 
-     <TextView android:id="@id/android:empty"
-               android:layout_width="match_parent"
-               android:background="#FFffff"
-               android:text="Seznam je prazen. Za dodajanje pritistnite tipko dodaj." android:layout_height="wrap_content" android:textColor="#000000"/>
-     <ListView android:drawSelectorOnTop="false" android:layout_width="match_parent" android:layout_weight="1" android:layout_height="wrap_content" android:id="@id/android:list" ></ListView>
- </LinearLayout>
+    <TextView
+        android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        android:background="@drawable/brez_izdelka"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/dodajIzdelek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/android:empty"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="43.23"
+        android:text="Dodaj izdelek" />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dodajIzdelek"
+        android:layout_alignParentRight="true"
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false" >
+    </ListView>
+
+</RelativeLayout>

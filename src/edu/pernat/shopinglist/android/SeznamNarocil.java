@@ -68,6 +68,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 					if (actionId == ID_BRISI) { //Add item selected
 						show_alert();
 					} else if(actionId==ID_POSLJI){
+						napolniSeznam();
 						showDialog(DIALOG_POSLJI);
 					}else if(actionId==ID_SPREMENI_IME)
 					{
@@ -229,7 +230,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 	        switch(id) {   	
 	        case DIALOG_PREIMENUJ:  
 	        	Context mContext4=this;
-	        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app,this);
+	        	ShraniImeSeznama dialog4=new ShraniImeSeznama(mContext4, app);
 	        	return dialog4;
 	        case DIALOG_POSLJI:  
 	        	Context mContext=this;

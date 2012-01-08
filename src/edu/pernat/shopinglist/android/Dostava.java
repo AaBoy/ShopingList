@@ -117,6 +117,7 @@ public class Dostava extends Dialog implements OnClickListener {
 			teloEmaila+=app.novSeznam.getNovSeznamArtiklov().get(i).getIme()+"   "+app.novSeznam.getNovSeznamArtiklov().get(i).getOpis()+"\n";
 			
 		}
+		emailSubject.setText(app.novSeznam.getImeSeznama());
 	}
 
 	public void onClick(View v) {

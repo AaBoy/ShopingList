@@ -327,6 +327,7 @@ public class GlobalneVrednosti extends Application {
 		}
 
 		dbVmesnaTabela.close();
+		napolniBazoSeznamov();
 	}
 	
 	/*

@@ -13,10 +13,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
-import edu.pernat.shopinglist.android.R.string;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
 
@@ -59,6 +61,8 @@ public class SplashScreen extends Activity {
 	private static final String METHOD_NAME_TRGOVINE="Trgovine";
 	private static final String METHOD_NAME_NAZADNJE_SPREMENJENE="pridobiIzbazeNazadnjeSpremenjene";
 	String imamoIzdelke;
+	private Handler mHandler;
+	TextView stanje;
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -67,13 +71,42 @@ public class SplashScreen extends Activity {
 	    final SplashScreen sPlashScreen = this; 
 	    app.seznamArtiklov.clear();
     	app.vsiSeznami.ustvarjeniSeznami.clear();
+    	mHandler = new Handler();
+
+    	
     	
 		SharedPreferences shIzdelki = getPreferences(MODE_PRIVATE);
 		imamoIzdelke =shIzdelki.getString("IZDELKI", "");
 		
-		SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-		SharedPreferences.Editor editor1 = sharedPreferences.edit();
-		editor1.putString("NEKO SRANJE", "Miha");
+		stanje=(TextView)findViewById(R.id.textViewSplash);
+		mHandler= new Handler(){
+            
+			
+			@Override
+            public void  handleMessage(Message msg){
+                super.handleMessage(msg);
+                switch (msg.arg1) {
+				case 1:
+					stanje.setText("Pridobivam seznam izdelkov iz interneta.");
+					break;
+				case 2:
+					stanje.setText("Pridobivam seznam trgovin iz interneta.");
+					break;
+				case 3:
+					stanje.setText("Posodabljam izdelke iz interneta.");
+					break;
+				case 4:
+					stanje.setText("Pridobivam izdelke iz interneta, lahko traja nekoliko več časa.");
+					break;
+				case 5:
+					stanje.setText("Pridobivam podatke iz lokalne baze.");
+					break;
+				default:
+					break;
+				}
+               
+            }
+        };
 	    // thread for displaying the SplashScreen
 	    splashTread = new Thread() {
 	        @Override
@@ -83,8 +116,16 @@ public class SplashScreen extends Activity {
 	            	 if(isNetworkAvailable())
 	            	 {
 	            		 Log.e("Omrežje ", "jee");
-	            		
+//	            		 stanje.setText("Pridobivam seznam trgovin iz interneta.");
+	            		 Message msg= Message.obtain();
+	            		 msg.arg1=2;
+	                     mHandler.sendMessage(msg);
 	            		 kakoSTrgovinami();
+//	            		 stanje.setText("Pridobivam seznam izdelkov iz interneta.");
+	            		 Message msg1= Message.obtain();
+	                     msg1.arg1=1;
+	                     mHandler.sendMessage(msg1);
+	                        
 	            		 kakoZIZdelki();
 	            		 if(app.obstajaTabelaSeznami())
 	            		  {
@@ -102,6 +143,10 @@ public class SplashScreen extends Activity {
 	            			
 	            	 else
 	            	 {
+	            		 Message msg1= Message.obtain();
+	                     msg1.arg1=5;
+	                     mHandler.sendMessage(msg1);
+	            		 stanje.setText("Nalagam iz lokalne baze");
 	            		 Log.e("Omrežje ", "nii");
 	            		 if(app.obstajaIzdelkiTabela())
 		            		{	            			
@@ -178,7 +223,7 @@ public class SplashScreen extends Activity {
 					SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 					soapEnvelope.dotNet=false;
 					soapEnvelope.setOutputSoapObject(Request);		
-					AndroidHttpTransport aht=new AndroidHttpTransport(URL,10000);
+					AndroidHttpTransport aht=new AndroidHttpTransport(URL,35000);
 //					
 //					
 					try{
@@ -193,14 +238,15 @@ public class SplashScreen extends Activity {
 							naDvaDela=prvaRazdelitev[i].split(";");
 							app.dodajTrgovinoNaSeznam(new Trgovina(naDvaDela[0], naDvaDela[1]));
 						}
+						
 					}catch(Exception e){
 					e.printStackTrace();
-					
+					Log.e("Napak v polnjenju trgovin ",e.toString());
 					}
 					
 				} catch (Exception e) {
 					System.out.println("XML Pasing Excpetion = " + e);
-					Toast.makeText(this, "XML Pasing Excpetion = " + e, Toast.LENGTH_LONG).show();
+					
 					
 				}finally {
 	               
@@ -211,6 +257,7 @@ public class SplashScreen extends Activity {
 	private void kakoZIZdelki()
 	{
 		Log.e("Preverim ali je tabela polna", "Preverim ali je tabela polna");
+		Message msg= Message.obtain();
 		if(app.obstajaIzdelkiTabela())
 		{
 			Log.e("Tabela je polna", "Tabela je polna");
@@ -218,6 +265,9 @@ public class SplashScreen extends Activity {
 			if(imamoIzdelke!=null)
 			{
 				try {
+//					stanje.setText("Posodbaljam izdelke iz interneta.");
+					 msg.arg1=3;
+                     mHandler.sendMessage(msg);
 					Log.e("Posodobim podatke", "posodobim podatke");
 					SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_NAZADNJE_SPREMENJENE);
 					Request.addProperty("datum",imamoIzdelke);	
@@ -269,12 +319,15 @@ public class SplashScreen extends Activity {
 		else
 		{
 			try {
+//				stanje.setText("Pridobivam izdelke iz interneta, lahko traja nekoliko več časa.");
+				 msg.arg1=4;
+                 mHandler.sendMessage(msg);
 				Log.e("Sem v izdelki, ko tabela je prazna", "Sem v izdelki, ko tabela je prazna");
 				SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_PRIDOBI_IZ_BAZE);	
 				SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 				soapEnvelope.dotNet=false;
 				soapEnvelope.setOutputSoapObject(Request);	
-				AndroidHttpTransport aht=new AndroidHttpTransport(URL,30000);
+				AndroidHttpTransport aht=new AndroidHttpTransport(URL,40000);
 				
 				try{
 				aht.call(SOAP_ACTION_PRIDOBI_IZ_BAZE,soapEnvelope);
@@ -298,7 +351,7 @@ public class SplashScreen extends Activity {
 				}
 				}catch(Exception e){
 				e.printStackTrace();
-				
+				Log.e("Napak v polnjenju izdelkov ",e.toString());
 				}
 				
 			} catch (Exception e) {

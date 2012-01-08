@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
@@ -116,6 +117,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 				}
 			});
 
+//			LinearLayout ly=new LinearLayout(this);
+//			ly=(LinearLayout)findViewById(R.id.p)
     }
 
     @Override
@@ -232,6 +235,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
     {
     	super.onStop();
     	app.napolniVmesno();
+    	
     }
 	
 	@Override

@@ -154,6 +154,7 @@ public class MainActivity extends Activity {
     {
     	super.onStop();
     	global.napolniVmesno();
+    	global.napolniBazoSeznamov();
     }
     
 //    @Override

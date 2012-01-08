@@ -12,7 +12,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:layout_width="290dip">
-        <Button android:layout_weight="1" android:id="@+id/potrdiTrgovino" android:layout_width="wrap_content" android:text="Potrdi" android:layout_height="wrap_content"></Button>
+        <Button android:layout_weight="1" android:id="@+id/potrdiTrgovino" android:layout_width="wrap_content" android:text="Izriši" android:layout_height="wrap_content"></Button>
         <Button android:layout_weight="1" android:id="@+id/zavrniTrgovino" android:layout_width="wrap_content" android:text="Zavrni" android:layout_height="wrap_content"></Button>
     </LinearLayout>
 </LinearLayout>
