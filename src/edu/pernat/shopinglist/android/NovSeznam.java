@@ -12,6 +12,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,19 +90,30 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 					
 					if (actionId == ID_BRISI) { //Add item selected
 
-			      		app.novSeznam.getNovSeznamArtiklov().remove(izbranIzdelek);
-			      		NovSeznamArtiklov ns= app.novSeznam;
-				  	   
-			      		app.vsiSeznami.removNovSeznam(app.stSeznama);   
-			      		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
-			      		app.novSeznam=new NovSeznamArtiklov();
 			      		
-			      		if(!app.novSeznamList.isEmpty())
-			    			app.novSeznamList.clear();
-			      		napolniSeznam();
-
-			      		app.novSeznamList.notifyDataSetChanged();
-				
+			      		
+			      		if(app.stSeznama!=-1)
+			      		{
+				      		app.novSeznam.getNovSeznamArtiklov().remove(izbranIzdelek);
+				      		NovSeznamArtiklov ns= app.novSeznam;
+					  	   
+				      		app.vsiSeznami.removNovSeznam(app.stSeznama);   
+				      		app.vsiSeznami.replaceSeznam(app.stSeznama, ns);
+				      		app.novSeznam=new NovSeznamArtiklov();
+				      		
+				      		if(!app.novSeznamList.isEmpty())
+				    			app.novSeznamList.clear();
+				      		napolniSeznam();
+	
+				      		app.novSeznamList.notifyDataSetChanged();
+			      		}
+			      		else
+			      		{
+			      			
+			      			app.novSeznamList.remove(app.novSeznam.getNovSeznamArtiklov().get(izbranIzdelek));
+			      			app.novSeznam.getNovSeznamArtiklov().remove(izbranIzdelek);
+			      			app.novSeznamList.notifyDataSetChanged();
+			      		}
 					}else if(actionId==ID_SPREMENI_CENO)
 					{
 						
@@ -117,8 +129,6 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 				}
 			});
 
-//			LinearLayout ly=new LinearLayout(this);
-//			ly=(LinearLayout)findViewById(R.id.p)
     }
 
     @Override
@@ -157,12 +167,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
     	  
     	  return true;
 
-      case R.id.CenejsiSeznam:
-    	  
-    	  CenejsaTrgovinaTask task=new CenejsaTrgovinaTask();
- 		task.execute(1);
-    	  
-    	  return true;
+//      case R.id.CenejsiSeznam:
+//    	  
+//    	  CenejsaTrgovinaTask task=new CenejsaTrgovinaTask();
+// 		task.execute(1);
+//    	  
+//    	  return true;
     	  
       default:// Generic catch all for all the other menu resources
         if (!item.hasSubMenu()) {
@@ -216,7 +226,15 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		switch (v.getId())
 		{
 			case R.id.dodajIzdelek:
-				showDialog(DIALOG_DODAJ_IZDELEK);
+//				showDialog(DIALOG_DODAJ_IZDELEK);
+				
+    			try {
+    				Intent moj=new Intent(this, Iskanje.class);
+        			this.startActivity(moj);
+				} catch (Exception e) {
+					Log.e("Napak ", e.toString());
+					// TODO: handle exception
+				}
 		}
 		
 		// TODO Auto-generated method stub
@@ -238,6 +256,13 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
     	
     }
 	
+    @Override
+    protected void onRestart() {
+    	// TODO Auto-generated method stub
+    	super.onRestart();
+    	
+    }
+    
 	@Override
 	public void onBackPressed()
 	{
@@ -294,6 +319,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	@Override
     public void onResume() {
 		super.onResume();
+		Log.e("Velikost onResume",app.novSeznam.getNovSeznamArtiklov().size()+"");
+		
 		
     }
 

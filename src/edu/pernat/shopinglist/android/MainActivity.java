@@ -50,14 +50,6 @@ public class MainActivity extends Activity {
 
     }
 
-	private boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager 
-	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null;
-	}
-    
-
 	
     public void odpriOkno(View v)
     {

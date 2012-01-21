@@ -66,7 +66,9 @@ public class SplashScreen extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    
 	    setContentView(R.layout.splash);
+	    this.setRequestedOrientation(1);
 	    app=(GlobalneVrednosti) getApplication();
 	    final SplashScreen sPlashScreen = this; 
 	    app.seznamArtiklov.clear();
@@ -327,7 +329,7 @@ public class SplashScreen extends Activity {
 				SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 				soapEnvelope.dotNet=false;
 				soapEnvelope.setOutputSoapObject(Request);	
-				AndroidHttpTransport aht=new AndroidHttpTransport(URL,40000);
+				AndroidHttpTransport aht=new AndroidHttpTransport(URL,50000);
 				
 				try{
 				aht.call(SOAP_ACTION_PRIDOBI_IZ_BAZE,soapEnvelope);
@@ -343,12 +345,25 @@ public class SplashScreen extends Activity {
 				editor1.putString("IZDELKI", prvaRazdelitev[prvaRazdelitev.length-1]);
 				
 				Log.e("Dobim datum", prvaRazdelitev[prvaRazdelitev.length-1]);
+				Log.e("Velikost polja", prvaRazdelitev.length+"");
+				Log.e("2342",prvaRazdelitev[2342]);
+				Log.e("2343",prvaRazdelitev[2343]);
+				Log.e("2344",prvaRazdelitev[2344]);
 				for(int i=0;i<prvaRazdelitev.length-1;i++)
 				{
-				naPetDelov=prvaRazdelitev[i].split(";");
-				app.artikelNaSeznamInBazo(new Artikli( Double.parseDouble( naPetDelov[1].replace(",", ".")), 
-				naPetDelov[0], naPetDelov[2], naPetDelov[3],i));
+					try {
+						naPetDelov=prvaRazdelitev[i].split(";");
+						app.artikelNaSeznamInBazo(new Artikli( Double.parseDouble( naPetDelov[1].replace(",", ".")), 
+						naPetDelov[0], naPetDelov[2], naPetDelov[3],i));
+//						Log.e("",i+"");
+					} catch (Exception e) {
+						Log.e("Napak na izdelku ",prvaRazdelitev[i]);
+						Log.e("stevilka izdelka",i+"");
+					}
+					
+				
 				}
+				Log.e("Velikost polja", prvaRazdelitev.length+"");
 				}catch(Exception e){
 				e.printStackTrace();
 				Log.e("Napak v polnjenju izdelkov ",e.toString());

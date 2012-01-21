@@ -25,10 +25,11 @@ public class GlobalneVrednosti extends Application {
 	public Seznami vsiSeznami;
 	public NovSeznamArtiklov novSeznam;
 	public int stSeznama;
-	
+	public boolean [] izbrani;
 	
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
+	IskanjeArrajAdapter iskanjeList;
 	DBAdapterEmail db;
 	DBAdapterIzdelki dbIzdelki;
 	DBAdapterSeznami dbSeznami;
@@ -50,9 +51,13 @@ public class GlobalneVrednosti extends Application {
         vsiSeznami=new Seznami();
         novSeznam=new NovSeznamArtiklov();
         seznamTrgovin=new ArrayList<Trgovina>();
-
+        
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
+        iskanjeList=new IskanjeArrajAdapter(this, R.layout.iskanje_seznam, seznamArtiklov, this);
+        
+        
+      
         velikostSeznamov=0;
         
 	}

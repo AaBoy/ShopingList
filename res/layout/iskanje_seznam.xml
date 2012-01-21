@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical" android:layout_gravity="left"
+  android:id="@+id/linearLayoutArrayAdapeterIskanje">
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="left" android:weightSum="0">
+        <CheckBox android:id="@+id/CheckBox1Iskanje" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:textSize="15dp"></CheckBox>
+        <TextView android:textSize="21sp" android:id="@+id/novaImeIskanje" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
+
+        <TextView
+            android:id="@+id/novaCenaIskanje"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.6"
+            android:gravity="left"
+            android:text="Cena"
+            android:textSize="21sp">
+</TextView>
+
+        <TextView
+            android:id="@+id/novaKolicinaIskanje"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:gravity="left"
+            android:text="Kolicina"
+            android:textSize="20dip"
+            android:width="140dip" >
+</TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textViewOpisIzdelkaIskanje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+</LinearLayout>
