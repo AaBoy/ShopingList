@@ -120,13 +120,13 @@ public class Iskanje extends ListActivity implements OnItemClickListener
 		{
 			if(app.izbrani[i]==true)
 			{
-				app.dodajArtikelNaSeznam(app.seznamArtiklov.get(i));
-	    		app.novSeznamList.add(app.seznamArtiklov.get(i));
-				Log.e("Sezm označo kot true", i+"");
+				app.dodajArtikelNaSeznam(app.seznamArtiklov.get(i-1));
+	    		app.novSeznamList.add(app.seznamArtiklov.get(i-1));
+				Log.e("Sezm označo kot true", i+"   "+app.novSeznam.getNovSeznamArtiklov().get(app.novSeznam.getNovSeznamArtiklov().size()-1).getIme());
 			}
 		}
 		
-//		app.izbrani=new boolean[app.seznamArtiklov.size()];
+		app.izbrani=new boolean[app.seznamArtiklov.size()];
 	}
 	
 

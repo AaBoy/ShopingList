@@ -21,7 +21,7 @@
                 android:layout_weight="0.5"
                 android:text="TextView"
                 android:textSize="25dip"
-                android:width="250dip" >
+                android:width="250dip" android:textColor="@color/Bela">
             </TextView>
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_weight="1.5"
                 android:text="TextView"
                 android:textSize="25dip"
-                android:width="250dip" >
+                android:width="250dip" android:textColor="@color/Bela">
             </TextView>
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_weight="0.8"
                 android:text="TextView"
                 android:textSize="25dip"
-                android:width="130dip" >
+                android:width="130dip" android:textColor="@color/Bela">
             </TextView>
         </LinearLayout>
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.3"
                     android:text="2/3"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/Bela"/>
 
                 <TextView
                     android:id="@+id/textViewDatumUstvarjanjeSeznama"
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3.3"
                     android:text="Small Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/Bela"/>
             </LinearLayout>
 
         </LinearLayout>

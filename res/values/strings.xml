@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, Main!</string>
-    <string name="app_name">ShopingList</string>
+    <string name="app_name">Nakupovalni seznam</string>
     <string name="novSeznamGumb1">Koga</string>
     <string name="stringMaps">Zemljevid</string>
     <string name="stringSeznami">Seznami</string>

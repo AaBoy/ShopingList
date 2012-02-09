@@ -95,6 +95,7 @@ public class IskanjeArrajAdapter  extends ArrayAdapter<Artikli>{
 					// TODO Auto-generated method stub
 					app.izbrani[(int)tmp.getIdBaze()]=!app.izbrani[(int)tmp.getIdBaze()];
 	            	holder.kupljeno.setChecked(app.izbrani[(int)tmp.getIdBaze()]);
+	            	Log.e("Izbrani izdelek: ",+tmp.getIdBaze()+" ime izdelka: "+tmp.getIme());
 				}
 			});
 			

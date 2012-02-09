@@ -5,8 +5,8 @@
   android:layout_height="match_parent" android:orientation="vertical" android:layout_gravity="left"
   android:id="@+id/linearLayoutArrayAdapeter">
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="left" android:weightSum="0">
-        <CheckBox android:id="@+id/CheckBox1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:textSize="15dp"></CheckBox>
-        <TextView android:textSize="21sp" android:id="@+id/novaIme" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical"></TextView>
+        <CheckBox android:id="@+id/CheckBox1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:textSize="15dp" android:textColor="@color/Bela"></CheckBox>
+        <TextView android:textSize="21sp" android:id="@+id/novaIme" android:layout_height="wrap_content" android:text="Ime" android:gravity="left" android:layout_weight="1" android:layout_width="0dp" android:layout_gravity="center_vertical" android:textColor="@color/Bela"></TextView>
 
         <TextView
             android:id="@+id/novaCena"
@@ -16,7 +16,7 @@
             android:layout_weight="0.6"
             android:gravity="left"
             android:text="Cena"
-            android:textSize="21sp">
+            android:textSize="21sp" android:textColor="@color/Bela">
 </TextView>
 
         <TextView
@@ -28,7 +28,7 @@
             android:gravity="left"
             android:text="Kolicina"
             android:textSize="20dip"
-            android:width="140dip" >
+            android:width="140dip" android:textColor="@color/Bela">
 </TextView>
 
     </LinearLayout>
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:text="Small Text"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/Bela"/>
 
     </LinearLayout>
 
