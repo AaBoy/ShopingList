@@ -8,21 +8,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.PopupWindow;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
+import com.markupartist.android.widget.ActionBar.IntentAction;
+
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
-import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.quickaction.QuickAction;
+import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 
 public class SeznamNarocil extends ListActivity implements OnItemClickListener,OnItemLongClickListener  {
 	
@@ -84,6 +86,14 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 				public void onDismiss() {
 				}
 			});
+			
+			
+			ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+			
+			actionBar.setTitle("Obstoječi seznami");
+			
+			actionBar.setHomeAction(new DomovAction());
+			actionBar.addAction(new NovSeznamAction());
 	}
 
     
@@ -191,7 +201,9 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 	      mMenu = menu; //ni nujno
 	      MenuInflater inflater = getMenuInflater();
 	      inflater.inflate(R.menu.glavni_menu, mMenu);
+	    
 	      return true;
+	      
 
 	    }
 
@@ -287,6 +299,39 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 			mQuickAction.show(view);
 			return false;
 		}
+		
+		private class NovSeznamAction implements Action {
+
+		    
+		    public int getDrawable() {
+		        return R.drawable.new_list;
+		    }
+
+		    public void performAction(View view) {
+		    	  app.stSeznama=-1;
+		    	 Intent moj=new Intent(SeznamNarocil.this, NovSeznam.class);
+		    	 SeznamNarocil.this.startActivity(moj);
+		    	 finish();
+		    }
+
+		}
+		private class DomovAction implements Action {
+
+		    
+		    public int getDrawable() {
+		        return R.drawable.home;
+		    }
+
+		    public void performAction(View view) {
+		    	 
+		    	 Intent moj=new Intent(SeznamNarocil.this, MainActivity.class);
+		    	 SeznamNarocil.this.finish();
+		    	 SeznamNarocil.this.startActivity(moj);
+		    	 finish();
+		    }
+
+		}
+		
 }
     
 

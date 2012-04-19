@@ -4,8 +4,8 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/lib/ksoap2.5.4.jar"/>
-	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/lib/commons-net.jar"/>
-	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/lib/core.jar"/>
+	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/libs/ksoap2.5.4.jar"/>
+	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/libs/commons-net.jar"/>
+	<classpathentry kind="lib" path="/home/primoz/git/ShopingList/libs/core.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

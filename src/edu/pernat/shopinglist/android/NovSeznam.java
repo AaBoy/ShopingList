@@ -26,9 +26,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
+import com.markupartist.android.widget.ActionBar.IntentAction;
+
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
 import edu.pernat.shopinglist.android.quickaction.QuickAction;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
@@ -123,68 +127,26 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 				}
 			});
 			
-			//setup on dismiss listener, set the icon back to normal
-			mQuickAction.setOnDismissListener(new PopupWindow.OnDismissListener() {			
+		//setup on dismiss listener, set the icon back to normal
+		mQuickAction.setOnDismissListener(new PopupWindow.OnDismissListener() {			
 				public void onDismiss() {
 				}
 			});
-
+		ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+			
+		if(app.novSeznam.getImeSeznama()=="")
+			actionBar.setTitle("Ustvari nov seznam");
+		else
+			actionBar.setTitle(app.novSeznam.getImeSeznama());
+		
+		actionBar.setHomeAction(new DomovAction());
+		actionBar.addAction(new Poslji());
+		actionBar.addAction(new Izbrisi());
+		actionBar.addAction(new Shrani());
+			
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-      mMenu = menu; //ni nujno
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.nov_seznam_meni, mMenu);
-      return true;
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-      case R.id.Shrani:
-
-    	  showDialog(DIALOG_IME_SEZNAMA);
-    	  return true;
-    	  
-      case R.id.Clear:
-    	  
-    	  if(app.stSeznama!=-1)
-        	  app.vsiSeznami.removNovSeznam(app.stSeznama);
-
-    	  app.stSeznama=-1;
-    	  app.novSeznamList.clear();
-    	  this.finish();
-    	  Toast.makeText(this,"Izbrisano!", Toast.LENGTH_SHORT)
-          .show();
-    	  return true; 
-    	  
-      case R.id.Poslji:
-      
-    	  showDialog(DIALOG_POSLJI);
-    	  
-    	  return true;
-
-//      case R.id.CenejsiSeznam:
-//    	  
-//    	  CenejsaTrgovinaTask task=new CenejsaTrgovinaTask();
-// 		task.execute(1);
-//    	  
-//    	  return true;
-    	  
-      default:// Generic catch all for all the other menu resources
-        if (!item.hasSubMenu()) {
-          Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-          return true;
-        }
-        break;
-      }
-      return false;
-
-    }
-
+    
     
     protected Dialog onCreateDialog(int id) {
     	
@@ -298,8 +260,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	 private void show_alert() {
 	    	// TODO Auto-generated method stub
 	    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
-	    	 alert_box.setMessage("Izgubili boste seznam, ga ne želite shraniti?");
-	    	 alert_box.setPositiveButton("DA",new DialogInterface.OnClickListener() {
+	    	 alert_box.setMessage("Izgubili boste seznam, ga želite shraniti?");
+	    	 alert_box.setPositiveButton("NE",new DialogInterface.OnClickListener() {
 	    	 public void onClick(DialogInterface dialog, int which) {
 	    		 app.newNovSeznam();
 	    		 if(!app.novSeznamList.isEmpty())  
@@ -308,8 +270,9 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	    		 Toast.makeText(getApplicationContext(), "Izbrisan element", Toast.LENGTH_LONG).show();
 	    		}
 	    	 });
-	    	 alert_box.setNegativeButton("NE", new DialogInterface.OnClickListener() {
+	    	 alert_box.setNegativeButton("DA", new DialogInterface.OnClickListener() {
 	    	 public void onClick(DialogInterface dialog, int which) {
+	    		 showDialog(DIALOG_IME_SEZNAMA);
 	    		 Toast.makeText(getApplicationContext(), "Nisem izbrisal seznama", Toast.LENGTH_LONG).show();
 	    	 }
 	    	 });
@@ -323,13 +286,6 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		
 		
     }
-
-	//moje funkcije
-	private static final String SOAP_ACTION="http://projektIzdelki.pernat.edu/NajcenejsiSeznam";
-	private static final String METHOD_NAME="NajcenejsiSeznam";
-	private static final String NAMESPACE="http://projektIzdelki.pernat.edu";
-	private static final String URL="http://192.168.1.69:8080/projketIzdelki/services/NajboljsiSeznam?wsdl";
-
 	
 	public String zaNajboljsiIzdelek()
 	{
@@ -353,59 +309,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		  Log.e("Izdelki",vmesni);
     	  return vmesni;
 	}
-	ProgressDialog dialogWait;
-	private class CenejsaTrgovinaTask extends AsyncTask<Integer, Void, String> {
-		@Override
-		protected void onPreExecute() {
-			dialogWait = 
-				ProgressDialog.show(NovSeznam.this, "", "Delam! Pridobivam cenik...", true);
-		}
-		protected String doInBackground(Integer... prviArgument) {
-			
-			int t1=prviArgument[0];
-			String odgovor="";
-			
-			//global.novSeznam.add(new Seznam("koga", global.seznamArtiklov.get(0)));
-			try {
-				SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME);
-				Request.addProperty("izdelki",zaNajboljsiIzdelek());	
-				
-				SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-				soapEnvelope.dotNet=false;
-				soapEnvelope.setOutputSoapObject(Request);				
-				HttpTransportSE aht=new HttpTransportSE(URL);		
-				
-				try{
-					aht.call(SOAP_ACTION,soapEnvelope);
-					SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse();
-//					
 
-					//Get the first property and change the label text
-//					Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show(); 	
-					odgovor=result.toString();
-				}catch(Exception e){
-					e.printStackTrace();
-					return e.getMessage().toString();
-				}
-				
-			} catch (Exception e) {
-				System.out.println("XML Pasing Excpetion = " + e);
-				return "XML Pasing Excpetion = " + e;
-			}
-	    	
-			//global.init();
-			return odgovor;
-		}
-
-		protected void onPostExecute(String tretjiArgument) {
-			
-			//global.novSeznamList.notifyDataSetChanged();
-			Toast.makeText(NovSeznam.this,"Rezultat:"+tretjiArgument+" €",Toast.LENGTH_SHORT).show();
-			dialogWait.cancel();
-		}
-	}
-	
-	
     public void napolniSeznam()
     {
     	app.novSeznam=new NovSeznamArtiklov();   	
@@ -434,8 +338,111 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		
 	}
 
+	private class Izbrisi implements Action {
 
+	       
+        public int getDrawable() {
+            return R.drawable.delet;
+        }
 
+        
+        public void performAction(View view) {
+      	  if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
+      	  {
+      		  if(app.stSeznama!=-1)
+            	  app.vsiSeznami.removNovSeznam(app.stSeznama);
 
+        	  app.stSeznama=-1;
+        	  app.novSeznamList.clear();
+        	  
+        	  NovSeznam.this.finish();
+        	  Toast.makeText(NovSeznam.this,"Izbrisano!", Toast.LENGTH_SHORT)
+              .show();
+      	  }
+      	  else
+      	  {
+      	  	  if(app.stSeznama!=-1)
+      	  	  {
+      	  			 app.vsiSeznami.removNovSeznam(app.stSeznama);
+      	  			 app.stSeznama=-1;
+         	  		 finish(); 
+      	  		 
+      			 if(!app.novSeznamList.isEmpty())  
+      			  		app.novSeznamList.clear();
+      	  	  }
+      	  	  else
+      	  	  {
+      	  		show_alert();
+      	  	  }
+      	  }
+        }
+
+    }
+	private class Poslji implements Action {
+
+	       
+        public int getDrawable() {
+            return R.drawable.sent;
+        }
+
+        
+        public void performAction(View view) {
+        	 showDialog(DIALOG_POSLJI);
+        }
+
+    }
+	private class Shrani implements Action {
+
+	       
+        public int getDrawable() {
+            return R.drawable.save;
+        }
+
+        
+        public void performAction(View view) {
+        	showDialog(DIALOG_IME_SEZNAMA);
+        }
+
+    }
+	private class DomovAction implements Action {
+
+	    
+	    public int getDrawable() {
+	        return R.drawable.home;
+	    }
+
+	    public void performAction(View view) {
+	     if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
+	   	  {
+	    		 Intent moj=new Intent(NovSeznam.this, MainActivity.class);
+		    	 finish();
+		    	 startActivity(moj);
+	   	  }
+	   	  else
+	   	  {
+	   	  	  if(app.stSeznama!=-1)
+	   	  	  {
+	   	  		  
+	   	  		  Intent moj=new Intent(NovSeznam.this, MainActivity.class);
+			      finish();
+			      startActivity(moj);
+	   	  		  app.vsiSeznami.removNovSeznam(app.stSeznama);
+	   	  		  app.vsiSeznami.replaceSeznam(app.stSeznama, app.novSeznam);
+	   	  		 
+	   	
+	   			 if(!app.novSeznamList.isEmpty())  
+	   			  		app.novSeznamList.clear();
+	   			 
+	   			 
+	   	  	  }
+	   	  	  else
+	   	  	  {
+	   	  		show_alert();
+	   	  	  }
+	   	  }
+	    	
+	    }
+
+	}
   
 }

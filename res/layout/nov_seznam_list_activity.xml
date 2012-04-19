@@ -7,6 +7,12 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+    </LinearLayout>
     <TextView
         android:id="@id/android:empty"
         android:layout_width="match_parent"
@@ -31,11 +37,23 @@
     <ListView
         android:id="@id/android:list"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/dodajIzdelek"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/actionbar"
         android:layout_weight="1"
         android:drawSelectorOnTop="false" >
+
     </ListView>
+
+    <com.markupartist.android.widget.ActionBar
+        xmlns:app="http://schemas.android.com/apk/res/edu.pernat.shopinglist.android"
+        android:id="@+id/actionbar"
+        style="@style/ActionBar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        app:title="some_title" 
+        >
+    </com.markupartist.android.widget.ActionBar>
 
 </RelativeLayout>

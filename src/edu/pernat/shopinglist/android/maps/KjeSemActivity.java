@@ -30,6 +30,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -64,7 +67,7 @@ public class KjeSemActivity extends MapActivity {
 	private Menu mMenu;  //ni nujno
 	GlobalneVrednosti app;
 	Location loca,locb;
-	
+	Button izberiTrgovino;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,40 +109,17 @@ public class KjeSemActivity extends MapActivity {
 			// TODO: handle exception
 		}
 		
+		
+		izberiTrgovino=(Button)findViewById(R.id.buttonIzberiTrogvino);
+		izberiTrgovino.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				showDialog(1);
+				
+			}
+		});
 		showDialog(1);
 		}
-
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-	      mMenu = menu; //ni nujno
-	      MenuInflater inflater = getMenuInflater();
-	      inflater.inflate(R.menu.maps_menu, mMenu);
-	      return true;
-	    }
-
-	    
-	    
-	    @Override
-	    public boolean onOptionsItemSelected(MenuItem item) {
-	      switch (item.getItemId()) {
-	      case R.id.novaTrgovina:
-	    	  showDialog(1);
-	    	 
-	    	  return true;
-	    	  
-	      case R.id.Clear:
-	    	  
-	      default:// Generic catch all for all the other menu resources
-	        if (!item.hasSubMenu()) {
-	          Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-	          return true;
-	        }
-	        break;
-	      }
-	      return false;
-
-	    }
-	
 	  protected Dialog onCreateDialog(int id) {
 	    	
 	        switch(id) {
@@ -356,12 +336,7 @@ public class KjeSemActivity extends MapActivity {
 		super.onBackPressed();
 		locationManager.removeUpdates(locationListener);	
 		}
-	
-	
-	
-	
-	
-	
+
 	
 }
 	

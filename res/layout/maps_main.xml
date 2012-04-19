@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
-  <com.google.android.maps.MapView
-    android:id="@+id/myMapView"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:enabled="true"
-    android:clickable="true"
-	android:apiKey="0v9RlS2zvZXqkJaC_DRYnPdjy8tLz6Pdotm4--g"
-  />
-</LinearLayout>
+    android:orientation="vertical" >
+
+    <com.google.android.maps.MapView
+        android:id="@+id/myMapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:apiKey="0v9RlS2zvZXqkJaC_DRYnPdjy8tLz6Pdotm4--g"
+        android:clickable="true"
+        android:enabled="true" />
+
+    <Button
+        android:id="@+id/buttonIzberiTrogvino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/gubm_trgovina" />
+
+</RelativeLayout>

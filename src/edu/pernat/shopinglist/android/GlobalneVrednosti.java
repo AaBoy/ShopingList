@@ -422,18 +422,7 @@ public class GlobalneVrednosti extends Application {
 		Log.e("OBstajaIzdelki", ob+"");
 		return ob;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
