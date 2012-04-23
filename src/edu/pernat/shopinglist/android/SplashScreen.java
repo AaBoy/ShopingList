@@ -1,5 +1,7 @@
 package edu.pernat.shopinglist.android;
 
+import java.io.IOException;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
+import edu.pernat.shopinglist.android.data.DataBaseHelperNapolniPrazno;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
 
@@ -69,6 +73,19 @@ public class SplashScreen extends Activity {
 	    
 	    setContentView(R.layout.splash);
 	    this.setRequestedOrientation(1);
+	    DataBaseHelperNapolniPrazno myDbHelper = new DataBaseHelperNapolniPrazno(this);
+        
+	    
+        try {
+ 
+        	myDbHelper.createDataBase();
+ 
+        } catch (IOException ioe) {
+ 
+ 		throw new Error("Unable to create database");
+        }
+ 
+	    
 	    app=(GlobalneVrednosti) getApplication();
 	    final SplashScreen sPlashScreen = this; 
 	    app.seznamArtiklov.clear();
@@ -194,7 +211,8 @@ public class SplashScreen extends Activity {
 	        
 	    };
 	    splashTread.start();
-	   
+       
+       
 	}
 
 	//Function that will handle the touch

@@ -157,10 +157,16 @@ public class DBAdapterIzdelki implements BaseColumns {
 	}
 	
 	public long stVrstic()
-	{
-		String sql = "SELECT COUNT(*) FROM " + TABELA_IZDELKI;
-	    SQLiteStatement statement = db.compileStatement(sql);
-	    long count = statement.simpleQueryForLong();
+	{ 
+		long count=-1;
+		try {
+			String sql = "SELECT COUNT(*) FROM " + TABELA_IZDELKI;
+		    SQLiteStatement statement = db.compileStatement(sql);
+		    count= statement.simpleQueryForLong();
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}
+		
 	    return count;
 	}
 	
