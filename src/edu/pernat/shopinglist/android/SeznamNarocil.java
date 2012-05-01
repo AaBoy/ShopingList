@@ -144,7 +144,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
     {
     	super.onStart();
     	
-    	if(app.stSeznama!=-1)
+    	if(app.stSeznama!=-1 && app.vsiSeznami.getUstvarjeniSezname().size()>0)
     	{
     		app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).sestejCeno();
     	}
@@ -311,7 +311,7 @@ public class SeznamNarocil extends ListActivity implements OnItemClickListener,O
 		    	  app.stSeznama=-1;
 		    	 Intent moj=new Intent(SeznamNarocil.this, NovSeznam.class);
 		    	 SeznamNarocil.this.startActivity(moj);
-		    	 finish();
+		    	 
 		    }
 
 		}

@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.util.Log;
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
 import edu.pernat.shopinglist.android.data.DBAdapterIzdelki;
+import edu.pernat.shopinglist.android.data.DBAdapterPriljubljeno;
 import edu.pernat.shopinglist.android.data.DBAdapterSeznami;
 import edu.pernat.shopinglist.android.data.DBAdapterTrgovina;
 import edu.pernat.shopinglist.android.data.DBAdapterVmesnaTabela;
@@ -22,19 +23,22 @@ public class GlobalneVrednosti extends Application {
 	public ArrayList<EmailNaslovi> lista;
 	public ArrayList<Artikli> seznamArtiklov;
 	public ArrayList<Trgovina> seznamTrgovin;
+	public ArrayList<Integer> priljubljeniIndeks;
 	public Seznami vsiSeznami;
 	public NovSeznamArtiklov novSeznam;
 	public int stSeznama;
 	public boolean [] izbrani;
-	
+	public boolean [] izbraniPriljubljen;
 	SeznamArrayAdapter seznamList;
 	public NovSeznamArrayAdapter novSeznamList;
-	IskanjeArrajAdapter iskanjeList;
+	public IskanjeArrajAdapter iskanjeList;
+	public IskanjePriljubljeneArrajAdapter iskanjePriljubljeneList;
 	DBAdapterEmail db;
 	DBAdapterIzdelki dbIzdelki;
 	DBAdapterSeznami dbSeznami;
 	DBAdapterTrgovina dbTrgovina;
 	DBAdapterVmesnaTabela dbVmesnaTabela;
+	DBAdapterPriljubljeno dbPriljubljeni;
 	String uporabnisko,geslo;
 	String bazaPolna;
 	int velikostSeznamov;
@@ -45,6 +49,8 @@ public class GlobalneVrednosti extends Application {
         dbSeznami=new DBAdapterSeznami(this);
         dbTrgovina=new DBAdapterTrgovina(this);
         dbVmesnaTabela=new DBAdapterVmesnaTabela(this);
+        dbPriljubljeni=new DBAdapterPriljubljeno(this);
+        priljubljeniIndeks=new ArrayList<Integer>();
         lista=new ArrayList<EmailNaslovi>();
         seznamArtiklov=new ArrayList<Artikli>();
         stSeznama=-1;
@@ -55,7 +61,7 @@ public class GlobalneVrednosti extends Application {
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
         iskanjeList=new IskanjeArrajAdapter(this, R.layout.iskanje_seznam, seznamArtiklov, this);
-        
+        iskanjePriljubljeneList=new IskanjePriljubljeneArrajAdapter(this, R.layout.iskanje_seznam, seznamArtiklov, this);
         
       
         velikostSeznamov=0;
@@ -170,7 +176,34 @@ public class GlobalneVrednosti extends Application {
 		novSeznam.addArtikelNaSeznam(temp);
 		
 	}
+	//DB priljubljeni
+	public void fillFromDBPriljubljeni()
+	{
+		dbPriljubljeni.open();
+		Cursor c=dbPriljubljeni.getAll();
+		priljubljeniIndeks= new ArrayList<Integer>();
+		for(c.moveToFirst();!c.isAfterLast();c.moveToNext())
+		{
+			priljubljeniIndeks.add(c.getInt(0));
+		}
+	}
+	public void addDBPriljubljeni(NovSeznamArtiklov s) {
+		dbPriljubljeni.open();
+		dbPriljubljeni.update(s);
+		dbPriljubljeni.close();	
+	}
 	
+	public int indeksOfArtikelVTabeliPriljubljeni(int stevilkaArtikla)
+	{
+		dbPriljubljeni.open();
+		return dbPriljubljeni.vrniIndeks(stevilkaArtikla);
+	}
+	
+	public int idDBArtikelIzPriljubljeni(int i)
+	{
+		dbPriljubljeni.open();
+		return dbPriljubljeni.idDBArtikelIzPriljubljeni(i);
+	}
 	
 	//DB izdelki
 	public void fillFromDBIzdelki() {

@@ -26,7 +26,6 @@ public class Iskanje extends ListActivity implements OnItemClickListener
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    
-	   
 	    	setContentView(R.layout.iskanje_layout);
 	   	    app=(GlobalneVrednosti) getApplication();
 	   	    app.iskanjeList=new IskanjeArrajAdapter(this, R.layout.iskanje_seznam, app.seznamArtiklov, app);

@@ -114,11 +114,7 @@ public class SplashScreen extends Activity {
 		protected String doInBackground(Integer... prviArgument) {
 			
 			try {
-        		synchronized (this) {
-        			wait(10);
-        			 try {
-        				 
-    	            	 if(isNetworkAvailable())
+					if(isNetworkAvailable())
     	            	 {
     	            		 Log.e("Omrežje ", "jee");
     	            		 Message msg= Message.obtain();
@@ -177,18 +173,13 @@ public class SplashScreen extends Activity {
     		            		}
     	            	 }
     	            	 
-    	            }  catch(Exception os)
-    	            {
-    	            	
-    	            }
+    	            
+				}catch(Exception  e)
+				{
+					Log.e("SplashScreen + Asinhroni taks", e.toString());
 				}
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally
-			{
-			}
+			
 			return  "";
 		}
 

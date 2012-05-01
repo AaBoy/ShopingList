@@ -1,1 +1,0 @@
-Aplikacija ne deluje pravilno, ker še nimam nastavljenega globalnega spletnega strežnika in ne pridobi podatkov.

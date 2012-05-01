@@ -36,6 +36,7 @@ import com.markupartist.android.widget.ActionBar.IntentAction;
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
 import edu.pernat.shopinglist.android.quickaction.QuickAction;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
+import edu.pernat.shopinglist.android.tab.IskanjeTab;
 
 public class NovSeznam extends ListActivity implements OnClickListener,OnItemClickListener, OnItemLongClickListener{
     /** Called when the activity is first created. */
@@ -191,7 +192,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 //				showDialog(DIALOG_DODAJ_IZDELEK);
 				
     			try {
-    				Intent moj=new Intent(this, Iskanje.class);
+    				//1.5.2012 spremeno v tab iz iskanje
+    				Intent moj=new Intent(this, IskanjeTab.class);
         			this.startActivity(moj);
 				} catch (Exception e) {
 					Log.e("Napak ", e.toString());
@@ -208,6 +210,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	{
 		super.finish();
 		app.stSeznama=-1;
+		app.addDBPriljubljeni(app.novSeznam);
 	
 	}
     @Override
@@ -215,6 +218,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
     {
     	super.onStop();
     	app.napolniVmesno();
+    	app.addDBPriljubljeni(app.novSeznam);
     	
     }
 	
@@ -228,7 +232,6 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	@Override
 	public void onBackPressed()
 	{
-//		super.onBackPressed();
 
 		
 	  if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
@@ -251,13 +254,13 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	  	  }
 	  	  else
 	  	  {
-	  		show_alert();
+	  		show_alert_ko_ni_shranjen();
 	  	  }
 	  }
   	 
 	
 	}
-	 private void show_alert() {
+	private void show_alert_ko_ni_shranjen() {
 	    	// TODO Auto-generated method stub
 	    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
 	    	 alert_box.setMessage("Izgubili boste seznam, ga želite shraniti?");
@@ -279,8 +282,58 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 
 	    	 alert_box.show();
 	    }
+	
+	private void show_alert_ko_je_shranjeno() {
+    	// TODO Auto-generated method stub
+    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
+    	 alert_box.setMessage("Želite izbrisati seznam?");
+    	 alert_box.setPositiveButton("NE",new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int which) {
+    		 onBackPressed();
+    		 Toast.makeText(getApplicationContext(), "Nisem izbrisal seznama", Toast.LENGTH_LONG).show();
+    	 }
+    	 });
+    	 alert_box.setNegativeButton("DA", new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int which) {
+    		 
+    		 if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
+        	  {
+        		  if(app.stSeznama!=-1)
+              	  app.vsiSeznami.removNovSeznam(app.stSeznama);
+  
+          	  app.stSeznama=-1;
+          	  app.novSeznamList.clear();
+          	  
+          	  NovSeznam.this.finish();
+          	  Toast.makeText(NovSeznam.this,"Izbrisano!", Toast.LENGTH_SHORT)
+                .show();
+        	  }
+        	  else
+        	  {
+        	  	  if(app.stSeznama!=-1)
+        	  	  {
+        	  		 app.vsiSeznami.removNovSeznam(app.stSeznama);
+        	  			 
+        	  		 
+        			 if(!app.novSeznamList.isEmpty())  
+        			  		app.novSeznamList.clear();
+        	  	  }
+        	  	  else
+        	  	  {
+        	  		  app.novSeznam=new NovSeznamArtiklov();
+        	  	  }
+        	  }
+    		 finish();
+    		 Toast.makeText(getApplicationContext(), "Izbrisan seznam!", Toast.LENGTH_LONG).show();
+   			}	 
+    	 
+    	 });
+
+    	 alert_box.show();
+    }
+	
 	@Override
-    public void onResume() {
+	public void onResume() {
 		super.onResume();
 		Log.e("Velikost onResume",app.novSeznam.getNovSeznamArtiklov().size()+"");
 		
@@ -347,34 +400,11 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 
         
         public void performAction(View view) {
-      	  if(app.novSeznam.getVelikostSeznamaArtiklov()==0)
-      	  {
-      		  if(app.stSeznama!=-1)
-            	  app.vsiSeznami.removNovSeznam(app.stSeznama);
+        	if(app.stSeznama==-1)
+      	  		show_alert_ko_ni_shranjen();
+        	else
+        		show_alert_ko_je_shranjeno();
 
-        	  app.stSeznama=-1;
-        	  app.novSeznamList.clear();
-        	  
-        	  NovSeznam.this.finish();
-        	  Toast.makeText(NovSeznam.this,"Izbrisano!", Toast.LENGTH_SHORT)
-              .show();
-      	  }
-      	  else
-      	  {
-      	  	  if(app.stSeznama!=-1)
-      	  	  {
-      	  			 app.vsiSeznami.removNovSeznam(app.stSeznama);
-      	  			 app.stSeznama=-1;
-         	  		 finish(); 
-      	  		 
-      			 if(!app.novSeznamList.isEmpty())  
-      			  		app.novSeznamList.clear();
-      	  	  }
-      	  	  else
-      	  	  {
-      	  		show_alert();
-      	  	  }
-      	  }
         }
 
     }
@@ -437,7 +467,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	   	  	  }
 	   	  	  else
 	   	  	  {
-	   	  		show_alert();
+	   	  		show_alert_ko_ni_shranjen();
 	   	  	  }
 	   	  }
 	    	

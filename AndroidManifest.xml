@@ -97,8 +97,18 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		    
+		<activity android:name="edu.pernat.shopinglist.android.tab.IskanjeTab" android:label="@string/app_name">
+			<intent-filter>
+			
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name="edu.pernat.shopinglist.android.tab.PriljubljeniActivity" android:label="@string/app_name">
+			<intent-filter>
+			
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 		   <receiver android:name="edu.pernat.shopinglist.android.widget.MojWidget">
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -107,6 +117,7 @@
 				android:resource="@xml/widget_info" />
 		</receiver>
 		<service android:name="edu.pernat.shopinglist.android.widget.UpdateWidgetService"/>
+	
 		    
 		    
 	</application>
