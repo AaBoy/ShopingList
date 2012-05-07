@@ -250,6 +250,12 @@ public class GlobalneVrednosti extends Application {
 	{
 		Log.e("Posodboljena baza", ""+dbIzdelki.Update(tmp));
 	}
+	
+	public ArrayList<Artikli> iskanjeIzdelki(String tmp)
+	{
+		dbIzdelki.open();
+		return dbIzdelki.selectIzdelek(tmp);
+	}
 	//*vSI PODATKI*/
 	public void addDBSeznami(NovSeznamArtiklov en, int index)
 	{

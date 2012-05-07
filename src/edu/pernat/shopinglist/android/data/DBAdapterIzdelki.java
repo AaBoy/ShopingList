@@ -1,5 +1,7 @@
 package edu.pernat.shopinglist.android.data;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -209,5 +211,27 @@ public class DBAdapterIzdelki implements BaseColumns {
 		
 	}
 	
+	public ArrayList<Artikli> selectIzdelek(String iskaniNiz)
+	{
+		
+		
+//		tmp.setIme(c.getString(DBAdapterIzdelki.AR_I));
+//		tmp.setCena(c.getDouble(DBAdapterIzdelki.AR_C));
+//		tmp.setKolicina(c.getString(DBAdapterIzdelki.AR_K));
+//		tmp.setOpis(c.getString(DBAdapterIzdelki.AR_O));
+//		tmp.setIdBaze(c.getInt(DBAdapterIzdelki.AR_ID));
+		
+		ArrayList<Artikli> tmp=new ArrayList<Artikli>();
+		db = DBHelper.getWritableDatabase();
+		Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_CENA,AR_OPIS,AR_KOLI,_ID},  AR_IME+ " LIKE '%"+iskaniNiz +"%' OR " 
+		+AR_OPIS+ " LIKE '%"+iskaniNiz+"%'", null, null, null, null);
+		int i=0;
+		
+		for (v.moveToFirst(); !v.isAfterLast(); v.moveToNext()) {
+		tmp.add(new Artikli(v.getDouble(1), v.getString(0), v.getString(3), v.getString(2), i, v.getInt(4)));
+		}
+		return tmp;
+		
+	}
 	
 }

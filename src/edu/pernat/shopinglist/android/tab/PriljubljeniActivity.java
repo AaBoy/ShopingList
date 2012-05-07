@@ -29,8 +29,6 @@ public class PriljubljeniActivity extends ListActivity implements OnItemClickLis
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    
-	   
 	    	setContentView(R.layout.iskanje_layout);
 	   	    app=(GlobalneVrednosti) getApplication();  
 	   	    seznamArtiPomozno=new ArrayList<Artikli>();
@@ -47,47 +45,48 @@ public class PriljubljeniActivity extends ListActivity implements OnItemClickLis
 	   	    registerForContextMenu(getListView());
 	   	    app.izbraniPriljubljen=new boolean[seznamArtiPomozno.size()+1];
 	   	    this.getListView().setOnItemClickListener(this);
-//	   	    final Context vmesni=this;
-//	   		et = (EditText) findViewById(R.id.EditText01);
-//	   		et.addTextChangedListener(new TextWatcher()
-//	   		{
-//	   			public void afterTextChanged(Editable s)
-//	   			{  
-//		   			textlength = et.getText().length();
-//		   		
-//		   			array_sort=new ArrayList<Artikli>();
-//
-//			   			for (int i = 0; i < seznamArtiPomozno.size(); i++)
-//			   			{
-//			   				if (textlength <= seznamArtiPomozno.get(i).getIme().length())
-//			   				{
-//			   					String zdruzi=seznamArtiPomozno.get(i).getIme()+"  "+seznamArtiPomozno.get(i).getOpis();
-//			   					
-//			   					if(zdruzi.indexOf(et.getText().toString().toUpperCase())!=-1)
-//			   					{
-//			   					 
-//			   					  array_sort.add(seznamArtiPomozno.get(i));
-//			   					}
-//			   				 }
-//			   			}
-//			   			app.iskanjeList=new IskanjeArrajAdapter(vmesni, R.layout.iskanje_seznam, array_sort, app);
-//			   			
-////		   			}
-//		   			
-//
-//		   			
-//		   			setListAdapter(app.iskanjeList);
-//	   				// Abstract Method of TextWatcher Interface.
-//	   			}
-//	   			public void beforeTextChanged(CharSequence s,int start, int count, int after)
-//	   			{
-//	   			// Abstract Method of TextWatcher Interface.
-//	   			}
-//	   			public void onTextChanged(CharSequence s,int start, int before, int count)
-//	   			{
-//
-//	   		}
-//	   		});
+	   	    final Context vmesni=this;
+	   	 	et = (EditText) findViewById(R.id.EditText01);
+	   		et.addTextChangedListener(new TextWatcher()
+	   		{
+		   	 public void afterTextChanged(Editable s)
+				{  
+		   			textlength = et.getText().length();
+		   			array_sort=new ArrayList<Artikli>();
+		   			
+		   			
+		   			array_sort=app.iskanjeIzdelki(et.getText().toString().toUpperCase());
+			   		ArrayList<Artikli>tmp=new ArrayList<Artikli>();
+		   			for(int i=0;i<array_sort.size();i++)
+		   			{
+		   				
+		   				for(int j=0;j<app.priljubljeniIndeks.size();j++)
+		   				{
+		   					if(array_sort.get(i).getIdBaze()==app.priljubljeniIndeks.get(j))
+		   					{
+		   						tmp.add(array_sort.get(i));
+		   						break;
+		   					}
+		   				}
+		   				
+		   			}
+		   			
+		   			app.iskanjeList=new IskanjeArrajAdapter(vmesni, R.layout.iskanje_seznam, tmp, app);
+	
+		   			
+		   			
+		   			setListAdapter(app.iskanjeList);
+					// Abstract Method of TextWatcher Interface.
+				}
+				public void beforeTextChanged(CharSequence s,int start, int count, int after)
+				{
+				// Abstract Method of TextWatcher Interface.
+				}
+				public void onTextChanged(CharSequence s,int start, int before, int count)
+				{
+	
+			}
+			});
 	   
 	 
 	}

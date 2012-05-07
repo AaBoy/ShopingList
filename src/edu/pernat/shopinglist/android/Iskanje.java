@@ -41,58 +41,10 @@ public class Iskanje extends ListActivity implements OnItemClickListener
 	   			public void afterTextChanged(Editable s)
 	   			{  
 		   			textlength = et.getText().length();
-		   		
 		   			array_sort=new ArrayList<Artikli>();
-//		   			if(et.getText().length()>0 && Sort_vmesni.size()>0)
-//		   			{
-//		   				for (int i = 0; i < Sort_vmesni.size(); i++)
-//			   			{
-//			   				if (textlength <= Sort_vmesni.get(i).getIme().length())
-//			   				{
-////			   					Log.e("Izpisi ime", app.seznamArtiklov.get(i).getIme());
-////			   					if(et.getText().toString().equalsIgnoreCase((String)app.seznamArtiklov.get(i).getIme().subSequence(0,textlength)))
-////			   					{
-////			   					  array_sort.add(app.seznamArtiklov.get(i));
-////			   					}
-//			   					String zdruzi=Sort_vmesni.get(i).getIme()+"  "+Sort_vmesni.get(i).getOpis();
-//			   					
-//			   					if(zdruzi.indexOf(et.getText().toString().toUpperCase())!=-1)
-//			   					{
-//			   					 
-//			   					  array_sort.add(Sort_vmesni.get(i));
-//			   					}
-//			   				 }
-//			   			}
-//		   				Sort_vmesni=array_sort;
-//			   			app.iskanjeList=new IskanjeArrajAdapter(vmesni, R.layout.iskanje_seznam, array_sort, app);
-//		   			}
-//		   			else
-//		   			{
-			   			for (int i = 0; i < app.seznamArtiklov.size(); i++)
-			   			{
-			   				if (textlength <= app.seznamArtiklov.get(i).getIme().length())
-			   				{
-//			   					Log.e("Izpisi ime", app.seznamArtiklov.get(i).getIme());
-//			   					if(et.getText().toString().equalsIgnoreCase((String)app.seznamArtiklov.get(i).getIme().subSequence(0,textlength)))
-//			   					{
-//			   					  array_sort.add(app.seznamArtiklov.get(i));
-//			   					}
-			   					String zdruzi=app.seznamArtiklov.get(i).getIme()+"  "+app.seznamArtiklov.get(i).getOpis();
-			   					
-			   					if(zdruzi.indexOf(et.getText().toString().toUpperCase())!=-1)
-			   					{
-			   					 
-			   					  array_sort.add(app.seznamArtiklov.get(i));
-			   					}
-			   				 }
-			   			}
-//			   			Sort_vmesni=array_sort;
-			   			app.iskanjeList=new IskanjeArrajAdapter(vmesni, R.layout.iskanje_seznam, array_sort, app);
-			   			
-//		   			}
-		   			
+		   			array_sort=app.iskanjeIzdelki(et.getText().toString().toUpperCase());
+			   		app.iskanjeList=new IskanjeArrajAdapter(vmesni, R.layout.iskanje_seznam, array_sort, app);
 
-		   			
 		   			setListAdapter(app.iskanjeList);
 	   				// Abstract Method of TextWatcher Interface.
 	   			}
