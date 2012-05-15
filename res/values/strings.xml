@@ -11,4 +11,8 @@
     <string name="napisNovSeznam">Ustvari seznam</string>
     <string name="poglejSezname">Vsi seznami</string>
     <string name="gubm_trgovina">Izberi Trgovino</string>
+    <string name="prijavaUporabnisko">Uporabniško</string>
+    <string name="prijavaGeslo">Geslo</string>
+    <string name="potrdiPrijavo">Prijavi</string>
+    <string name="prekliciPrijavo">Preklici</string>
 </resources>

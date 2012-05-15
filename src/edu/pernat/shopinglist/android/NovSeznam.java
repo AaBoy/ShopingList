@@ -1,15 +1,16 @@
 package edu.pernat.shopinglist.android;
 
+import java.util.ArrayList;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
+import org.ksoap2.transport.AndroidHttpTransport;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,8 +18,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,11 +30,11 @@ import android.widget.Toast;
 
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
-import com.markupartist.android.widget.ActionBar.IntentAction;
 
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
 import edu.pernat.shopinglist.android.quickaction.QuickAction;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
+import edu.pernat.shopinglist.android.razredi.SeznamIzBaze;
 import edu.pernat.shopinglist.android.tab.IskanjeTab;
 
 public class NovSeznam extends ListActivity implements OnClickListener,OnItemClickListener, OnItemLongClickListener{
@@ -45,17 +44,23 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	GlobalneVrednosti app;
 	Button spreIzde,dodajIzdelek;
 	CheckBox oznaceno;
+	int izbranUporabnik;
+	ArrayList<SeznamIzBaze> seznamIzBaze;
 	private Menu mMenu;  //ni nujno
 	public static final int DIALOG_SPREMENI=0;
 	public static final int DIALOG_POSLJI=1;
 	public static final int DIALOG_DODAJ_IZDELEK=2;
 	public static final int DIALOG_IME_SEZNAMA=4;
 	int izbranIzdelek;
-	
+	private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
+	private static final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
+	private static final String SOAP_ACTION_PRIDOBI_POSODOBI="http://izdelki.shoopinglist.pernat.edua/pridobiIzbazeNazadnjeSpremenjene";
+	private static final String SOAP_ACTION_SEZNAM_IZDELKOV="http://izdelki.shoopinglist.pernat.edua/seznamIzdelkov";
 	private static final int ID_BRISI = 1;
 	private static final int ID_SPREMENI_CENO = 2;
 	private int mSelectedRow = 0;
 	QuickAction mQuickAction;
+	ActionBar actionBar;
 	/*Konec globalnih*/
 	
     @Override
@@ -66,11 +71,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
         app=(GlobalneVrednosti) getApplication();       
         //oznaceno=(CheckBox)findViewById(R.id.checkBox1);
         setListAdapter(app.novSeznamList);
+        seznamIzBaze=new ArrayList<SeznamIzBaze>();
         this.setRequestedOrientation(1);
         registerForContextMenu(getListView());
         this.getListView().setOnItemClickListener(this);
 		this.getListView().setOnItemLongClickListener(this);
-        
+        izbranUporabnik=-1;
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
 		if(app.stSeznama!=-1)
@@ -133,7 +139,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 				public void onDismiss() {
 				}
 			});
-		ActionBar actionBar = (ActionBar) findViewById(R.id.actionbar);
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
 			
 		if(app.novSeznam.getImeSeznama()=="")
 			actionBar.setTitle("Ustvari nov seznam");
@@ -161,9 +167,10 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 			return dialog;
 		
         case DIALOG_POSLJI:
-        	Context mContext1 = this;
-        	Dostava dialog1 = new Dostava(mContext1,app);      	
-        	return dialog1;
+//        	Context mContext1 = this;
+//        	Dostava dialog1 = new Dostava(mContext1,app);
+        	show_alert_poslji_ali_prejmi();
+        	return null;
         	
         case DIALOG_DODAJ_IZDELEK:
         	Context mContex2 =this;
@@ -282,7 +289,144 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 
 	    	 alert_box.show();
 	    }
+	private void show_alert_poslji_ali_prejmi() {
+    	// TODO Auto-generated method stub
+    	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
+    	 alert_box.setMessage("Želite poslati ali prijeti seznam?");
+    	 alert_box.setPositiveButton("Prijeti",new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int which) {
+    		preberiSezname();
+    		}
+    	 });
+    	 alert_box.setNegativeButton("Poslati", new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int which) {
+    		izberiPosiljatelja();
+    	 }
+    	 });
+
+    	 alert_box.show();
+    }
+	public void izberiPosiljatelja()
+	{
+		CharSequence[] items = new CharSequence [app.uporabniki.size()];
+      	for(int i=0;i<app.uporabniki.size();i++)
+      		items[i]=app.uporabniki.get(i);
+
+      	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      	builder.setTitle("Make your selection");
+      	builder.setItems(items, new DialogInterface.OnClickListener() {
+      	    public void onClick(DialogInterface dialog, int item) {
+      	     Log.e("izpis", app.uporabniki.get(item));
+      	     izbranUporabnik=item;
+      	     posljiSeznam novi=new posljiSeznam();
+      	     novi.execute(0);
+      	     
+      	    }
+      	});
+      	AlertDialog alert = builder.create();
+      	alert.show();
+	}
+	private void preberiSezname()
+	{
+		preberiSeznameAsync tt=new preberiSeznameAsync();
+		tt.execute(0);
+	}
+	private class preberiSeznameAsync extends AsyncTask<Integer, Void, String> {
+		protected String doInBackground(Integer... prviArgument) {
+			
+			 SoapObject Request =new SoapObject(NAMESPACE,"vsiSeznami");
+			 Request.addProperty("uporabnisko","nik");	
+	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+	         soapEnvelope.dotNet=false;
+	         soapEnvelope.setOutputSoapObject(Request);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         
+			try{
+			
+				aht.call(SOAP_ACTION_PRIDOBI_POSODOBI,soapEnvelope);	
+				SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+				String tmp=result.toString();
+				String [] prvaRazdelitev=tmp.split(";");
+				for(int i=1;i<prvaRazdelitev.length;i++)
+				{
+					String [] imeUporabnik=prvaRazdelitev[i].split("#");
+					seznamIzBaze.add(new SeznamIzBaze(imeUporabnik[0], imeUporabnik[1]));
+					
+				}
+			
+			}catch(Exception e){
+				e.printStackTrace();
+			
+			}
+			
+			return  "";
+		}
+
+		protected void onPostExecute(String tretjiArgument) {
+			prikazi_Sezname();
+		}
+	}
 	
+	private void prikazi_Sezname()
+	{
+		CharSequence[] items = new CharSequence [seznamIzBaze.size()];
+      	for(int i=0;i<seznamIzBaze.size();i++)
+      		items[i]=seznamIzBaze.get(i).getImeSeznama()+" - "+seznamIzBaze.get(i).getImePosiljatelja();
+
+      	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      	builder.setTitle("Izberi senzam za prenos");
+      	builder.setItems(items, new DialogInterface.OnClickListener() {
+      	    public void onClick(DialogInterface dialog, int item) {
+      	    	izbranUporabnik=item;
+      	    	pridobiDolocenSeznamAsync tt=new pridobiDolocenSeznamAsync();
+      	    	tt.execute(item);
+      	    	
+      	    }
+      	});
+      	AlertDialog alert = builder.create();
+      	alert.show();
+	
+	}
+	private class pridobiDolocenSeznamAsync extends AsyncTask<Integer, Void, String> {
+		protected String doInBackground(Integer... prviArgument) {
+			
+			 SoapObject Request =new SoapObject(NAMESPACE,"seznamIzdelkov");
+			 Request.addProperty("imeSeznama",seznamIzBaze.get(izbranUporabnik).getImeSeznama());	
+	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+	         soapEnvelope.dotNet=false;
+	         soapEnvelope.setOutputSoapObject(Request);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         
+			try{
+			
+				aht.call(SOAP_ACTION_SEZNAM_IZDELKOV,soapEnvelope);	
+				SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+				String tmp=result.toString();
+				Log.e("Izpis seznama", tmp);
+				String [] prvaRazdelitev=tmp.split(";");
+				ArrayList<SeznamIzBaze> tmpSez =new ArrayList<SeznamIzBaze>();
+				tmpSez.add(seznamIzBaze.get(izbranUporabnik));
+				seznamIzBaze.clear();
+				seznamIzBaze.add(tmpSez.get(0));
+				
+				for(int i=1;i<prvaRazdelitev.length;i++)
+				{
+					seznamIzBaze.get(0).addIdBaze(Integer.parseInt(prvaRazdelitev[i]));
+				}
+
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			
+			}
+			
+			return  "";
+		}
+
+		protected void onPostExecute(String tretjiArgument) {
+			napolniKoDobimIzBaze();
+		}
+	}
 	private void show_alert_ko_je_shranjeno() {
     	// TODO Auto-generated method stub
     	 AlertDialog.Builder alert_box=new AlertDialog.Builder(this);
@@ -365,6 +509,8 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 
     public void napolniSeznam()
     {
+    	
+    	
     	app.novSeznam=new NovSeznamArtiklov();   	
     	int meja=(int) app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getNovSeznamArtiklov().size();	
 
@@ -375,6 +521,25 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
     		
     	}
     	app.novSeznam.setImeSeznama(app.vsiSeznami.getUstvarjeniSezname().get(app.stSeznama).getImeSeznama());
+    }
+    
+    public void napolniKoDobimIzBaze()
+    {
+    	app.novSeznam=new NovSeznamArtiklov();
+		app.novSeznamList.clear();
+    	for(int i=0;i<seznamIzBaze.get(0).getSize();i++)
+		{
+			
+			app.dodajArtikelNaSeznam(app.seznamArtiklov.get(seznamIzBaze.get(0).getIndex(i)), false);
+			app.novSeznamList.add(app.seznamArtiklov.get(seznamIzBaze.get(0).getIndex(i)));
+		}
+		app.novSeznam.setImeSeznama(seznamIzBaze.get(0).getImeSeznama());
+		actionBar = (ActionBar) findViewById(R.id.actionbar);
+		
+		if(app.novSeznam.getImeSeznama()=="")
+			actionBar.setTitle("Ustvari nov seznam");
+		else
+			actionBar.setTitle(app.novSeznam.getImeSeznama());
     }
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -389,6 +554,42 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		mQuickAction.show(view);
 		return false;
 		
+	}
+	
+	private class posljiSeznam extends AsyncTask<Integer, Void, String> {
+		protected String doInBackground(Integer... prviArgument) {
+			
+			String tmp="";
+			for(int i=0;i<app.novSeznam.getVelikostSeznamaArtiklov();i++)
+			{
+				tmp+=app.novSeznam.getNovSeznamArtiklov().get(i).getIdBaze()+";";
+			}
+			tmp+="#"+app.uporabniki.get(izbranUporabnik)+"#"+"miha"+"#"+app.novSeznam.getImeSeznama();
+			
+			 SoapObject Request =new SoapObject(NAMESPACE,"ustvariSeznam");
+			 Request.addProperty("tmp",tmp);	
+	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+	         soapEnvelope.dotNet=false;
+	         soapEnvelope.setOutputSoapObject(Request);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         
+			try{
+			
+				aht.call(SOAP_ACTION_PRIDOBI_POSODOBI,soapEnvelope);	
+				SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+				Log.e("Izpis iz serverja", result.toString());
+			
+			}catch(Exception e){
+				e.printStackTrace();
+			
+			}
+			
+			return  "";
+		}
+
+		protected void onPostExecute(String tretjiArgument) {
+			
+		}
 	}
 
 	private class Izbrisi implements Action {
@@ -418,6 +619,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
         
         public void performAction(View view) {
         	 showDialog(DIALOG_POSLJI);
+
         }
 
     }

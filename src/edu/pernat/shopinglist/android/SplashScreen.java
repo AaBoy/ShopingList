@@ -140,6 +140,7 @@ public class SplashScreen extends Activity {
     	            			{
     	            			 app.fillFromDB();
     	            			}
+    	            		 pridobiUporabnike(); 
     	                 }		
     	            	 else
     	            	 {
@@ -326,6 +327,34 @@ public class SplashScreen extends Activity {
 		
 		
 		
+	}
+
+	private void pridobiUporabnike()
+	{
+		 SoapObject Request =new SoapObject(NAMESPACE,"vrniUporabnike");
+		
+         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+         soapEnvelope.dotNet=false;
+         soapEnvelope.setOutputSoapObject(Request);	
+         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+         
+		try{
+		
+			aht.call(SOAP_ACTION_PRIDOBI_POSODOBI,soapEnvelope);	
+			SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+			String vmesni=result.toString();
+			prvaRazdelitev=vmesni.split(";");
+		
+			
+			for(int i=1;i<prvaRazdelitev.length;i++)
+			{
+				app.uporabniki.add(prvaRazdelitev[i]);
+			}
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		
+		}
 	}
 }
 

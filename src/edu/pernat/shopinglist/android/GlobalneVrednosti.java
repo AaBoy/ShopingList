@@ -15,6 +15,7 @@ import edu.pernat.shopinglist.android.data.DBAdapterVmesnaTabela;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
+import edu.pernat.shopinglist.android.razredi.PrijavniPodatki;
 import edu.pernat.shopinglist.android.razredi.RazredBaza;
 import edu.pernat.shopinglist.android.razredi.Seznami;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
@@ -42,6 +43,8 @@ public class GlobalneVrednosti extends Application {
 	String uporabnisko,geslo;
 	String bazaPolna;
 	int velikostSeznamov;
+	PrijavniPodatki prijavniPodatki;
+	public ArrayList<String> uporabniki;
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
@@ -57,13 +60,13 @@ public class GlobalneVrednosti extends Application {
         vsiSeznami=new Seznami();
         novSeznam=new NovSeznamArtiklov();
         seznamTrgovin=new ArrayList<Trgovina>();
-        
+        prijavniPodatki=new PrijavniPodatki();
         seznamList = new SeznamArrayAdapter(this, R.layout.seznam_narocil,vsiSeznami.getUstvarjeniSezname()); //Step 4.10 Globalna lista
         novSeznamList=new NovSeznamArrayAdapter(this,R.layout.nov_seznam, novSeznam.getNovSeznamArtiklov(), this);
         iskanjeList=new IskanjeArrajAdapter(this, R.layout.iskanje_seznam, seznamArtiklov, this);
         iskanjePriljubljeneList=new IskanjePriljubljeneArrajAdapter(this, R.layout.iskanje_seznam, seznamArtiklov, this);
         
-      
+        uporabniki=new ArrayList<String>();
         velikostSeznamov=0;
         
 	}
@@ -463,6 +466,11 @@ public class GlobalneVrednosti extends Application {
 	}
 
 	
-	
+	public PrijavniPodatki getPrijavniPodatki() {
+		return prijavniPodatki;
+	}
+	public void setPrijavniPodatki(PrijavniPodatki prijavniPodatki) {
+		this.prijavniPodatki = prijavniPodatki;
+	}
 	
 }

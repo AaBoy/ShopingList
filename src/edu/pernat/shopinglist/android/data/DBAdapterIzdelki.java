@@ -213,22 +213,43 @@ public class DBAdapterIzdelki implements BaseColumns {
 	
 	public ArrayList<Artikli> selectIzdelek(String iskaniNiz)
 	{
-		
-		
-//		tmp.setIme(c.getString(DBAdapterIzdelki.AR_I));
-//		tmp.setCena(c.getDouble(DBAdapterIzdelki.AR_C));
-//		tmp.setKolicina(c.getString(DBAdapterIzdelki.AR_K));
-//		tmp.setOpis(c.getString(DBAdapterIzdelki.AR_O));
-//		tmp.setIdBaze(c.getInt(DBAdapterIzdelki.AR_ID));
-		
+	
+		String [] vecBesed=iskaniNiz.split(" ");
 		ArrayList<Artikli> tmp=new ArrayList<Artikli>();
-		db = DBHelper.getWritableDatabase();
-		Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_CENA,AR_OPIS,AR_KOLI,_ID},  AR_IME+ " LIKE '%"+iskaniNiz +"%' OR " 
-		+AR_OPIS+ " LIKE '%"+iskaniNiz+"%'", null, null, null, null);
-		int i=0;
-		
-		for (v.moveToFirst(); !v.isAfterLast(); v.moveToNext()) {
-		tmp.add(new Artikli(v.getDouble(1), v.getString(0), v.getString(3), v.getString(2), i, v.getInt(4)));
+		if(vecBesed.length==1)
+		{
+			db = DBHelper.getWritableDatabase();
+			Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_CENA,AR_OPIS,AR_KOLI,_ID},  AR_IME+ " LIKE '%"+iskaniNiz +"%' OR " 
+			+AR_OPIS+ " LIKE '%"+iskaniNiz+"%'", null, null, null, null);
+			int i=0;
+			
+			for (v.moveToFirst(); !v.isAfterLast(); v.moveToNext()) {
+			tmp.add(new Artikli(v.getDouble(1), v.getString(0), v.getString(3), v.getString(2), i, v.getInt(4)));
+			}
+			
+		}
+		else if(vecBesed.length==2)
+		{
+			
+			db = DBHelper.getWritableDatabase();
+			Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_CENA,AR_OPIS,AR_KOLI,_ID},"("+  AR_IME+ " LIKE '%"+vecBesed[0] +"%' AND " +AR_IME+ " LIKE '%"+vecBesed[1] +"%') OR ("
+			+AR_OPIS+ " LIKE '%"+vecBesed[0]+"%' AND "+AR_OPIS+ " LIKE '%"+vecBesed[1]+"%')", null, null, null, null);
+			int i=0;
+			
+			for (v.moveToFirst(); !v.isAfterLast(); v.moveToNext()) {
+			tmp.add(new Artikli(v.getDouble(1), v.getString(0), v.getString(3), v.getString(2), i, v.getInt(4)));
+			}
+		}
+		else if(vecBesed.length==3)
+		{
+			db = DBHelper.getWritableDatabase();
+			Cursor v=db.query(TABELA_IZDELKI, new String[]{AR_IME,AR_CENA,AR_OPIS,AR_KOLI,_ID}, "("+ AR_IME+ " LIKE '%"+vecBesed[0] +"%' AND " +AR_IME+ " LIKE '%"+vecBesed[1] +"%' AND " + AR_IME+ " LIKE '%"+vecBesed[1] +"%' ) OR( "  
+			+AR_OPIS+ " LIKE '%"+vecBesed[0]+"%' AND "+AR_OPIS+ " LIKE '%"+vecBesed[1]+"%' AND "+AR_OPIS+ " LIKE '%"+vecBesed[2]+"%')", null, null, null, null);
+			int i=0;
+			
+			for (v.moveToFirst(); !v.isAfterLast(); v.moveToNext()) {
+			tmp.add(new Artikli(v.getDouble(1), v.getString(0), v.getString(3), v.getString(2), i, v.getInt(4)));
+			}
 		}
 		return tmp;
 		
