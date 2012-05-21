@@ -11,6 +11,7 @@ import org.ksoap2.transport.AndroidHttpTransport;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,22 +80,51 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
         izbranUporabnik=-1;
         dodajIzdelek=(Button)findViewById(R.id.dodajIzdelek);
         dodajIzdelek.setOnClickListener(this);
-		if(app.stSeznama!=-1)
-		{
-				napolniSeznam();
-		}
-		else{
-			app.novSeznam=new NovSeznamArtiklov();
-		}
-
-	     ActionItem addItem 		= new ActionItem(ID_BRISI, "Izbriši", getResources().getDrawable(R.drawable.file_delete_icon));
-	     ActionItem uploadItem 	= new ActionItem(ID_SPREMENI_CENO, "Spremeni ceno", getResources().getDrawable(R.drawable.name_help_con));
+        
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null)
+        {
+        	Log.e("Bundel", extras.getString("ime")+"22"+extras.getString("posiljatel"));
+        	NotificationManager notifier = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+    		notifier.cancelAll();
+    		String ime=extras.getString("ime").toString();
+    		String posiljatel=extras.getString("posiljatel").toString();
+        	if(ime.equals("") && posiljatel.equals(""))
+        	{ 
+        		preberiSezname();
+        		Log.e("sem tu notri","jej");
+        	}
+        	else
+        	{
+        		Log.e("NISEM V PRAVEM","jej");
+        		seznamIzBaze.add(new SeznamIzBaze(extras.getString("ime"), extras.getString("posiljatel")));
+        		izbranUporabnik=0;
+        		pridobiDolocenSeznamAsync tt=new pridobiDolocenSeznamAsync();
+        		tt.execute(0);
+        	
+        	}
+        }
+        else
+        {
+        	Log.e("Bundel", "ne obstaja");
+        	 
+    		if(app.stSeznama!=-1)
+    		{
+    				napolniSeznam();
+    		}
+    		else{
+    			app.novSeznam=new NovSeznamArtiklov();
+    		}
+        }
+        
+	    ActionItem addItem 		= new ActionItem(ID_BRISI, "Izbriši", getResources().getDrawable(R.drawable.file_delete_icon));
+	    ActionItem uploadItem 	= new ActionItem(ID_SPREMENI_CENO, "Spremeni ceno", getResources().getDrawable(R.drawable.name_help_con));
 	     
-	     mQuickAction 	= new QuickAction(this);	
-	     mQuickAction.addActionItem(addItem);
-	     mQuickAction.addActionItem(uploadItem);
+	    mQuickAction 	= new QuickAction(this);	
+	    mQuickAction.addActionItem(addItem);
+	    mQuickAction.addActionItem(uploadItem);
 	   //setup the action item click listener
-	     mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+	    mQuickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 				
 				public void onItemClick(QuickAction quickAction, int pos, int actionId) {
 //					ActionItem actionItem = quickAction.getActionItem(pos);
@@ -335,7 +365,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 		protected String doInBackground(Integer... prviArgument) {
 			
 			 SoapObject Request =new SoapObject(NAMESPACE,"vsiSeznami");
-			 Request.addProperty("uporabnisko","nik");	
+			 Request.addProperty("uporabnisko","miha");	
 	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	         soapEnvelope.dotNet=false;
 	         soapEnvelope.setOutputSoapObject(Request);	

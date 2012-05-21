@@ -126,7 +126,7 @@
 				android:resource="@xml/widget_info" />
 		</receiver>
 		<service android:name="edu.pernat.shopinglist.android.widget.UpdateWidgetService"/>
-	
+		<service android:enabled="true" android:name="edu.pernat.shopinglist.android.service.PreveriSeznam" />
 		    
 		    
 	</application>

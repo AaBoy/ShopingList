@@ -25,6 +25,7 @@ import android.widget.Toast;
 import edu.pernat.shopinglist.android.data.DataBaseHelperNapolniPrazno;
 import edu.pernat.shopinglist.android.razredi.Artikli;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
+import edu.pernat.shopinglist.android.service.PreveriSeznam;
 
 public class SplashScreen extends Activity {
 	
@@ -63,9 +64,9 @@ public class SplashScreen extends Activity {
  		throw new Error("Unable to create database");
         }
  
-	    
+	    startService(new Intent(this, PreveriSeznam.class));
 	    app=(GlobalneVrednosti) getApplication();
-	    final SplashScreen sPlashScreen = this; 
+	   
 	    app.seznamArtiklov.clear();
     	app.vsiSeznami.ustvarjeniSeznami.clear();
     	mHandler = new Handler();
