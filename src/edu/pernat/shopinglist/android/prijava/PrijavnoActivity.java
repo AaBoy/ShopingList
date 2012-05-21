@@ -15,6 +15,7 @@ import javax.crypto.spec.DESKeySpec;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.GlobalneVrednosti;
 import edu.pernat.shopinglist.android.R;
@@ -39,12 +41,15 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 	private static final String METHOD_NAME_PRIDOBI_IZ_BAZE="pridobiIzbaze";
 	private static final String METHOD_NAME_TRGOVINE="Trgovine";
 	private static final String METHOD_NAME_NAZADNJE_SPREMENJENE="pridobiIzbazeNazadnjeSpremenjene";
-	private final String PRIJAVA_SHARE_PREF="PRIJAVA";
+	private final String PRIJAVA_SHARE_PREF="UPORABNISKI_PODATKI";
 	private final String UPORABNIŠKO="UPORABNISKO";
 	private final String GESLO="GESLO";
+	
 	Button prijava, preklic;
 	EditText uporabnisko, geslo;
 	GlobalneVrednosti app;
+	TextView registriraj;
+	String kriptiranoGeslo;
 	@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -56,6 +61,15 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 	        app=(GlobalneVrednosti)getApplication();
 	        prijava=(Button)findViewById(R.id.buttonPrijava);
 	        preklic=(Button)findViewById(R.id.buttonPreklici);
+	        registriraj=(TextView)findViewById(R.id.textViewRegistriraj);
+	        registriraj.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {
+					finish();
+					pozeniRegistrirajActivity();
+				}
+			});
+	        
 	        prijava.setOnClickListener(new OnClickListener() {
 			
 				public void onClick(View v) {
@@ -64,14 +78,19 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 					{
 						if(uporabnisko.getText().toString().length()<4)
 						{
-							Toast.makeText(zaToast,"Imaste premalo uporabniško", Toast.LENGTH_SHORT).show();
+							Toast.makeText(zaToast,"Imaste premalo uporabniško, vsaj 4 znake", Toast.LENGTH_SHORT).show();
 						}
 						else if(geslo.getText().toString().length()<4)
 						{
-							Toast.makeText(zaToast,"Imaste premalo geslo", Toast.LENGTH_SHORT).show();
+							Toast.makeText(zaToast,"Imaste premalo geslo, vsaj 4  znake", Toast.LENGTH_SHORT).show();
 						}
-						
-						app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
+						else if((uporabnisko.getText().toString().length()>=4)&& (geslo.getText().toString().length()>=4))
+						{
+							kriptiranoGeslo=kriptiraj(geslo.toString());
+							app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
+							PrijaviUporabnika tt=new PrijaviUporabnika();
+							tt.execute(0);
+						}
 					}
 					
 				}
@@ -88,6 +107,10 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 	       
 	        
 	    }
+	public void pozeniRegistrirajActivity()
+	{
+		startActivity(new Intent(this,RegistracijaActivity.class));
+	}
 	public void onClick(View v) {
 
 		
@@ -97,7 +120,7 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 	{
 		
 		DESKeySpec keySpec;
-
+		String encrypedPwd="";
 			try {
 				TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
 				String uid = tManager.getDeviceId();
@@ -112,7 +135,7 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 		
 				Cipher cipher = Cipher.getInstance("DES"); // cipher is not thread safe
 				cipher.init(Cipher.ENCRYPT_MODE, key);
-				String encrypedPwd = Base64.encodeToString(cipher.doFinal(cleartext), 0);
+				encrypedPwd = Base64.encodeToString(cipher.doFinal(cleartext), 0);
 				
 			
 
@@ -149,21 +172,12 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 			}
 			
 		
-		return"";
-	}
-	
-	private void posljiInKriptirajGeslo()
-	{
-		
-	}
-	
-	private void shraniVSharePref()
-	{
-		
+		return encrypedPwd;
 	}
 	
 	
-	private class RegistrirajUporabnika extends AsyncTask<Integer, Void, String> {
+	
+	private class PrijaviUporabnika extends AsyncTask<Integer, Void, String> {
 		protected String doInBackground(Integer... prviArgument) {
 			
 //			try {

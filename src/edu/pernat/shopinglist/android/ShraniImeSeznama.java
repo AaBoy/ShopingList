@@ -30,8 +30,8 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		vmesni=context;
 		if(app.novSeznam.getImeSeznama()==null)
 		{  
-			app.uporabnisko="";
-			ime.setText(app.uporabnisko);
+			
+			ime.setText("");
 		}
 		else
 		{
@@ -55,8 +55,8 @@ public class ShraniImeSeznama extends Dialog implements OnClickListener {
 		
 		if(app.novSeznam.getImeSeznama()==null)
 		{  
-			app.uporabnisko="";
-			ime.setText(app.uporabnisko);
+			
+			ime.setText("");
 		}
 		else
 		{

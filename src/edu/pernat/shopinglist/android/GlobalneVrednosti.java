@@ -40,11 +40,14 @@ public class GlobalneVrednosti extends Application {
 	DBAdapterTrgovina dbTrgovina;
 	DBAdapterVmesnaTabela dbVmesnaTabela;
 	DBAdapterPriljubljeno dbPriljubljeni;
-	String uporabnisko,geslo;
+	
+	
+
 	String bazaPolna;
 	int velikostSeznamov;
 	PrijavniPodatki prijavniPodatki;
 	public ArrayList<String> uporabniki;
+	
 	public void onCreate() {
         super.onCreate(); //ne pozabi
         db=new DBAdapterEmail(this);
@@ -143,11 +146,6 @@ public class GlobalneVrednosti extends Application {
 	public void newVsiSeznami()
 	{
 		vsiSeznami=new Seznami();
-	}
-	public String getUser()
-	{
-		return uporabnisko;
-		
 	}
 	
 	public void napolniNaslov()
@@ -472,5 +470,6 @@ public class GlobalneVrednosti extends Application {
 	public void setPrijavniPodatki(PrijavniPodatki prijavniPodatki) {
 		this.prijavniPodatki = prijavniPodatki;
 	}
+	
 	
 }

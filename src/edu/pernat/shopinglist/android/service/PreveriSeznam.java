@@ -15,11 +15,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import edu.pernat.shopinglist.android.GlobalneVrednosti;
 import edu.pernat.shopinglist.android.NovSeznam;
 import edu.pernat.shopinglist.android.R;
+import edu.pernat.shopinglist.android.razredi.PrijavniPodatki;
 import edu.pernat.shopinglist.android.razredi.SeznamIzBaze;
 
 public class PreveriSeznam extends Service {
@@ -35,6 +38,15 @@ public class PreveriSeznam extends Service {
 	public void onCreate() {
 		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
 		Log.d(TAG, "onCreate");
+		GlobalneVrednosti app=(GlobalneVrednosti)getApplication();
+		
+		try {
+			SharedPreferences shIzdelki =this.getSharedPreferences("UPORABNISKI_PODATKI", MODE_PRIVATE);
+			app.setPrijavniPodatki(new PrijavniPodatki(shIzdelki.getString("UPORABNISKO", ""), shIzdelki.getString("GESLO", "")));
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		
 	}

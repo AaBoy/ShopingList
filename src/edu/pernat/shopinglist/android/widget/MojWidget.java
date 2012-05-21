@@ -22,8 +22,7 @@ public class MojWidget extends AppWidgetProvider {
 				intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 				remoteViews.setOnClickPendingIntent(R.id.TextViewOpis1, pendingIntent);
 
-				
-				appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+				appWidgetManager.updateAppWidget(appWidgetIds, null);
 				
 				context.startService(intent);
 				

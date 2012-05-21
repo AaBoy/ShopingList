@@ -32,11 +32,13 @@ import android.widget.Toast;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
 
+import edu.pernat.shopinglist.android.prijava.PrijavnoActivity;
 import edu.pernat.shopinglist.android.quickaction.ActionItem;
 import edu.pernat.shopinglist.android.quickaction.QuickAction;
 import edu.pernat.shopinglist.android.razredi.NovSeznamArtiklov;
 import edu.pernat.shopinglist.android.razredi.SeznamIzBaze;
 import edu.pernat.shopinglist.android.tab.IskanjeTab;
+import edu.pernat.shopinglist.android.tab.PriljubljeniActivity;
 
 public class NovSeznam extends ListActivity implements OnClickListener,OnItemClickListener, OnItemLongClickListener{
     /** Called when the activity is first created. */
@@ -199,7 +201,14 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
         case DIALOG_POSLJI:
 //        	Context mContext1 = this;
 //        	Dostava dialog1 = new Dostava(mContext1,app);
-        	show_alert_poslji_ali_prejmi();
+        	if(app.prijavniPodatki.getGeslo()=="" && app.prijavniPodatki.getUporabnisko()=="")
+        	{
+        		startActivity(new Intent(this,PrijavnoActivity.class));
+        	}
+        	else
+        	{
+        		show_alert_poslji_ali_prejmi();
+        	}
         	return null;
         	
         case DIALOG_DODAJ_IZDELEK:
@@ -336,6 +345,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 
     	 alert_box.show();
     }
+	
 	public void izberiPosiljatelja()
 	{
 		CharSequence[] items = new CharSequence [app.uporabniki.size()];

@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/potrdiPrijavo" />
+                android:text="@string/registrirajPrijavo" />
 
             <Button
                 android:id="@+id/buttonPreklici"
@@ -82,20 +82,6 @@
                 android:layout_weight="1"
                 android:ems="10" android:password="true" android:singleLine="true"/>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/crta"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textViewRegistriraj"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Registriraj" />
     </LinearLayout>
 
 </LinearLayout>

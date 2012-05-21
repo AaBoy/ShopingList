@@ -79,7 +79,16 @@
             
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        	</activity>
+        	<activity android:name="edu.pernat.shopinglist.android.prijava.RegistracijaActivity"
+                  android:label="@string/app_name"
+                  android:debuggable="true"
+                   android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+            
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        	</activity>
 				    
 				    
         		<activity android:name=".SpremeniIzdelek"
