@@ -13,28 +13,36 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import edu.pernat.shopinglist.android.GlobalneVrednosti;
-import edu.pernat.shopinglist.android.R;
-import edu.pernat.shopinglist.android.razredi.PrijavniPodatki;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.AndroidHttpTransport;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import edu.pernat.shopinglist.android.GlobalneVrednosti;
+import edu.pernat.shopinglist.android.R;
+import edu.pernat.shopinglist.android.razredi.PrijavniPodatki;
 
 public class RegistracijaActivity extends Activity{
+	private static final String SOAP_ACTION_REGISTRACIJA="http://izdelki.shoopinglist.pernat.edua/Registriraj";
+	private static final String METHOD_NAME_REGISTRACIJA="Registriraj";
 	Button prijava, preklic;
 	EditText uporabnisko, geslo;
 	GlobalneVrednosti app;
-	private final String PRIJAVA_SHARE_PREF="UPORABNISKI_PODATKI";
-	private final String UPORABNIŠKO="UPORABNISKO";
-	private final String GESLO="GESLO";
+	String kriptiranoGeslo;
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.registriraj_okno);
@@ -61,9 +69,11 @@ public class RegistracijaActivity extends Activity{
 						}
 						else if((uporabnisko.getText().toString().length()>=4)&& (geslo.getText().toString().length()>=4))
 						{
-							shraniVSharePref();
-							app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
+							kriptiranoGeslo=kriptiraj(geslo.getText().toString());
 							
+//							app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
+							RegistracijaUporabnika tt=new  RegistracijaUporabnika();
+							tt.execute(0);
 						}
 					}
 					
@@ -82,10 +92,10 @@ public class RegistracijaActivity extends Activity{
 	private String kriptiraj(String geslo)
 	{
 			
-			DESKeySpec keySpec;
+			DESKeySpec keySpec;String encrypedPwd="";
 				try {
-					TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-					String uid = tManager.getDeviceId();
+
+					String uid = "1301305579";
 					
 					keySpec = new DESKeySpec(uid.getBytes("UTF8"));
 					SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
@@ -97,19 +107,8 @@ public class RegistracijaActivity extends Activity{
 			
 					Cipher cipher = Cipher.getInstance("DES"); // cipher is not thread safe
 					cipher.init(Cipher.ENCRYPT_MODE, key);
-					String encrypedPwd = Base64.encodeToString(cipher.doFinal(cleartext), 0);
-					
-				
+					encrypedPwd = Base64.encodeToString(cipher.doFinal(cleartext), 0);
 
-					SharedPreferences sharedPreferences = this.getSharedPreferences(PRIJAVA_SHARE_PREF, MODE_PRIVATE);
-					SharedPreferences.Editor editor1 = sharedPreferences.edit();			
-					editor1.putString(UPORABNIŠKO, app.getPrijavniPodatki().getUporabnisko());
-					editor1.putString(GESLO, encrypedPwd);
-					editor1.commit();
-					
-					Toast.makeText(this,encrypedPwd+"   "+geslo, Toast.LENGTH_SHORT).show();
-					
-					
 				} catch (InvalidKeyException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -134,13 +133,67 @@ public class RegistracijaActivity extends Activity{
 				}
 				
 			
-			return"";
+			return encrypedPwd;
 	}
-	private void shraniVSharePref()
+	
+	private class RegistracijaUporabnika extends AsyncTask<Integer, Void, String> {
+		protected String doInBackground(Integer... prviArgument) {
+			
+			try {
+				 SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME_REGISTRACIJA);
+                 Request.addProperty("uporabnisko",uporabnisko.getText().toString());
+                 Request.addProperty("geslo",kriptiranoGeslo);
+                
+                 SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                 soapEnvelope.dotNet=false;
+                 soapEnvelope.setOutputSoapObject(Request);	
+                 AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
+                 
+				try{
+				
+					aht.call(SOAP_ACTION_REGISTRACIJA,soapEnvelope);	
+					SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+				
+					if(result.toString()=="DA")
+					{
+						app.shraniGesloUporabniskoVShare(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString()));
+						return "DA";
+					}
+					else
+					{
+						return "NE";
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+    	            
+				}catch(Exception  e)
+				{
+					Log.e("SplashScreen + Asinhroni taks", e.toString());
+				}
+				
+			
+			return  "";
+		}
+		protected void onProgressUpdate(Integer integers) {
+			if(integers==0);
+			Toast.makeText(getApplicationContext(), "Uporabnisko že obstaja!", Toast.LENGTH_SHORT).show();
+			}
+
+		protected void onPostExecute(String tretjiArgument) {
+			
+			if(tretjiArgument=="NE")
+			onProgressUpdate(0);
+			else 
+			{
+				onProgressUpdate(1);
+				koncaj();
+			}
+		}
+	}
+	
+	private void koncaj()
 	{
-			SharedPreferences sharedPreferences =this.getSharedPreferences("UPORABNISKI_PODATKI", MODE_PRIVATE);
-			SharedPreferences.Editor editor1 = sharedPreferences.edit();
-			editor1.putString("UPORABNISKO", uporabnisko.toString()); 
-			editor1.putString("GESLO", kriptiraj(geslo.toString()));
+		this.finish();
 	}
 }

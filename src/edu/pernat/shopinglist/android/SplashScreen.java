@@ -38,8 +38,7 @@ public class SplashScreen extends Activity {
 	private static final String SOAP_ACTION_PRIDOBI_IZ_BAZE="http://izdelki.shoopinglist.pernat.edua/pridobiIzbaze";
 	private static final String SOAP_ACTION_PRIDOBI_POSODOBI="http://izdelki.shoopinglist.pernat.edua/pridobiIzbazeNazadnjeSpremenjene";
 	
-	private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
-	private static final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
+	
 	private static final String METHOD_NAME_PRIDOBI_IZ_BAZE="pridobiIzbaze";
 	private static final String METHOD_NAME_TRGOVINE="Trgovine";
 	private static final String METHOD_NAME_NAZADNJE_SPREMENJENE="pridobiIzbazeNazadnjeSpremenjene";
@@ -186,7 +185,8 @@ public class SplashScreen extends Activity {
 		}
 
 		protected void onPostExecute(String tretjiArgument) {
-			finish();
+			
+			
 			pozeniActivity();
 			
 		}
@@ -194,6 +194,7 @@ public class SplashScreen extends Activity {
 
 	private void pozeniActivity()
 	{
+		this.finish();
 		Intent moj=new Intent(this, SeznamNarocil.class);
 		startActivity(moj);
 	}
@@ -229,11 +230,11 @@ public class SplashScreen extends Activity {
 				else
 				{
 				try {
-					SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_TRGOVINE);
+					SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME_TRGOVINE);
 					SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 					soapEnvelope.dotNet=false;
 					soapEnvelope.setOutputSoapObject(Request);					
-					AndroidHttpTransport aht=new AndroidHttpTransport(URL,35000);
+					AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,35000);
 //					
 //					
 					try{
@@ -276,13 +277,13 @@ public class SplashScreen extends Activity {
 					 msg.arg1=3;
                      mHandler.sendMessage(msg);
                      Log.e("Posodobim podatke", "posodobim podatke");
-                     SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_NAZADNJE_SPREMENJENE);
+                     SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME_NAZADNJE_SPREMENJENE);
                      Request.addProperty("datum",imamoIzdelke);	
 					
                      SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
                      soapEnvelope.dotNet=false;
                      soapEnvelope.setOutputSoapObject(Request);	
-                     AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+                     AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
                      
 					try{
 					
@@ -332,12 +333,12 @@ public class SplashScreen extends Activity {
 
 	private void pridobiUporabnike()
 	{
-		 SoapObject Request =new SoapObject(NAMESPACE,"vrniUporabnike");
+		 SoapObject Request =new SoapObject(app.NAMESPACE,"vrniUporabnike");
 		
          SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
          soapEnvelope.dotNet=false;
          soapEnvelope.setOutputSoapObject(Request);	
-         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+         AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
          
 		try{
 		

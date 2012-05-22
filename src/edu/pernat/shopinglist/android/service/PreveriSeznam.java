@@ -28,6 +28,7 @@ import edu.pernat.shopinglist.android.razredi.SeznamIzBaze;
 public class PreveriSeznam extends Service {
 	private static final String TAG = "MyService";
 	private Timer timer = new Timer(); 
+	GlobalneVrednosti app;
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
@@ -36,9 +37,8 @@ public class PreveriSeznam extends Service {
 	
 	@Override
 	public void onCreate() {
-		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onCreate");
-		GlobalneVrednosti app=(GlobalneVrednosti)getApplication();
+		
+		app=(GlobalneVrednosti)getApplication();
 		
 		try {
 			SharedPreferences shIzdelki =this.getSharedPreferences("UPORABNISKI_PODATKI", MODE_PRIVATE);
@@ -53,26 +53,24 @@ public class PreveriSeznam extends Service {
 
 	@Override
 	public void onDestroy() {
-		Toast.makeText(this, "My Service Stopped", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onDestroy");
-		
+	
 	}
 	
 	//moje funkcije
 		private static final String SOAP_ACTION="http://izdelki.shoopinglist.pernat.edua/vrniZaNotification";
 		private static final String METHOD_NAME="vrniZaNotification";
-		private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
-		private static final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
+		
+		
 		public ArrayList<SeznamIzBaze> pridobiPodatke()
 		{
 			String odgovor="";
 			
-			SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME);
+			SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME);
 			Request.addProperty("uporabnik","miha");	
 			SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			soapEnvelope.dotNet=false;
 			soapEnvelope.setOutputSoapObject(Request);				
-			AndroidHttpTransport aht=new AndroidHttpTransport(URL,5000);
+			AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,5000);
 			ArrayList<SeznamIzBaze> seznamIzBaze=new ArrayList<SeznamIzBaze>();	
 			try{
 				
@@ -97,9 +95,6 @@ public class PreveriSeznam extends Service {
 	
 	@Override
 	public void onStart(Intent intent, int startid) {
-
-		Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
-		Log.d(TAG, "onStart");
 		
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);

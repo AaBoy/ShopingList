@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.util.Log;
 import edu.pernat.shopinglist.android.data.DBAdapterEmail;
@@ -40,9 +41,12 @@ public class GlobalneVrednosti extends Application {
 	DBAdapterTrgovina dbTrgovina;
 	DBAdapterVmesnaTabela dbVmesnaTabela;
 	DBAdapterPriljubljeno dbPriljubljeni;
+	public final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
+	public final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
 	
-	
-
+	private final String PRIJAVA_SHARE_PREF="UPORABNISKI_PODATKI";
+	private final String UPORABNIŠKO="UPORABNISKO";
+	private final String GESLO="GESLO";
 	String bazaPolna;
 	int velikostSeznamov;
 	PrijavniPodatki prijavniPodatki;
@@ -471,5 +475,16 @@ public class GlobalneVrednosti extends Application {
 		this.prijavniPodatki = prijavniPodatki;
 	}
 	
+	public void shraniGesloUporabniskoVShare(String upo, String geslo)
+	{
+		SharedPreferences sharedPreferences = this.getSharedPreferences(PRIJAVA_SHARE_PREF, MODE_PRIVATE);
+		SharedPreferences.Editor editor1 = sharedPreferences.edit();			
+		editor1.putString(UPORABNIŠKO, upo);
+		editor1.putString(GESLO, geslo);
+		editor1.commit();
+		
+		prijavniPodatki.setGeslo(geslo);
+		prijavniPodatki.setUporabnisko(upo);
+	}
 	
 }

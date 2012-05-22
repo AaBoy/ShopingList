@@ -55,8 +55,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	public static final int DIALOG_DODAJ_IZDELEK=2;
 	public static final int DIALOG_IME_SEZNAMA=4;
 	int izbranIzdelek;
-	private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
-	private static final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
+	
 	private static final String SOAP_ACTION_PRIDOBI_POSODOBI="http://izdelki.shoopinglist.pernat.edua/pridobiIzbazeNazadnjeSpremenjene";
 	private static final String SOAP_ACTION_SEZNAM_IZDELKOV="http://izdelki.shoopinglist.pernat.edua/seznamIzdelkov";
 	private static final int ID_BRISI = 1;
@@ -374,12 +373,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	private class preberiSeznameAsync extends AsyncTask<Integer, Void, String> {
 		protected String doInBackground(Integer... prviArgument) {
 			
-			 SoapObject Request =new SoapObject(NAMESPACE,"vsiSeznami");
-			 Request.addProperty("uporabnisko","miha");	
+			 SoapObject Request =new SoapObject(app.NAMESPACE,"vsiSeznami");
+			 Request.addProperty("uporabnisko",app.prijavniPodatki.getUporabnisko());	
 	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	         soapEnvelope.dotNet=false;
 	         soapEnvelope.setOutputSoapObject(Request);	
-	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
 	         
 			try{
 			
@@ -430,12 +429,12 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	private class pridobiDolocenSeznamAsync extends AsyncTask<Integer, Void, String> {
 		protected String doInBackground(Integer... prviArgument) {
 			
-			 SoapObject Request =new SoapObject(NAMESPACE,"seznamIzdelkov");
+			 SoapObject Request =new SoapObject(app.NAMESPACE,"seznamIzdelkov");
 			 Request.addProperty("imeSeznama",seznamIzBaze.get(izbranUporabnik).getImeSeznama());	
 	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	         soapEnvelope.dotNet=false;
 	         soapEnvelope.setOutputSoapObject(Request);	
-	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
 	         
 			try{
 			
@@ -604,14 +603,14 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 			{
 				tmp+=app.novSeznam.getNovSeznamArtiklov().get(i).getIdBaze()+";";
 			}
-			tmp+="#"+app.uporabniki.get(izbranUporabnik)+"#"+"miha"+"#"+app.novSeznam.getImeSeznama();
+			tmp+="#"+app.uporabniki.get(izbranUporabnik)+"#"+app.prijavniPodatki.getUporabnisko()+"#"+app.novSeznam.getImeSeznama();
 			
-			 SoapObject Request =new SoapObject(NAMESPACE,"ustvariSeznam");
+			 SoapObject Request =new SoapObject(app.NAMESPACE,"ustvariSeznam");
 			 Request.addProperty("tmp",tmp);	
 	         SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	         soapEnvelope.dotNet=false;
 	         soapEnvelope.setOutputSoapObject(Request);	
-	         AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
+	         AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
 	         
 			try{
 			

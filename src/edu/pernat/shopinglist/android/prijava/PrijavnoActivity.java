@@ -13,6 +13,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.AndroidHttpTransport;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +27,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,15 +39,9 @@ import edu.pernat.shopinglist.android.R;
 import edu.pernat.shopinglist.android.razredi.PrijavniPodatki;
 
 public class PrijavnoActivity extends Activity implements OnClickListener{
-	private static final String SOAP_ACTION_TRGOVINA="http://izdelki.shoopinglist.pernat.edua/Trgovine";
-	private static final String SOAP_ACTION_PRIDOBI_IZ_BAZE="http://izdelki.shoopinglist.pernat.edua/pridobiIzbaze";
-	private static final String SOAP_ACTION_PRIDOBI_POSODOBI="http://izdelki.shoopinglist.pernat.edua/pridobiIzbazeNazadnjeSpremenjene";
-	
-	private static final String NAMESPACE="http://izdelki.shoopinglist.pernat.edu";
-	private static final String URL="http://192.168.1.6:8080/PridobiMerkatorIzdelkeSpletniServis/services/MainClass?wsdl";
-	private static final String METHOD_NAME_PRIDOBI_IZ_BAZE="pridobiIzbaze";
-	private static final String METHOD_NAME_TRGOVINE="Trgovine";
-	private static final String METHOD_NAME_NAZADNJE_SPREMENJENE="pridobiIzbazeNazadnjeSpremenjene";
+	private static final String SOAP_ACTION_PRIJAVA="http://izdelki.shoopinglist.pernat.edua/prijava";
+	private static final String METHOD_NAME_PRIJAVA="prijava";
+
 	private final String PRIJAVA_SHARE_PREF="UPORABNISKI_PODATKI";
 	private final String UPORABNIŠKO="UPORABNISKO";
 	private final String GESLO="GESLO";
@@ -86,9 +87,13 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 						}
 						else if((uporabnisko.getText().toString().length()>=4)&& (geslo.getText().toString().length()>=4))
 						{
-							kriptiranoGeslo=kriptiraj(geslo.toString());
-							app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
+							Log.e("Tu notri","1");
+							kriptiranoGeslo=kriptiraj(geslo.getText().toString());
+							Log.e("Geslo", kriptiranoGeslo);
+//							kriptiranoGeslo=kriptiraj(geslo.toString());
+//							app.setPrijavniPodatki(new PrijavniPodatki(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString())));
 							PrijaviUporabnika tt=new PrijaviUporabnika();
+							Log.e("Tu notri","2");
 							tt.execute(0);
 						}
 					}
@@ -122,8 +127,8 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 		DESKeySpec keySpec;
 		String encrypedPwd="";
 			try {
-				TelephonyManager tManager = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-				String uid = tManager.getDeviceId();
+				
+				String uid = "1301305579";
 				
 				keySpec = new DESKeySpec(uid.getBytes("UTF8"));
 				SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
@@ -136,18 +141,7 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 				Cipher cipher = Cipher.getInstance("DES"); // cipher is not thread safe
 				cipher.init(Cipher.ENCRYPT_MODE, key);
 				encrypedPwd = Base64.encodeToString(cipher.doFinal(cleartext), 0);
-				
-			
 
-				SharedPreferences sharedPreferences = this.getSharedPreferences(PRIJAVA_SHARE_PREF, MODE_PRIVATE);
-				SharedPreferences.Editor editor1 = sharedPreferences.edit();			
-				editor1.putString(UPORABNIŠKO, app.getPrijavniPodatki().getUporabnisko());
-				editor1.putString(GESLO, encrypedPwd);
-				editor1.commit();
-				
-				Toast.makeText(this,encrypedPwd+"   "+geslo, Toast.LENGTH_SHORT).show();
-				
-				
 			} catch (InvalidKeyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -180,46 +174,67 @@ public class PrijavnoActivity extends Activity implements OnClickListener{
 	private class PrijaviUporabnika extends AsyncTask<Integer, Void, String> {
 		protected String doInBackground(Integer... prviArgument) {
 			
-//			try {
-//				 SoapObject Request =new SoapObject(NAMESPACE,METHOD_NAME_NAZADNJE_SPREMENJENE);
-//                 Request.addProperty("uporabnisko",imamoIzdelke);	
-//				
-//                 SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//                 soapEnvelope.dotNet=false;
-//                 soapEnvelope.setOutputSoapObject(Request);	
-//                 AndroidHttpTransport aht=new AndroidHttpTransport(URL,3000);	
-//                 
-//				try{
-//				
-//					aht.call(SOAP_ACTION_PRIDOBI_POSODOBI,soapEnvelope);	
-//					SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
-//				
-//					SharedPreferences sharedPreferences = this.getSharedPreferences("IZDELKI", MODE_PRIVATE);
-//					SharedPreferences.Editor editor1 = sharedPreferences.edit();
-//					
-//				
-//					editor1.putString("IZDELKI", prvaRazdelitev[prvaRazdelitev.length-1]);
-//					editor1.commit();
-//				
-//				}catch(Exception e){
-//					e.printStackTrace();
-//				}
-//    	            
-//				}catch(Exception  e)
-//				{
-//					Log.e("SplashScreen + Asinhroni taks", e.toString());
-//				}
+			try {
+				
+				 SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME_PRIJAVA);			
+				 Request.addProperty("uporabnisko",uporabnisko.getText().toString());	
+                 Request.addProperty("geslo",kriptiranoGeslo);	
+                 SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                 soapEnvelope.dotNet=false;
+                 soapEnvelope.setOutputSoapObject(Request);
+                 AndroidHttpTransport aht=new AndroidHttpTransport(app.URL,3000);	
+
+				try{
+				
+					aht.call(SOAP_ACTION_PRIJAVA,soapEnvelope);	
+					SoapPrimitive result =(SoapPrimitive)soapEnvelope.getResponse(); 	
+				
+					Log.e("Vrne pri prijavi",result.toString()+"  "+result.toString().length());
+					String tmp=result.toString();
+					if(tmp.equals("DA"))
+					{
+						Log.e("Sem v", "DA");
+						app.shraniGesloUporabniskoVShare(uporabnisko.getText().toString(), kriptiraj(geslo.getText().toString()));
+						return "DA";
+					}
+					else
+					{
+						Log.e("Sem v", "NE");
+						return "NE";
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+    	            
+				}catch(Exception  e)
+				{
+					Log.e("SplashScreen + Asinhroni taks", e.toString());
+				}
 				
 			
 			return  "";
 		}
 
+		protected void onProgressUpdate(Integer integers) {
+			if(integers==0);
+			Toast.makeText(getApplicationContext(), "Niste vnesli pravilnega gesla ali uporabnikšega. Ste registrirani?", Toast.LENGTH_SHORT).show();
+			}
+
 		protected void onPostExecute(String tretjiArgument) {
-		
 			
+			if(tretjiArgument=="NE")
+			onProgressUpdate(0);
+			else
+			{
+				onProgressUpdate(1);
+				koncaj();
+			}
 		}
 	}
 	
-	
+	private void koncaj()
+	{
+		this.finish();
+	}
 }
 
