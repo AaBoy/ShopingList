@@ -24,13 +24,21 @@ public class DatabaseHelperEmail extends SQLiteOpenHelper
 	DatabaseHelperEmail(Context context) 
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		context.deleteDatabase(DATABASE_NAME);
 	}
-
+	
 	@Override
 	public void onCreate(SQLiteDatabase db) 
 	{
 		try
 		{
+			try {
+				db.delete(DATABASE_NAME, null, null);
+				Log.e("brisem","jej");
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
 		db.execSQL(DATABASE_CREATE);
 	
 		}
@@ -49,6 +57,11 @@ public class DatabaseHelperEmail extends SQLiteOpenHelper
 				+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS "+DBAdapterEmail.TABLE);
 		onCreate(db);
+	}
+	
+	public void izbrisiTabelo()
+	{
+		
 	}
 
 }

@@ -154,28 +154,9 @@ public class GlobalneVrednosti extends Application {
 	
 	public void napolniNaslov()
 	{
-		if(lista.size()==0)
-		{
-			lista.add(new EmailNaslovi("aaboyxx@gmail.com"));
-			lista.add(new EmailNaslovi("matej.crepinsek@gmail.com"));
-			lista.add(new EmailNaslovi("dejan.hrncic@uni-mb.si"));
-			addDB(new EmailNaslovi("aaboyxx@gmail.com"));
-			addDB(new EmailNaslovi("matej.crepinsek@gmail.com"));
-			addDB(new EmailNaslovi("dejan.hrncic@uni-mb.si"));
-		}
 		
 	}
-	
-	//dodajNoviElement
-	public void dodajNaslov(EmailNaslovi temp)
-	{
-		
-		lista.add(temp);
-		addDB(temp);
-		//novSeznam.add(new Seznam(uporabnisko, seznamArtiklov.get(1)));
-	}
-	
-	
+
 	public void dodajIzdelek(Artikli temp)
 	{
 		novSeznam.addArtikelNaSeznam(temp);
@@ -391,9 +372,7 @@ public class GlobalneVrednosti extends Application {
 		EmailNaslovi tmp;
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			tmp = new EmailNaslovi();
-			tmp.setID(c.getLong( DBAdapterEmail.POS__ID));
-			tmp.setEmail(c.getString(DBAdapterEmail.POS_EAMIL));
-			lista.add(tmp); 
+			uporabniki.add(c.getString(DBAdapterEmail.POS_EAMIL));
 		}
 		c.close();
 		db.close();

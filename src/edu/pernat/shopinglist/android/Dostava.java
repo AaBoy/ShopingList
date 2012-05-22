@@ -136,7 +136,7 @@ public class Dostava extends Dialog implements OnClickListener {
 				}
 				
 				if(i==app.lista.size())
-					app.dodajNaslov(new EmailNaslovi(emailTo.getText().toString()));
+					app.addDB(new EmailNaslovi(emailTo.getText().toString()));
 			}
 			
 			

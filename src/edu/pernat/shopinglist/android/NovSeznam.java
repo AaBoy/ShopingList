@@ -347,23 +347,33 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 	
 	public void izberiPosiljatelja()
 	{
-		CharSequence[] items = new CharSequence [app.uporabniki.size()];
-      	for(int i=0;i<app.uporabniki.size();i++)
-      		items[i]=app.uporabniki.get(i);
-
-      	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-      	builder.setTitle("Make your selection");
-      	builder.setItems(items, new DialogInterface.OnClickListener() {
-      	    public void onClick(DialogInterface dialog, int item) {
-      	     Log.e("izpis", app.uporabniki.get(item));
-      	     izbranUporabnik=item;
-      	     posljiSeznam novi=new posljiSeznam();
-      	     novi.execute(0);
-      	     
-      	    }
-      	});
-      	AlertDialog alert = builder.create();
-      	alert.show();
+		if(app.novSeznam.getNovSeznamArtiklov().size()>0)
+		{
+			CharSequence[] items = new CharSequence [app.uporabniki.size()];
+	      	for(int i=0;i<app.uporabniki.size();i++)
+	      		items[i]=app.uporabniki.get(i);
+	
+	      	Log.e("Velikost seznama uporabniki", app.uporabniki.size()+"");
+	      	
+	      	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	      	builder.setTitle("Izberi uporabnika za poslati");
+	      	builder.setItems(items, new DialogInterface.OnClickListener() {
+	      	    public void onClick(DialogInterface dialog, int item) {
+	      	     Log.e("izpis", app.uporabniki.get(item));
+	      	     izbranUporabnik=item;
+	      	     posljiSeznam novi=new posljiSeznam();
+	      	     novi.execute(0);
+	      	     
+	      	    }
+	      	});
+	      	AlertDialog alert = builder.create();
+	      	alert.show();
+		}
+		else
+		{
+			Toast.makeText(this, "Ne morete poslati praznega seznama", Toast.LENGTH_LONG).show();
+			
+		}
 	}
 	private void preberiSezname()
 	{
@@ -620,7 +630,7 @@ public class NovSeznam extends ListActivity implements OnClickListener,OnItemCli
 			
 			}catch(Exception e){
 				e.printStackTrace();
-			
+				Toast.makeText(getApplicationContext(), "Prislo je do napake med prenosom, prosim poskusite kasneje", Toast.LENGTH_LONG).show();
 			}
 			
 			return  "";

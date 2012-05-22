@@ -64,7 +64,11 @@ public class DBAdapterEmail implements BaseColumns {
 	{
 		return db.delete(TABELA_EMAIL, _ID + "=" + rowId, null) > 0;
 	}
-
+	
+	public void deleteVseEmaile()
+	{
+		db.delete(TABELA_EMAIL, null, null);
+	}
 	//---retrieves all the titles---
 	public Cursor getAll() 
 	{

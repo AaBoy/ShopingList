@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.pernat.shopinglist.android.data.DataBaseHelperNapolniPrazno;
 import edu.pernat.shopinglist.android.razredi.Artikli;
+import edu.pernat.shopinglist.android.razredi.EmailNaslovi;
 import edu.pernat.shopinglist.android.razredi.Trgovina;
 import edu.pernat.shopinglist.android.service.PreveriSeznam;
 
@@ -140,7 +141,7 @@ public class SplashScreen extends Activity {
     	            			{
     	            			 app.fillFromDB();
     	            			}
-    	            		 pridobiUporabnike(); 
+    	            		 pridobiUporabnike();
     	                 }		
     	            	 else
     	            	 {
@@ -172,6 +173,10 @@ public class SplashScreen extends Activity {
     		            		{
     		            			app.fillFromDB();
     		            		}
+    	            		 if(app.obstajaEmailTabela())
+    	            		 {
+    	            			 app.fillFromDB();
+    	            		 }
     	            	 }
     	            	 
     	            
@@ -347,11 +352,15 @@ public class SplashScreen extends Activity {
 			String vmesni=result.toString();
 			prvaRazdelitev=vmesni.split(";");
 		
-			
+			if(app.obstajaEmailTabela())
+				app.db.deleteVseEmaile();
+			app.uporabniki.clear();
 			for(int i=1;i<prvaRazdelitev.length;i++)
 			{
-				app.uporabniki.add(prvaRazdelitev[i]);
+				app.uporabniki.add(prvaRazdelitev[i]);				
+				app.addDB(new EmailNaslovi(prvaRazdelitev[i]));
 			}
+			
 		
 		}catch(Exception e){
 			e.printStackTrace();

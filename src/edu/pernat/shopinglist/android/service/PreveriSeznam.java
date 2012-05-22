@@ -66,7 +66,7 @@ public class PreveriSeznam extends Service {
 			String odgovor="";
 			
 			SoapObject Request =new SoapObject(app.NAMESPACE,METHOD_NAME);
-			Request.addProperty("uporabnik","miha");	
+			Request.addProperty("uporabnik",app.getPrijavniPodatki().getUporabnisko());	
 			SoapSerializationEnvelope soapEnvelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
 			soapEnvelope.dotNet=false;
 			soapEnvelope.setOutputSoapObject(Request);				
@@ -87,7 +87,7 @@ public class PreveriSeznam extends Service {
 			}catch(Exception e){
 					
 			}
-			
+			Log.e("Velikost seznamaIzBaze", seznamIzBaze.size()+"");
 			return seznamIzBaze;
 				
 			
